@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useRaffleStore } from "../store/raffleStore";
+import { formatCertNumber, useRaffleStore } from "../store/raffleStore";
 import { Button } from "./ui/Button";
 import { Eyebrow } from "./ui/Eyebrow";
 import { Stamp } from "./ui/Stamp";
@@ -79,6 +79,7 @@ export function VerdictCertificate() {
   const winner = useRaffleStore((s) => s.winner);
   const names = useRaffleStore((s) => s.names);
   const outNames = useRaffleStore((s) => s.outNames);
+  const certNumber = useRaffleStore((s) => s.certNumber);
   const resetAll = useRaffleStore((s) => s.resetAll);
   const continueRaffle = useRaffleStore((s) => s.continueRaffle);
 
@@ -156,7 +157,7 @@ export function VerdictCertificate() {
               marginTop: 6,
             }}
           >
-            {t("confirmed.sorteoLine")}
+            {t("confirmed.sorteoLine", { n: formatCertNumber(certNumber) })}
           </div>
 
           <Flourish />
@@ -261,7 +262,7 @@ export function VerdictCertificate() {
             >
               {today}
             </div>
-            <Stamp number="042" label={stampLabel} size={80} rotate={8} />
+            <Stamp number={formatCertNumber(certNumber)} label={stampLabel} size={80} rotate={8} />
           </div>
 
           <div style={{ marginTop: "var(--sp-6)" }}>

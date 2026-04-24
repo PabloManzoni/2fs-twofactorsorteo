@@ -89,7 +89,7 @@
   },
   "confirmed": {
     "title": "EDICT OF FATE",
-    "sorteoLine": "RAFFLE Nº 042",
+    "sorteoLine": "RAFFLE Nº {{n}}",
     "thisIsToCertify": "be it forever known that",
     "bodyYes": "The Ball has spoken in their favor.",
     "bodyNo": "The Ball has spoken against them.",

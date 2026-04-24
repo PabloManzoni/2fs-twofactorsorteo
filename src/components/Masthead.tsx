@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useRaffleStore, type Step } from "../store/raffleStore";
+import { formatCertNumber, useRaffleStore, type Step } from "../store/raffleStore";
 import { Wordmark } from "./ui/Wordmark";
 import { Eyebrow } from "./ui/Eyebrow";
 import { LanguageSwitcher } from "./LanguageSwitcher";
@@ -9,6 +9,7 @@ const STEPS: Step[] = [1, 2, 3];
 export function Masthead() {
   const { t, i18n } = useTranslation();
   const step = useRaffleStore((s) => s.step);
+  const certNumber = useRaffleStore((s) => s.certNumber);
   const resetAll = useRaffleStore((s) => s.resetAll);
 
   const locale = (i18n.resolvedLanguage ?? i18n.language ?? "es") === "en" ? "en-US" : "es-ES";
@@ -40,7 +41,7 @@ export function Masthead() {
           </span>
           <span className="meta-divider" style={{ width: 1, height: 18, background: "var(--rule-strong)" }} />
           <span className="edition-meta">
-            <Eyebrow>{t("masthead.edition", { n: "042" })}</Eyebrow>
+            <Eyebrow>{t("masthead.edition", { n: formatCertNumber(certNumber) })}</Eyebrow>
           </span>
           <span className="meta-divider" style={{ width: 1, height: 18, background: "var(--rule-strong)" }} />
           <LanguageSwitcher />

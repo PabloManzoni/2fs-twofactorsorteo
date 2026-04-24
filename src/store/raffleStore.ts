@@ -7,6 +7,11 @@ export const MIN_PARTICIPANTS = 2;
 export type Step = 1 | 2 | 3;
 export type Verdict = "yes" | "no";
 
+/** Zero-padded 3-digit raffle id ("001", "042", "999", then just the number). */
+export function formatCertNumber(n: number): string {
+  return n < 1000 ? String(n).padStart(3, "0") : String(n);
+}
+
 interface RaffleState {
   step: Step;
   /** Full pool the user entered. Never shrinks except via step-1 edits. */
@@ -17,6 +22,9 @@ interface RaffleState {
   outNames: string[];
   winner: string | null;
   verdict: Verdict | null;
+  /** Monotonic id shown on each certificate and in the masthead. Bumps
+   *  whenever a certificate is dismissed, so no two certs share a number. */
+  certNumber: number;
 
   goStep: (step: Step) => void;
   addName: (name: string) => { ok: boolean; error?: "duplicate" | "max" | "empty" };
@@ -44,6 +52,7 @@ export const useRaffleStore = create<RaffleState>()(
       outNames: [],
       winner: null,
       verdict: null,
+      certNumber: 1,
 
       goStep: (step) => set({ step }),
 
@@ -84,7 +93,13 @@ export const useRaffleStore = create<RaffleState>()(
           return { verdict };
         }),
 
-      continueRaffle: () => set({ verdict: null, winner: null, step: 2 }),
+      continueRaffle: () =>
+        set((state) => ({
+          verdict: null,
+          winner: null,
+          step: 2,
+          certNumber: state.certNumber + 1,
+        })),
 
       resetAll: () =>
         set((state) => ({
@@ -93,17 +108,19 @@ export const useRaffleStore = create<RaffleState>()(
           outNames: [],
           winner: null,
           verdict: null,
+          certNumber: state.certNumber + 1,
         })),
 
       clearUrn: () =>
-        set({
+        set((state) => ({
           step: 1,
           names: [],
           baseNames: [],
           outNames: [],
           winner: null,
           verdict: null,
-        }),
+          certNumber: state.certNumber + 1,
+        })),
     }),
     {
       name: "2fs.raffle",
@@ -111,6 +128,7 @@ export const useRaffleStore = create<RaffleState>()(
         names: state.names,
         baseNames: state.baseNames,
         outNames: state.outNames,
+        certNumber: state.certNumber,
       }),
       onRehydrateStorage: () => (state) => {
         if (!state) return;
@@ -118,6 +136,9 @@ export const useRaffleStore = create<RaffleState>()(
           state.baseNames = [...state.names];
         }
         if (!state.outNames) state.outNames = [];
+        if (typeof state.certNumber !== "number" || state.certNumber < 1) {
+          state.certNumber = 1;
+        }
       },
     },
   ),

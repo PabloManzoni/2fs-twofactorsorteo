@@ -89,7 +89,7 @@
   },
   "confirmed": {
     "title": "EDICTO DEL DESTINO",
-    "sorteoLine": "SORTEO Nº 042",
+    "sorteoLine": "SORTEO Nº {{n}}",
     "thisIsToCertify": "queda por siempre certificado que",
     "bodyYes": "La Bola ha hablado a su favor.",
     "bodyNo": "La Bola ha hablado en su contra.",

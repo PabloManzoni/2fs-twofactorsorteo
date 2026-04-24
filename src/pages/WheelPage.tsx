@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useRaffleStore } from "../store/raffleStore";
+import { formatCertNumber, useRaffleStore } from "../store/raffleStore";
 import { Button } from "../components/ui/Button";
 import { Eyebrow } from "../components/ui/Eyebrow";
 import { Wheel, type WheelPhase } from "../components/Wheel/Wheel";
@@ -12,6 +12,7 @@ export function WheelPage() {
   const winner = useRaffleStore((s) => s.winner);
   const setWinner = useRaffleStore((s) => s.setWinner);
   const goStep = useRaffleStore((s) => s.goStep);
+  const certNumber = useRaffleStore((s) => s.certNumber);
   // Struck-out names stay in the urn but not in the wheel.
   const activeNames = names.filter((n) => !outNames.includes(n));
 
@@ -132,7 +133,7 @@ export function WheelPage() {
                   },
                   {
                     label: t("step2.statSorteo"),
-                    value: "Nº 042",
+                    value: `Nº ${formatCertNumber(certNumber)}`,
                   },
                   {
                     label: t("step2.statVelocity"),
