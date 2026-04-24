@@ -35,7 +35,7 @@ function Flourish() {
         alignItems: "center",
         justifyContent: "center",
         gap: 14,
-        margin: "var(--sp-4) 0",
+        margin: "var(--sp-4) 0 var(--sp-3)",
         color: "var(--accent)",
       }}
     >
@@ -107,14 +107,14 @@ export function VerdictCertificate() {
         zIndex: 100,
         background: "rgba(20, 17, 16, 0.78)",
         display: "flex",
-        alignItems: "center",
+        alignItems: "flex-start",
         justifyContent: "center",
-        padding: "var(--sp-6)",
+        padding: "var(--sp-5) var(--sp-4)",
         animation: "fadeIn 320ms var(--ease)",
         overflowY: "auto",
       }}
     >
-      <div role="dialog" aria-modal="true" className="certificate-outer">
+      <div role="dialog" aria-modal="true" className="certificate-outer" style={{ marginTop: "auto", marginBottom: "auto" }}>
         <div className="certificate-inner">
           <CornerDiamond position="tl" />
           <CornerDiamond position="tr" />
@@ -142,23 +142,8 @@ export function VerdictCertificate() {
             style={{
               fontFamily: "var(--font-display)",
               fontStyle: "italic",
-              fontWeight: 400,
-              fontSize: 19,
-              color: "var(--fg-muted)",
-              margin: "0 auto var(--sp-2)",
-              maxWidth: 460,
-              letterSpacing: "-0.005em",
-              textWrap: "balance",
-            }}
-          >
-            {t("confirmed.preamble")}
-          </p>
-          <p
-            style={{
-              fontFamily: "var(--font-display)",
-              fontStyle: "italic",
               fontWeight: 500,
-              fontSize: 22,
+              fontSize: 20,
               color: "var(--fg)",
               margin: "0 0 var(--sp-3)",
               letterSpacing: "-0.01em",
@@ -186,11 +171,11 @@ export function VerdictCertificate() {
                 fontFamily: "var(--font-display)",
                 fontStyle: "italic",
                 fontWeight: 500,
-                fontSize: "clamp(1.25rem, 5vw, 2rem)",
+                fontSize: "clamp(1.125rem, 4.5vw, 1.75rem)",
                 lineHeight: 1,
                 letterSpacing: "-0.02em",
                 color: "var(--fg-muted)",
-                marginTop: 6,
+                marginTop: 4,
                 textDecoration: isChosen ? "none" : "line-through",
                 textDecorationColor: "var(--accent)",
                 overflowWrap: "anywhere",
@@ -206,7 +191,7 @@ export function VerdictCertificate() {
               fontStyle: "italic",
               fontWeight: 400,
               fontSize: 19,
-              lineHeight: 1.45,
+              lineHeight: 1.4,
               color: "var(--fg)",
               margin: "var(--sp-5) auto 0",
               maxWidth: 460,
@@ -215,10 +200,32 @@ export function VerdictCertificate() {
           >
             {t(bodyKey)}
           </p>
+          <p
+            style={{
+              fontFamily: "var(--font-display)",
+              fontStyle: "italic",
+              fontWeight: 400,
+              fontSize: 15,
+              lineHeight: 1.5,
+              color: "var(--fg-muted)",
+              margin: "var(--sp-2) auto 0",
+              maxWidth: 420,
+              textWrap: "balance",
+            }}
+          >
+            {t("confirmed.coda")}
+          </p>
 
-          <Flourish />
+          <div
+            aria-hidden="true"
+            style={{
+              borderTop: "1px solid var(--rule)",
+              margin: "var(--sp-5) auto 0",
+              width: "min(240px, 100%)",
+            }}
+          />
 
-          <div style={{ marginTop: "var(--sp-5)", textAlign: "left" }}>
+          <div className="cert-footer-row" style={{ alignItems: "center" }}>
             <div
               style={{
                 fontFamily: "var(--font-mono)",
@@ -226,50 +233,15 @@ export function VerdictCertificate() {
                 letterSpacing: "0.14em",
                 textTransform: "uppercase",
                 color: "var(--fg-muted)",
-                marginBottom: 4,
+                textAlign: "left",
               }}
             >
               {today}
             </div>
-            <div
-              style={{
-                fontFamily: "var(--font-display)",
-                fontStyle: "italic",
-                fontSize: 14,
-                color: "var(--fg-muted)",
-              }}
-            >
-              {t("confirmed.issuedAt")}
-            </div>
-
-            <div className="cert-footer-row">
-              <div style={{ flex: 1, textAlign: "center", minWidth: 180 }}>
-                <div
-                  style={{
-                    borderTop: "1px solid var(--ink-900)",
-                    margin: "0 auto 6px",
-                    width: "min(220px, 100%)",
-                  }}
-                />
-                <div
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: 10,
-                    letterSpacing: "0.18em",
-                    textTransform: "uppercase",
-                    color: "var(--fg-muted)",
-                  }}
-                >
-                  {t("confirmed.signatory")}
-                </div>
-              </div>
-              <div style={{ flexShrink: 0 }}>
-                <Stamp number="042" label={stampLabel} size={96} rotate={8} />
-              </div>
-            </div>
+            <Stamp number="042" label={stampLabel} size={80} rotate={8} />
           </div>
 
-          <div style={{ marginTop: "var(--sp-7)" }}>
+          <div style={{ marginTop: "var(--sp-6)" }}>
             <Button variant="primary" size="lg" onClick={resetAll}>
               {t("confirmed.startOver")} ↻
             </Button>

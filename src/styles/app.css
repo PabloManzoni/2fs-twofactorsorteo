@@ -219,19 +219,14 @@
 
 .cert-footer-row {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: space-between;
-  gap: var(--sp-5);
-  margin-top: var(--sp-6);
+  gap: var(--sp-4);
+  margin-top: var(--sp-4);
 }
 
 @media (max-width: 560px) {
   .certificate-inner {
     padding: var(--sp-6) var(--sp-5) var(--sp-5);
-  }
-  .cert-footer-row {
-    flex-direction: column;
-    align-items: center;
-    gap: var(--sp-5);
   }
 }

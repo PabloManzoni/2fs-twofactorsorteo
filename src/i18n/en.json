@@ -88,11 +88,11 @@
   },
   "confirmed": {
     "title": "EDICT OF FATE",
-    "sorteoLine": "RAFFLE Nº 042 · RECORD OF THE HOUSE",
-    "preamble": "The wheel having turned, and the ball having spoken,",
+    "sorteoLine": "RAFFLE Nº 042",
     "thisIsToCertify": "be it forever known that",
-    "bodyYes": "has been chosen by fortune and confirmed by the Ball. Two factors, one single will. So it is written, so it is done.",
-    "bodyNo": "has NOT been chosen by fortune. The Ball has pronounced against them and their name returns to silence. So it is written, so it is done.",
+    "bodyYes": "The Ball has spoken in their favor.",
+    "bodyNo": "The Ball has spoken against them.",
+    "coda": "Two factors, one single will. So it is written, so it is done.",
     "verdictBadge": {
       "yes": "THE ANOINTED",
       "no": "NOT CHOSEN"
@@ -101,8 +101,6 @@
       "yes": "WINNER · ANOINTED · 2FS",
       "no": "CAST OUT · NOT ANOINTED · 2FS"
     },
-    "issuedAt": "Sealed and recorded by the House",
-    "signatory": "The House · Witness",
     "startOver": "Start over"
   }
 }

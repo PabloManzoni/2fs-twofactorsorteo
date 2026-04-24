@@ -88,11 +88,11 @@
   },
   "confirmed": {
     "title": "EDICTO DEL DESTINO",
-    "sorteoLine": "SORTEO Nº 042 · ACTA DE LA CASA",
-    "preamble": "Y habiendo girado la rueda, y habiendo hablado la bola,",
+    "sorteoLine": "SORTEO Nº 042",
     "thisIsToCertify": "queda por siempre certificado que",
-    "bodyYes": "ha sido señalado por la suerte y confirmado por la Bola. Dos factores, una sola voluntad. Así está escrito, así se cumple.",
-    "bodyNo": "NO ha sido señalado por la suerte. La Bola se ha pronunciado en su contra y su nombre regresa al silencio. Así está escrito, así se cumple.",
+    "bodyYes": "La Bola ha hablado a su favor.",
+    "bodyNo": "La Bola ha hablado en su contra.",
+    "coda": "Dos factores, una sola voluntad. Así está escrito, así se cumple.",
     "verdictBadge": {
       "yes": "EL UNGIDO",
       "no": "NO ELEGIDO"
@@ -101,8 +101,6 @@
       "yes": "GANADOR · UNGIDO · 2FS",
       "no": "APARTADO · NO UNGIDO · 2FS"
     },
-    "issuedAt": "Sellado y consignado por la Casa",
-    "signatory": "La Casa · Testigo",
     "startOver": "Volver a empezar"
   }
 }
