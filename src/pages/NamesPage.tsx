@@ -54,7 +54,7 @@ export function NamesPage() {
           {/* LEFT — input */}
           <div>
             <Eyebrow style={{ marginBottom: 10 }}>{t("step1.addParticipant")}</Eyebrow>
-            <div style={{ display: "flex", gap: 8, marginBottom: 10 }}>
+            <div className="names-form" style={{ display: "flex", gap: 8, marginBottom: 10 }}>
               <input
                 ref={inputRef}
                 value={value}
@@ -81,6 +81,7 @@ export function NamesPage() {
                 size="lg"
                 onClick={submit}
                 disabled={!value.trim() || atMax}
+                className="btn-add"
               >
                 + {t("step1.add")}
               </Button>

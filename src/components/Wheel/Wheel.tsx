@@ -177,12 +177,14 @@ export function Wheel({ participants, onWinner, onVelocity, onPhase }: WheelProp
     return `M 0 0 L ${x1} ${y1} A ${R} ${R} 0 ${large} 1 ${x2} ${y2} Z`;
   };
 
+  // Percent offsets keep the wheel, pointer, and light ring aligned when the
+  // outer container is scaled down for mobile. 40/540 ≈ 7.4%, 460/540 ≈ 85.2%.
   const wheelStyle: CSSProperties = {
     position: "absolute",
-    left: 40,
-    top: 40,
-    width: R * 2,
-    height: R * 2,
+    left: "7.407%",
+    top: "7.407%",
+    width: "85.185%",
+    height: "85.185%",
     touchAction: "none",
     cursor: isDragging ? "grabbing" : phase === "done" ? "default" : "grab",
     transform: `rotate(${angle}deg)`,
@@ -195,7 +197,7 @@ export function Wheel({ participants, onWinner, onVelocity, onPhase }: WheelProp
   if (N === 0) return null;
 
   return (
-    <div style={{ position: "relative", width: R * 2 + 80, height: R * 2 + 80 }}>
+    <div className="wheel-wrap">
       <svg
         viewBox={`-${R + 40} -${R + 40} ${R * 2 + 80} ${R * 2 + 80}`}
         width="100%"

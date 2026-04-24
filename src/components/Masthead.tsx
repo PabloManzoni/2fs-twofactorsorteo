@@ -21,58 +21,37 @@ export function Masthead() {
 
   return (
     <header style={{ borderBottom: "1px solid var(--ink-900)", background: "var(--bg)" }}>
-      <div
-        style={{
-          maxWidth: "var(--col-app)",
-          margin: "0 auto",
-          padding: "14px 32px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
+      <div className="masthead-top">
         <button
           type="button"
           onClick={resetAll}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 24,
-            cursor: "pointer",
-            padding: 0,
-            background: "transparent",
-            border: "none",
-            color: "inherit",
-          }}
+          className="brand-block"
           aria-label={t("masthead.reset")}
         >
           <Wordmark size={26} />
-          <div style={{ width: 1, height: 18, background: "var(--rule-strong)" }} />
-          <Eyebrow>{t("masthead.tagline")}</Eyebrow>
+          <span className="tagline-divider" style={{ width: 1, height: 18, background: "var(--rule-strong)" }} />
+          <span className="tagline-eyebrow">
+            <Eyebrow>{t("masthead.tagline")}</Eyebrow>
+          </span>
         </button>
-        <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
-          <Eyebrow>{today}</Eyebrow>
-          <div style={{ width: 1, height: 18, background: "var(--rule-strong)" }} />
-          <Eyebrow>{t("masthead.edition", { n: "042" })}</Eyebrow>
-          <div style={{ width: 1, height: 18, background: "var(--rule-strong)" }} />
+        <div className="right-meta">
+          <span className="date-meta">
+            <Eyebrow>{today}</Eyebrow>
+          </span>
+          <span className="meta-divider" style={{ width: 1, height: 18, background: "var(--rule-strong)" }} />
+          <span className="edition-meta">
+            <Eyebrow>{t("masthead.edition", { n: "042" })}</Eyebrow>
+          </span>
+          <span className="meta-divider" style={{ width: 1, height: 18, background: "var(--rule-strong)" }} />
           <LanguageSwitcher />
         </div>
       </div>
       <div style={{ borderTop: "1px solid var(--rule)", background: "var(--paper-50)" }}>
-        <div
-          style={{
-            maxWidth: "var(--col-app)",
-            margin: "0 auto",
-            padding: "10px 32px",
-            display: "flex",
-            gap: 28,
-            alignItems: "center",
-          }}
-        >
+        <div className="masthead-stepper">
           {STEPS.map((n, i) => {
             const isActive = step === n;
             return (
-              <div key={n} style={{ display: "flex", alignItems: "center", gap: 28 }}>
+              <div key={n} style={{ display: "flex", alignItems: "center", gap: 28, flexShrink: 0 }}>
                 <div
                   style={{
                     display: "flex",
@@ -104,7 +83,7 @@ export function Masthead() {
                   </span>
                 </div>
                 {i < STEPS.length - 1 && (
-                  <div style={{ width: 40, height: 1, background: "var(--rule-strong)" }} />
+                  <div style={{ width: 40, height: 1, background: "var(--rule-strong)", flexShrink: 0 }} />
                 )}
               </div>
             );

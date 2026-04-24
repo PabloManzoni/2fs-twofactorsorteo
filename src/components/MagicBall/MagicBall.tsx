@@ -89,8 +89,9 @@ export function MagicBall({
       onPointerMove={onPointerMove}
       data-nograb
       style={{
-        width: size,
-        height: size,
+        width: "100%",
+        maxWidth: size,
+        aspectRatio: "1 / 1",
         transform: `translate(${shakeOffset.x}px, ${shakeOffset.y}px) rotate(${shakeOffset.x * 0.3}deg)`,
         transition: isDown ? "none" : "transform 280ms var(--ease)",
         cursor: !interactive ? "default" : isDown ? "grabbing" : "grab",
@@ -99,7 +100,7 @@ export function MagicBall({
         position: "relative",
       }}
     >
-      <svg viewBox="0 0 400 400" width={size} height={size} style={{ display: "block" }}>
+      <svg viewBox="0 0 400 400" width="100%" height="100%" style={{ display: "block" }}>
         <defs>
           <radialGradient id="ballGrad" cx="38%" cy="32%" r="70%">
             <stop offset="0%" stopColor="#3A3330" />

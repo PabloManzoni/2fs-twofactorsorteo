@@ -114,29 +114,8 @@ export function VerdictCertificate() {
         overflowY: "auto",
       }}
     >
-      <div
-        role="dialog"
-        aria-modal="true"
-        style={{
-          background: "var(--surface)",
-          border: "2px solid var(--ink-900)",
-          padding: 10,
-          maxWidth: 680,
-          width: "100%",
-          boxShadow: "var(--shadow-3)",
-          position: "relative",
-          backgroundImage: "radial-gradient(rgba(20,17,16,0.04) 1px, transparent 1px)",
-          backgroundSize: "3px 3px",
-        }}
-      >
-        <div
-          style={{
-            border: "1px solid var(--ink-900)",
-            padding: "var(--sp-8) var(--sp-8) var(--sp-7)",
-            position: "relative",
-            textAlign: "center",
-          }}
-        >
+      <div role="dialog" aria-modal="true" className="certificate-outer">
+        <div className="certificate-inner">
           <CornerDiamond position="tl" />
           <CornerDiamond position="tr" />
           <CornerDiamond position="bl" />
@@ -192,15 +171,8 @@ export function VerdictCertificate() {
             {verdictEyebrow}
           </Eyebrow>
           <div
+            className="cert-name"
             style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 600,
-              fontSize: 88,
-              lineHeight: 0.95,
-              letterSpacing: "-0.03em",
-              margin: 0,
-              textWrap: "balance",
-              fontVariationSettings: "'opsz' 120",
               textDecoration: isChosen ? "none" : "line-through",
               textDecorationColor: "var(--accent)",
               textDecorationThickness: "2px",
@@ -214,13 +186,14 @@ export function VerdictCertificate() {
                 fontFamily: "var(--font-display)",
                 fontStyle: "italic",
                 fontWeight: 500,
-                fontSize: 32,
+                fontSize: "clamp(1.25rem, 5vw, 2rem)",
                 lineHeight: 1,
                 letterSpacing: "-0.02em",
                 color: "var(--fg-muted)",
                 marginTop: 6,
                 textDecoration: isChosen ? "none" : "line-through",
                 textDecorationColor: "var(--accent)",
+                overflowWrap: "anywhere",
               }}
             >
               {surname}.
@@ -269,16 +242,8 @@ export function VerdictCertificate() {
               {t("confirmed.issuedAt")}
             </div>
 
-            <div
-              style={{
-                display: "flex",
-                alignItems: "flex-end",
-                justifyContent: "space-between",
-                gap: "var(--sp-5)",
-                marginTop: "var(--sp-6)",
-              }}
-            >
-              <div style={{ flex: 1, textAlign: "center" }}>
+            <div className="cert-footer-row">
+              <div style={{ flex: 1, textAlign: "center", minWidth: 180 }}>
                 <div
                   style={{
                     borderTop: "1px solid var(--ink-900)",

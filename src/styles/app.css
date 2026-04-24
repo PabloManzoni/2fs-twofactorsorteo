@@ -20,10 +20,11 @@
   margin-bottom: var(--sp-6);
 }
 
+/* Fluid display sizes: scale down on narrow viewports, keep full size on desktop. */
 .display-xl {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: var(--fs-88);
+  font-size: clamp(2.75rem, 9vw, 5.5rem);
   line-height: 0.95;
   letter-spacing: var(--tr-tight);
   font-variation-settings: "opsz" 120, "SOFT" 30;
@@ -33,7 +34,7 @@
 .display-lg {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: var(--fs-48);
+  font-size: clamp(2rem, 6vw, 3.5rem);
   line-height: 1;
   letter-spacing: var(--tr-tight);
   margin: 0;
@@ -42,7 +43,7 @@
 .lede {
   font-family: var(--font-display);
   font-style: italic;
-  font-size: var(--fs-22);
+  font-size: clamp(1.125rem, 2.4vw, 1.375rem);
   line-height: var(--lh-snug);
   color: var(--fg-muted);
   max-width: 560px;
@@ -56,13 +57,6 @@
   align-items: start;
 }
 
-@media (max-width: 880px) {
-  .grid-two,
-  .grid-wheel {
-    grid-template-columns: 1fr;
-  }
-}
-
 /* --- Paper texture for wheel step --- */
 .paper-texture {
   position: absolute;
@@ -71,4 +65,173 @@
   background-image: radial-gradient(rgba(20, 17, 16, 0.04) 1px, transparent 1px);
   background-size: 3px 3px;
   opacity: 0.6;
+}
+
+/* Wheel + ball responsive wrappers */
+.wheel-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 540px;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+}
+
+.magic-ball-wrap {
+  width: 100%;
+  max-width: 380px;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+}
+
+/* ============== Tablet (≤ 880px): stack two-column layouts ============== */
+@media (max-width: 880px) {
+  .grid-two,
+  .grid-wheel {
+    grid-template-columns: 1fr !important;
+    gap: var(--sp-7) !important;
+  }
+
+  .page-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-4);
+  }
+  .page-header-row > *:last-child {
+    text-align: left !important;
+  }
+
+  .page {
+    padding: var(--sp-6) var(--sp-4) var(--sp-8);
+  }
+}
+
+/* ============== Mobile (≤ 560px): tighter padding, wrap names form ============== */
+@media (max-width: 560px) {
+  .page {
+    padding: var(--sp-5) var(--sp-4) var(--sp-7);
+  }
+
+  .names-form {
+    flex-direction: column;
+  }
+  .names-form .btn-add {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ============== Masthead responsive ============== */
+.masthead-top {
+  max-width: var(--col-app);
+  margin: 0 auto;
+  padding: 14px var(--sp-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+}
+
+.masthead-stepper {
+  max-width: var(--col-app);
+  margin: 0 auto;
+  padding: 10px var(--sp-6);
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.masthead-stepper::-webkit-scrollbar {
+  display: none;
+}
+
+.masthead-top .right-meta {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.masthead-top .brand-block {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  cursor: pointer;
+  padding: 0;
+  background: transparent;
+  border: none;
+  color: inherit;
+  min-width: 0;
+}
+
+/* Hide non-essentials on narrow */
+@media (max-width: 760px) {
+  .masthead-top {
+    padding: 12px var(--sp-4);
+  }
+  .masthead-top .date-meta,
+  .masthead-top .edition-meta,
+  .masthead-top .meta-divider {
+    display: none;
+  }
+  .brand-block .tagline-divider,
+  .brand-block .tagline-eyebrow {
+    display: none;
+  }
+  .masthead-stepper {
+    padding: 8px var(--sp-4);
+    gap: 16px;
+  }
+}
+
+/* ============== Certificate modal responsive ============== */
+.certificate-outer {
+  border: 2px solid var(--ink-900);
+  padding: 10px;
+  max-width: 680px;
+  width: 100%;
+  background: var(--surface);
+  background-image: radial-gradient(rgba(20, 17, 16, 0.04) 1px, transparent 1px);
+  background-size: 3px 3px;
+  box-shadow: var(--shadow-3);
+  position: relative;
+}
+
+.certificate-inner {
+  border: 1px solid var(--ink-900);
+  padding: var(--sp-8) var(--sp-8) var(--sp-7);
+  position: relative;
+  text-align: center;
+}
+
+.cert-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(3rem, 12vw, 5.5rem);
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  margin: 0;
+  text-wrap: balance;
+  font-variation-settings: "opsz" 120;
+  overflow-wrap: anywhere;
+}
+
+.cert-footer-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--sp-5);
+  margin-top: var(--sp-6);
+}
+
+@media (max-width: 560px) {
+  .certificate-inner {
+    padding: var(--sp-6) var(--sp-5) var(--sp-5);
+  }
+  .cert-footer-row {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--sp-5);
+  }
 }
