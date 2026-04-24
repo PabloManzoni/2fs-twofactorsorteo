@@ -1,0 +1,115 @@
+{
+  "masthead": {
+    "tagline": "TWO · FACTOR · RAFFLE",
+    "edition": "EDITION Nº {{n}}",
+    "reset": "Back to start",
+    "steps": {
+      "1": "Participants",
+      "2": "Wheel",
+      "3": "8 Ball"
+    }
+  },
+  "common": {
+    "language": "Language"
+  },
+  "step1": {
+    "eyebrow": "01 · THE URN",
+    "heading": "Who's <em>going in the pot?</em>",
+    "subtitle": "Between 2 and 10 names. The wheel picks one, the 8-ball confirms — or sends you back.",
+    "addParticipant": "ADD PARTICIPANT",
+    "inputPlaceholder": "e.g. Agustín",
+    "add": "Add",
+    "enterHint": "Press Enter to confirm · {{current}}/{{max}} in the urn",
+    "houseRule": "HOUSE RULE",
+    "houseRuleBody": "One name per turn. If the 8-ball says <span style=\"color: var(--accent)\">no</span>, the chosen one goes to limbo and the wheel spins again.",
+    "inTheUrn": "IN THE URN",
+    "emptyTitle": "No one yet.",
+    "emptyHint": "Add the first name",
+    "remove": "Remove {{name}}",
+    "cta": "Go to the wheel",
+    "minHint": "Minimum {{min}} participants to run the raffle."
+  },
+  "step2": {
+    "eyebrow": "02 · THE WHEEL",
+    "heading": "Pull the wheel.",
+    "headingDone": "We have a <em style=\"font-weight:500;color:var(--accent)\">winner.</em>",
+    "instructionEyebrow": "INSTRUCTION",
+    "instruction": "Grab the disc with your mouse and throw it. Inertia does the rest.",
+    "statusEyebrow": "STATUS",
+    "idle": "At rest",
+    "spinning": "Spinning…",
+    "statParticipants": "PARTICIPANTS",
+    "statSorteo": "RAFFLE",
+    "statVelocity": "VELOCITY",
+    "rejectedLine1": "THE 8 BALL REJECTED {{name}}.",
+    "rejectedLine2": "SPIN AGAIN.",
+    "cta": "Consult the 8 Ball",
+    "back": "Edit participants"
+  },
+  "step3": {
+    "eyebrow": "03 · THE SECOND FACTOR",
+    "heading": "Ask <em>the ball.</em>",
+    "headingRevealed": "The ball <em style=\"font-weight:500;color:var(--accent)\">has spoken.</em>",
+    "provisional": "PROVISIONAL WINNER",
+    "questionEyebrow": "THE QUESTION",
+    "optionLabel": "OPTION {{n}}",
+    "shakeHint": "HOLD THE CLICK AND SHAKE THE MOUSE OVER THE BALL",
+    "shaking": "SHAKING… HARDER",
+    "revealing": "REVEALING…",
+    "skip": "SKIP SHAKE",
+    "back": "Back to the wheel",
+    "verdict": {
+      "yes": "THE HOUSE APPROVES",
+      "no": "THE HOUSE REJECTS",
+      "maybe": "THE HOUSE DOUBTS"
+    },
+    "questions": {
+      "shouldBeChosen": "Should {{name}} be the chosen one?",
+      "destinyWants": "Does destiny really want {{name}}?",
+      "houseApproves": "Does the house approve of {{name}}?"
+    },
+    "answers": {
+      "yes": {
+        "noDoubt": "Without a doubt.",
+        "itIsCertain": "It is certain.",
+        "yesDefinitely": "Yes, definitely.",
+        "youCanRely": "You may rely on it.",
+        "asISeeIt": "As I see it, yes.",
+        "mostLikely": "Most likely.",
+        "goodOutlook": "Outlook good.",
+        "signsPoint": "Signs point to yes."
+      },
+      "maybe": {
+        "hazy": "Reply hazy, try again.",
+        "askAgainLater": "Ask again later.",
+        "betterNotNow": "Better not tell you now.",
+        "cannotPredict": "Cannot predict now.",
+        "concentrate": "Concentrate and ask again."
+      },
+      "no": {
+        "dontCount": "Don't count on it.",
+        "replyNo": "My reply is no.",
+        "sourcesSayNo": "My sources say no.",
+        "outlookNotGood": "Outlook not so good.",
+        "veryDoubtful": "Very doubtful."
+      }
+    },
+    "cta": {
+      "accept": "Confirm {{name}}",
+      "reject": "Back to the wheel",
+      "askAgain": "Ask again",
+      "shakeAgain": "Shake again"
+    }
+  },
+  "confirmed": {
+    "title": "EDICT OF FATE",
+    "sorteoLine": "RAFFLE Nº 042 · RECORD OF THE HOUSE",
+    "preamble": "The wheel having turned, and the ball having spoken,",
+    "thisIsToCertify": "be it forever known that",
+    "bodyAward": "has been chosen by fortune and confirmed by the Ball. Two factors, one single will. So it is written, so it is done.",
+    "issuedAt": "Sealed and recorded by the House",
+    "signatory": "The House · Witness",
+    "newRaffle": "Proclaim a new fate",
+    "stampLabel": "WINNER · ANOINTED · 2FS"
+  }
+}

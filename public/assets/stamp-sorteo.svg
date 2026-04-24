@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140" width="140" height="140">
+  <defs>
+    <path id="circ" d="M 70,70 m -54,0 a 54,54 0 1,1 108,0 a 54,54 0 1,1 -108,0"></path>
+  </defs>
+  <g fill="none" stroke="#C8442A" stroke-width="2">
+    <circle cx="70" cy="70" r="62"></circle>
+    <circle cx="70" cy="70" r="58"></circle>
+    <circle cx="70" cy="70" r="40"></circle>
+  </g>
+  <text font-family="Inter, sans-serif" font-weight="700" font-size="10" letter-spacing="4" fill="#C8442A">
+    <textPath href="#circ" startOffset="0%">SORTEO · OFICIAL · 2FS · SORTEO · OFICIAL · 2FS · </textPath>
+  </text>
+  <text x="70" y="66" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-weight="700" font-size="18" fill="#C8442A">Nº</text>
+  <text x="70" y="90" text-anchor="middle" font-family="JetBrains Mono, monospace" font-weight="700" font-size="22" fill="#C8442A">042</text>
+</svg>

@@ -1,0 +1,74 @@
+/* Screen shells + page-specific layout styles. Visual tokens live in tokens.css. */
+
+.page {
+  padding: var(--sp-7) var(--sp-6) var(--sp-9);
+  min-height: calc(100vh - 120px);
+  position: relative;
+}
+
+.page__inner {
+  max-width: var(--col-app);
+  margin: 0 auto;
+  position: relative;
+}
+
+.page-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--sp-6);
+  margin-bottom: var(--sp-6);
+}
+
+.display-xl {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-88);
+  line-height: 0.95;
+  letter-spacing: var(--tr-tight);
+  font-variation-settings: "opsz" 120, "SOFT" 30;
+  margin: 0 0 var(--sp-5);
+}
+
+.display-lg {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-48);
+  line-height: 1;
+  letter-spacing: var(--tr-tight);
+  margin: 0;
+}
+
+.lede {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--fs-22);
+  line-height: var(--lh-snug);
+  color: var(--fg-muted);
+  max-width: 560px;
+  margin: 0 0 var(--sp-7);
+}
+
+.grid-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-8);
+  align-items: start;
+}
+
+@media (max-width: 880px) {
+  .grid-two,
+  .grid-wheel {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- Paper texture for wheel step --- */
+.paper-texture {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(20, 17, 16, 0.04) 1px, transparent 1px);
+  background-size: 3px 3px;
+  opacity: 0.6;
+}

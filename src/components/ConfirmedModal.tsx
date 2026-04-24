@@ -1,0 +1,296 @@
+import { useTranslation } from "react-i18next";
+import { useRaffleStore } from "../store/raffleStore";
+import { Button } from "./ui/Button";
+import { Eyebrow } from "./ui/Eyebrow";
+import { Stamp } from "./ui/Stamp";
+
+function CornerDiamond({ position }: { position: "tl" | "tr" | "bl" | "br" }) {
+  const offsets: Record<typeof position, { top?: number; bottom?: number; left?: number; right?: number }> = {
+    tl: { top: 10, left: 10 },
+    tr: { top: 10, right: 10 },
+    bl: { bottom: 10, left: 10 },
+    br: { bottom: 10, right: 10 },
+  };
+  return (
+    <span
+      aria-hidden="true"
+      style={{
+        position: "absolute",
+        ...offsets[position],
+        width: 8,
+        height: 8,
+        background: "var(--ink-900)",
+        transform: "rotate(45deg)",
+      }}
+    />
+  );
+}
+
+function Flourish() {
+  return (
+    <div
+      aria-hidden="true"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 14,
+        margin: "var(--sp-4) 0",
+        color: "var(--accent)",
+        fontFamily: "var(--font-display)",
+      }}
+    >
+      <span
+        style={{
+          flex: 1,
+          height: 0,
+          borderTop: "1px solid var(--rule-strong)",
+          borderBottom: "1px solid var(--rule-strong)",
+          boxSizing: "border-box",
+          paddingBottom: 2,
+        }}
+      />
+      <span style={{ fontSize: 18, lineHeight: 1, transform: "translateY(-1px)" }}>❦</span>
+      <span
+        style={{
+          flex: 1,
+          height: 0,
+          borderTop: "1px solid var(--rule-strong)",
+          borderBottom: "1px solid var(--rule-strong)",
+          boxSizing: "border-box",
+          paddingBottom: 2,
+        }}
+      />
+    </div>
+  );
+}
+
+export function ConfirmedModal() {
+  const { t, i18n } = useTranslation();
+  const confirmed = useRaffleStore((s) => s.confirmed);
+  const resetAll = useRaffleStore((s) => s.resetAll);
+
+  if (!confirmed) return null;
+
+  const [first, ...rest] = confirmed.split(" ");
+  const surname = rest.join(" ");
+  const locale = (i18n.resolvedLanguage ?? "es") === "en" ? "en-US" : "es-ES";
+  const today = new Date().toLocaleDateString(locale, {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+
+  return (
+    <div
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 100,
+        background: "rgba(20, 17, 16, 0.78)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "var(--sp-6)",
+        animation: "fadeIn 320ms var(--ease)",
+        overflowY: "auto",
+      }}
+    >
+      {/* Outer frame — 2px ink border */}
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="cert-title"
+        style={{
+          background: "var(--surface)",
+          border: "2px solid var(--ink-900)",
+          padding: 10,
+          maxWidth: 680,
+          width: "100%",
+          boxShadow: "var(--shadow-3)",
+          position: "relative",
+          backgroundImage:
+            "radial-gradient(rgba(20,17,16,0.04) 1px, transparent 1px)",
+          backgroundSize: "3px 3px",
+        }}
+      >
+        {/* Inner frame */}
+        <div
+          style={{
+            border: "1px solid var(--ink-900)",
+            padding: "var(--sp-8) var(--sp-8) var(--sp-7)",
+            position: "relative",
+            textAlign: "center",
+          }}
+        >
+          <CornerDiamond position="tl" />
+          <CornerDiamond position="tr" />
+          <CornerDiamond position="bl" />
+          <CornerDiamond position="br" />
+
+          <Eyebrow color="var(--accent)" style={{ letterSpacing: "0.24em" }}>
+            {t("confirmed.title")}
+          </Eyebrow>
+          <div
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: 11,
+              color: "var(--fg-muted)",
+              letterSpacing: "0.14em",
+              marginTop: 6,
+            }}
+          >
+            {t("confirmed.sorteoLine")}
+          </div>
+
+          <Flourish />
+
+          <p
+            style={{
+              fontFamily: "var(--font-display)",
+              fontStyle: "italic",
+              fontWeight: 400,
+              fontSize: 19,
+              color: "var(--fg-muted)",
+              margin: "0 auto var(--sp-2)",
+              maxWidth: 460,
+              letterSpacing: "-0.005em",
+              textWrap: "balance",
+            }}
+          >
+            {t("confirmed.preamble")}
+          </p>
+          <p
+            id="cert-title"
+            style={{
+              fontFamily: "var(--font-display)",
+              fontStyle: "italic",
+              fontWeight: 500,
+              fontSize: 22,
+              color: "var(--fg)",
+              margin: "0 0 var(--sp-3)",
+              letterSpacing: "-0.01em",
+            }}
+          >
+            {t("confirmed.thisIsToCertify")}
+          </p>
+
+          <div
+            style={{
+              fontFamily: "var(--font-display)",
+              fontWeight: 600,
+              fontSize: 88,
+              lineHeight: 0.95,
+              letterSpacing: "-0.03em",
+              margin: "0",
+              textWrap: "balance",
+              fontVariationSettings: "'opsz' 120",
+            }}
+          >
+            {first}
+          </div>
+          {surname && (
+            <div
+              style={{
+                fontFamily: "var(--font-display)",
+                fontStyle: "italic",
+                fontWeight: 500,
+                fontSize: 32,
+                lineHeight: 1,
+                letterSpacing: "-0.02em",
+                color: "var(--fg-muted)",
+                marginTop: 6,
+              }}
+            >
+              {surname}.
+            </div>
+          )}
+
+          <p
+            style={{
+              fontFamily: "var(--font-display)",
+              fontStyle: "italic",
+              fontWeight: 400,
+              fontSize: 19,
+              lineHeight: 1.45,
+              color: "var(--fg)",
+              margin: "var(--sp-5) auto 0",
+              maxWidth: 460,
+              textWrap: "balance",
+            }}
+          >
+            {t("confirmed.bodyAward")}
+          </p>
+
+          <Flourish />
+
+          {/* Footer — date / issued, signature line, stamp */}
+          <div style={{ marginTop: "var(--sp-5)", textAlign: "left" }}>
+            <div
+              style={{
+                fontFamily: "var(--font-mono)",
+                fontSize: 11,
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                color: "var(--fg-muted)",
+                marginBottom: 4,
+              }}
+            >
+              {today}
+            </div>
+            <div
+              style={{
+                fontFamily: "var(--font-display)",
+                fontStyle: "italic",
+                fontSize: 14,
+                color: "var(--fg-muted)",
+              }}
+            >
+              {t("confirmed.issuedAt")}
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                alignItems: "flex-end",
+                justifyContent: "space-between",
+                gap: "var(--sp-5)",
+                marginTop: "var(--sp-6)",
+              }}
+            >
+              <div style={{ flex: 1, textAlign: "center" }}>
+                <div
+                  style={{
+                    borderTop: "1px solid var(--ink-900)",
+                    margin: "0 auto 6px",
+                    width: "min(220px, 100%)",
+                  }}
+                />
+                <div
+                  style={{
+                    fontFamily: "var(--font-mono)",
+                    fontSize: 10,
+                    letterSpacing: "0.18em",
+                    textTransform: "uppercase",
+                    color: "var(--fg-muted)",
+                  }}
+                >
+                  {t("confirmed.signatory")}
+                </div>
+              </div>
+              <div style={{ flexShrink: 0 }}>
+                <Stamp number="042" label={t("confirmed.stampLabel")} size={96} rotate={8} />
+              </div>
+            </div>
+          </div>
+
+          <div style={{ marginTop: "var(--sp-7)" }}>
+            <Button variant="primary" size="lg" onClick={resetAll}>
+              {t("confirmed.newRaffle")} ↻
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

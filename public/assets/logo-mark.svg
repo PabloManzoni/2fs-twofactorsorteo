@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
+  
+  <rect x="2" y="2" width="76" height="76" rx="4" fill="none" stroke="currentColor" stroke-width="1.5"></rect>
+  <text x="40" y="54" class="d" font-size="44" fill="currentColor" text-anchor="middle">2fs</text>
+  <text x="62" y="28" font-family="Fraunces, serif" font-style="italic" font-size="14" font-weight="600" fill="#C8442A">º</text>
+</svg>

@@ -1,0 +1,115 @@
+{
+  "masthead": {
+    "tagline": "SORTEO · DE · DOS · FACTORES",
+    "edition": "EDICIÓN Nº {{n}}",
+    "reset": "Volver al inicio",
+    "steps": {
+      "1": "Participantes",
+      "2": "Ruleta",
+      "3": "8 Ball"
+    }
+  },
+  "common": {
+    "language": "Idioma"
+  },
+  "step1": {
+    "eyebrow": "01 · LA URNA",
+    "heading": "¿Quiénes <em>entran al bombo?</em>",
+    "subtitle": "Entre 2 y 10 nombres. La ruleta elige uno, la 8 Ball lo confirma — o te manda a empezar otra vez.",
+    "addParticipant": "AÑADIR PARTICIPANTE",
+    "inputPlaceholder": "Ej. Agustín",
+    "add": "Añadir",
+    "enterHint": "Enter para confirmar · {{current}}/{{max}} en la urna",
+    "houseRule": "REGLA DE LA CASA",
+    "houseRuleBody": "Un nombre por turno. Si la 8 Ball dice <span style=\"color: var(--accent)\">no</span>, el elegido vuelve al limbo y gira la ruleta de nuevo.",
+    "inTheUrn": "EN LA URNA",
+    "emptyTitle": "Aún no hay nadie.",
+    "emptyHint": "Añade el primer nombre",
+    "remove": "Quitar {{name}}",
+    "cta": "Ir a la ruleta",
+    "minHint": "Mínimo {{min}} participantes para sortear."
+  },
+  "step2": {
+    "eyebrow": "02 · LA RULETA",
+    "heading": "Tira de la rueda.",
+    "headingDone": "Tenemos <em style=\"font-weight:500;color:var(--accent)\">ganador.</em>",
+    "instructionEyebrow": "INSTRUCCIÓN",
+    "instruction": "Agarra el disco con el mouse y lánzalo. La inercia hace el resto.",
+    "statusEyebrow": "ESTADO",
+    "idle": "En reposo",
+    "spinning": "Girando…",
+    "statParticipants": "PARTICIPANTES",
+    "statSorteo": "SORTEO",
+    "statVelocity": "VELOCIDAD",
+    "rejectedLine1": "LA 8 BALL RECHAZÓ A {{name}}.",
+    "rejectedLine2": "VUELVE A TIRAR.",
+    "cta": "Consultar la 8 Ball",
+    "back": "Editar participantes"
+  },
+  "step3": {
+    "eyebrow": "03 · EL SEGUNDO FACTOR",
+    "heading": "Consulta <em>a la bola.</em>",
+    "headingRevealed": "La bola <em style=\"font-weight:500;color:var(--accent)\">ha hablado.</em>",
+    "provisional": "GANADOR PROVISIONAL",
+    "questionEyebrow": "LA PREGUNTA",
+    "optionLabel": "OPCIÓN {{n}}",
+    "shakeHint": "MANTÉN CLIC Y SACUDE EL MOUSE SOBRE LA BOLA",
+    "shaking": "SACUDIENDO… MÁS FUERTE",
+    "revealing": "REVELANDO…",
+    "skip": "SALTAR SACUDIDA",
+    "back": "Volver a la ruleta",
+    "verdict": {
+      "yes": "LA CASA APRUEBA",
+      "no": "LA CASA RECHAZA",
+      "maybe": "LA CASA DUDA"
+    },
+    "questions": {
+      "shouldBeChosen": "¿{{name}} debería ser el elegido?",
+      "destinyWants": "¿El destino realmente quiere a {{name}}?",
+      "houseApproves": "¿La casa aprueba a {{name}}?"
+    },
+    "answers": {
+      "yes": {
+        "noDoubt": "Sin duda.",
+        "itIsCertain": "Es cierto.",
+        "yesDefinitely": "Sí, definitivamente.",
+        "youCanRely": "Puedes confiar en ello.",
+        "asISeeIt": "Como yo lo veo, sí.",
+        "mostLikely": "Lo más probable.",
+        "goodOutlook": "Buenas perspectivas.",
+        "signsPoint": "Las señales apuntan a sí."
+      },
+      "maybe": {
+        "hazy": "Respuesta nebulosa, prueba de nuevo.",
+        "askAgainLater": "Pregunta de nuevo más tarde.",
+        "betterNotNow": "Mejor no decírtelo ahora.",
+        "cannotPredict": "No se puede predecir ahora.",
+        "concentrate": "Concéntrate y pregunta otra vez."
+      },
+      "no": {
+        "dontCount": "No cuentes con ello.",
+        "replyNo": "Mi respuesta es no.",
+        "sourcesSayNo": "Mis fuentes dicen que no.",
+        "outlookNotGood": "Las perspectivas no son buenas.",
+        "veryDoubtful": "Muy dudoso."
+      }
+    },
+    "cta": {
+      "accept": "Confirmar a {{name}}",
+      "reject": "Volver a la ruleta",
+      "askAgain": "Preguntar de nuevo",
+      "shakeAgain": "Sacudir otra vez"
+    }
+  },
+  "confirmed": {
+    "title": "EDICTO DEL DESTINO",
+    "sorteoLine": "SORTEO Nº 042 · ACTA DE LA CASA",
+    "preamble": "Y habiendo girado la rueda, y habiendo hablado la bola,",
+    "thisIsToCertify": "queda por siempre certificado que",
+    "bodyAward": "ha sido señalado por la suerte y confirmado por la Bola. Dos factores, una sola voluntad. Así está escrito, así se cumple.",
+    "issuedAt": "Sellado y consignado por la Casa",
+    "signatory": "La Casa · Testigo",
+    "newRaffle": "Proclamar un nuevo destino",
+    "stampLabel": "GANADOR · UNGIDO · 2FS"
+  }
+}
