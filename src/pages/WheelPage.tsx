@@ -9,7 +9,6 @@ export function WheelPage() {
   const { t } = useTranslation();
   const names = useRaffleStore((s) => s.names);
   const winner = useRaffleStore((s) => s.winner);
-  const lastRejected = useRaffleStore((s) => s.lastRejected);
   const setWinner = useRaffleStore((s) => s.setWinner);
   const goStep = useRaffleStore((s) => s.goStep);
 
@@ -150,25 +149,6 @@ export function WheelPage() {
                 ))}
               </div>
             </div>
-
-            {lastRejected && phase === "idle" && (
-              <div
-                style={{
-                  marginTop: 16,
-                  padding: "14px 16px",
-                  border: "1px dashed var(--rule-strong)",
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 11,
-                  letterSpacing: "0.1em",
-                  color: "var(--fg-muted)",
-                  lineHeight: 1.5,
-                }}
-              >
-                {t("step2.rejectedLine1", { name: lastRejected.toUpperCase() })}
-                <br />
-                {t("step2.rejectedLine2")}
-              </div>
-            )}
 
             <div style={{ marginTop: 24, display: "flex", flexDirection: "column", gap: 10 }}>
               {phase === "done" && winner ? (

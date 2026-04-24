@@ -3,7 +3,7 @@ import { playRumble, warmAudio } from "../../lib/audio";
 
 export interface MagicBallAnswer {
   text: string;
-  tone: "yes" | "no" | "maybe";
+  tone: "yes" | "no";
 }
 
 interface MagicBallProps {

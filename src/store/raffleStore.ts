@@ -5,26 +5,29 @@ export const MAX_PARTICIPANTS = 10;
 export const MIN_PARTICIPANTS = 2;
 
 export type Step = 1 | 2 | 3;
+export type Verdict = "yes" | "no";
 
 interface RaffleState {
   step: Step;
-  /** Active pool. Shrinks when the 8-ball rejects a winner. */
+  /** Active pool. The same as baseNames outside step 1 edits. */
   names: string[];
   /**
    * Snapshot of the names the user entered in step 1. Restored on resetAll so
-   * that "Nuevo sorteo" keeps the last participants even if some were rejected.
+   * that "Volver a empezar" keeps the last participants.
    */
   baseNames: string[];
   winner: string | null;
-  lastRejected: string | null;
-  confirmed: string | null;
+  /**
+   * Final verdict spoken by the 8-ball once the user accepts the fate.
+   * While non-null, the certificate is shown over the app.
+   */
+  verdict: Verdict | null;
+
   goStep: (step: Step) => void;
   addName: (name: string) => { ok: boolean; error?: "duplicate" | "max" | "empty" };
   removeName: (name: string) => void;
   setWinner: (name: string | null) => void;
-  rejectWinner: () => void;
-  acceptWinner: () => void;
-  clearConfirmed: () => void;
+  acceptVerdict: (v: Verdict) => void;
   resetAll: () => void;
 }
 
@@ -35,8 +38,7 @@ export const useRaffleStore = create<RaffleState>()(
       names: [],
       baseNames: [],
       winner: null,
-      lastRejected: null,
-      confirmed: null,
+      verdict: null,
 
       goStep: (step) => set({ step }),
 
@@ -51,7 +53,6 @@ export const useRaffleStore = create<RaffleState>()(
         const nextNames = [...names, name];
         set({
           names: nextNames,
-          // Only sync baseNames while the user is editing the urn at step 1.
           baseNames: step === 1 ? nextNames : get().baseNames,
         });
         return { ok: true };
@@ -68,33 +69,18 @@ export const useRaffleStore = create<RaffleState>()(
 
       setWinner: (winner) => set({ winner }),
 
-      rejectWinner: () =>
-        set((state) => {
-          const rejected = state.winner;
-          if (!rejected) return state;
-          return {
-            names: state.names.filter((n) => n !== rejected),
-            winner: null,
-            lastRejected: rejected,
-            step: 2,
-          };
-        }),
-
-      acceptWinner: () => set((state) => ({ confirmed: state.winner })),
-
-      clearConfirmed: () => set({ confirmed: null }),
+      acceptVerdict: (verdict) => set({ verdict }),
 
       /**
-       * New raffle: keep the participants the user already entered (baseNames)
-       * even if some were rejected during the last round. Start back at step 1.
+       * Volver a empezar. Restores names from the last step-1 snapshot and
+       * clears all raffle state, sending the user back to the urn.
        */
       resetAll: () =>
         set((state) => ({
           step: 1,
           names: state.baseNames.length > 0 ? [...state.baseNames] : state.names,
           winner: null,
-          lastRejected: null,
-          confirmed: null,
+          verdict: null,
         })),
     }),
     {
@@ -103,7 +89,6 @@ export const useRaffleStore = create<RaffleState>()(
         names: state.names,
         baseNames: state.baseNames,
       }),
-      // Back-fill baseNames for users persisted before this field existed.
       onRehydrateStorage: () => (state) => {
         if (!state) return;
         if (!state.baseNames || state.baseNames.length === 0) {

@@ -9,37 +9,24 @@ export const QUESTION_KEYS = [
 
 export type QuestionKey = (typeof QUESTION_KEYS)[number];
 
-const ANSWER_TONES = {
-  yes: [
-    "step3.answers.yes.noDoubt",
-    "step3.answers.yes.itIsCertain",
-    "step3.answers.yes.yesDefinitely",
-    "step3.answers.yes.youCanRely",
-    "step3.answers.yes.asISeeIt",
-    "step3.answers.yes.mostLikely",
-    "step3.answers.yes.goodOutlook",
-    "step3.answers.yes.signsPoint",
-  ],
-  maybe: [
-    "step3.answers.maybe.hazy",
-    "step3.answers.maybe.askAgainLater",
-    "step3.answers.maybe.betterNotNow",
-    "step3.answers.maybe.cannotPredict",
-    "step3.answers.maybe.concentrate",
-  ],
-  no: [
-    "step3.answers.no.dontCount",
-    "step3.answers.no.replyNo",
-    "step3.answers.no.sourcesSayNo",
-    "step3.answers.no.outlookNotGood",
-    "step3.answers.no.veryDoubtful",
-  ],
-} as const;
-
-const ALL_ANSWERS: { key: string; tone: "yes" | "no" | "maybe" }[] = [
-  ...ANSWER_TONES.yes.map((key) => ({ key, tone: "yes" as const })),
-  ...ANSWER_TONES.maybe.map((key) => ({ key, tone: "maybe" as const })),
-  ...ANSWER_TONES.no.map((key) => ({ key, tone: "no" as const })),
+/**
+ * Deterministic binary oracle: fate says yes or no. No "maybe" — the ball
+ * does not equivocate.
+ */
+const ANSWER_KEYS: { key: string; tone: "yes" | "no" }[] = [
+  { key: "step3.answers.yes.noDoubt", tone: "yes" },
+  { key: "step3.answers.yes.itIsCertain", tone: "yes" },
+  { key: "step3.answers.yes.yesDefinitely", tone: "yes" },
+  { key: "step3.answers.yes.youCanRely", tone: "yes" },
+  { key: "step3.answers.yes.asISeeIt", tone: "yes" },
+  { key: "step3.answers.yes.mostLikely", tone: "yes" },
+  { key: "step3.answers.yes.goodOutlook", tone: "yes" },
+  { key: "step3.answers.yes.signsPoint", tone: "yes" },
+  { key: "step3.answers.no.dontCount", tone: "no" },
+  { key: "step3.answers.no.replyNo", tone: "no" },
+  { key: "step3.answers.no.sourcesSayNo", tone: "no" },
+  { key: "step3.answers.no.outlookNotGood", tone: "no" },
+  { key: "step3.answers.no.veryDoubtful", tone: "no" },
 ];
 
 export function buildQuestions(t: TFunction, name: string): { key: QuestionKey; text: string }[] {
@@ -48,6 +35,6 @@ export function buildQuestions(t: TFunction, name: string): { key: QuestionKey; 
 }
 
 export function pickAnswer(t: TFunction): MagicBallAnswer {
-  const { key, tone } = ALL_ANSWERS[Math.floor(Math.random() * ALL_ANSWERS.length)];
+  const { key, tone } = ANSWER_KEYS[Math.floor(Math.random() * ANSWER_KEYS.length)];
   return { text: t(key), tone };
 }

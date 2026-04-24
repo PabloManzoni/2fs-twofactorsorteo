@@ -15,13 +15,13 @@
   "step1": {
     "eyebrow": "01 · THE URN",
     "heading": "Who's <em>going in the pot?</em>",
-    "subtitle": "Between 2 and 10 names. The wheel picks one, the 8-ball confirms — or sends you back.",
+    "subtitle": "Between 2 and 10 names. The wheel picks one and the Ball pronounces the fate. So it is written.",
     "addParticipant": "ADD PARTICIPANT",
     "inputPlaceholder": "e.g. Agustín",
     "add": "Add",
     "enterHint": "Press Enter to confirm · {{current}}/{{max}} in the urn",
     "houseRule": "HOUSE RULE",
-    "houseRuleBody": "One name per turn. If the 8-ball says <span style=\"color: var(--accent)\">no</span>, the chosen one goes to limbo and the wheel spins again.",
+    "houseRuleBody": "One name per turn. The wheel points, the <span style=\"color: var(--accent)\">Ball decrees</span>: the verdict is final.",
     "inTheUrn": "IN THE URN",
     "emptyTitle": "No one yet.",
     "emptyHint": "Add the first name",
@@ -41,27 +41,22 @@
     "statParticipants": "PARTICIPANTS",
     "statSorteo": "RAFFLE",
     "statVelocity": "VELOCITY",
-    "rejectedLine1": "THE 8 BALL REJECTED {{name}}.",
-    "rejectedLine2": "SPIN AGAIN.",
     "cta": "Consult the 8 Ball",
     "back": "Edit participants"
   },
   "step3": {
     "eyebrow": "03 · THE SECOND FACTOR",
     "heading": "Ask <em>the ball.</em>",
-    "headingRevealed": "The ball <em style=\"font-weight:500;color:var(--accent)\">has spoken.</em>",
+    "headingRevealed": "Fate <em style=\"font-weight:500;color:var(--accent)\">has spoken.</em>",
     "provisional": "PROVISIONAL WINNER",
     "questionEyebrow": "THE QUESTION",
     "optionLabel": "OPTION {{n}}",
     "shakeHint": "HOLD THE CLICK AND SHAKE THE MOUSE OVER THE BALL",
     "shaking": "SHAKING… HARDER",
     "revealing": "REVEALING…",
-    "skip": "SKIP SHAKE",
-    "back": "Back to the wheel",
     "verdict": {
       "yes": "THE HOUSE APPROVES",
-      "no": "THE HOUSE REJECTS",
-      "maybe": "THE HOUSE DOUBTS"
+      "no": "THE HOUSE REJECTS"
     },
     "questions": {
       "shouldBeChosen": "Should {{name}} be the chosen one?",
@@ -79,13 +74,6 @@
         "goodOutlook": "Outlook good.",
         "signsPoint": "Signs point to yes."
       },
-      "maybe": {
-        "hazy": "Reply hazy, try again.",
-        "askAgainLater": "Ask again later.",
-        "betterNotNow": "Better not tell you now.",
-        "cannotPredict": "Cannot predict now.",
-        "concentrate": "Concentrate and ask again."
-      },
       "no": {
         "dontCount": "Don't count on it.",
         "replyNo": "My reply is no.",
@@ -95,10 +83,7 @@
       }
     },
     "cta": {
-      "accept": "Confirm {{name}}",
-      "reject": "Back to the wheel",
-      "askAgain": "Ask again",
-      "shakeAgain": "Shake again"
+      "acceptFate": "Accept this fate"
     }
   },
   "confirmed": {
@@ -106,10 +91,18 @@
     "sorteoLine": "RAFFLE Nº 042 · RECORD OF THE HOUSE",
     "preamble": "The wheel having turned, and the ball having spoken,",
     "thisIsToCertify": "be it forever known that",
-    "bodyAward": "has been chosen by fortune and confirmed by the Ball. Two factors, one single will. So it is written, so it is done.",
+    "bodyYes": "has been chosen by fortune and confirmed by the Ball. Two factors, one single will. So it is written, so it is done.",
+    "bodyNo": "has NOT been chosen by fortune. The Ball has pronounced against them and their name returns to silence. So it is written, so it is done.",
+    "verdictBadge": {
+      "yes": "THE ANOINTED",
+      "no": "NOT CHOSEN"
+    },
+    "stampLabel": {
+      "yes": "WINNER · ANOINTED · 2FS",
+      "no": "CAST OUT · NOT ANOINTED · 2FS"
+    },
     "issuedAt": "Sealed and recorded by the House",
     "signatory": "The House · Witness",
-    "newRaffle": "Proclaim a new fate",
-    "stampLabel": "WINNER · ANOINTED · 2FS"
+    "startOver": "Start over"
   }
 }

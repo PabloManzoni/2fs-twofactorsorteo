@@ -15,8 +15,7 @@ export function MagicBallPage() {
   const { t } = useTranslation();
   const winner = useRaffleStore((s) => s.winner);
   const goStep = useRaffleStore((s) => s.goStep);
-  const rejectWinner = useRaffleStore((s) => s.rejectWinner);
-  const acceptWinner = useRaffleStore((s) => s.acceptWinner);
+  const acceptVerdict = useRaffleStore((s) => s.acceptVerdict);
 
   const [phase, setPhase] = useState<Phase>("ready");
   const [selectedQ, setSelectedQ] = useState(0);
@@ -45,12 +44,9 @@ export function MagicBallPage() {
     const chosen = pickAnswer(t);
     setAnswer(chosen);
     setTriangleOpacity(0);
-    // Start the dark drone immediately; it swells for ~1.2s before the chime,
-    // then decays — total audio ~3s.
     playReveal(chosen.tone);
     let op = 0;
     const fade = () => {
-      // Slower rise — ~1.6s at 60fps.
       op += 0.01;
       setTriangleOpacity(Math.min(1, op));
       if (op < 1) {
@@ -76,31 +72,16 @@ export function MagicBallPage() {
     [doReveal],
   );
 
-  const reset = () => {
-    setPhase("ready");
-    setAnswer(null);
-    setTriangleOpacity(0);
-  };
-
   if (!winner) {
     goStep(1);
     return null;
   }
 
-  const toneColor =
-    answer?.tone === "yes"
-      ? "var(--success-500)"
-      : answer?.tone === "no"
-        ? "var(--accent-500)"
-        : "var(--gold-500)";
-  const toneLabel =
-    answer?.tone === "yes"
-      ? t("step3.verdict.yes")
-      : answer?.tone === "no"
-        ? t("step3.verdict.no")
-        : t("step3.verdict.maybe");
-
   const revealed = phase === "revealed";
+  const toneColor =
+    answer?.tone === "yes" ? "var(--success-500)" : "var(--accent-500)";
+  const toneLabel =
+    answer?.tone === "yes" ? t("step3.verdict.yes") : t("step3.verdict.no");
 
   return (
     <main
@@ -339,75 +320,13 @@ export function MagicBallPage() {
                   {answer.text}
                 </div>
 
-                <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-                  {answer.tone === "yes" && (
-                    <Button variant="primary" size="lg" onClick={acceptWinner}>
-                      {t("step3.cta.accept", { name: winner.split(" ")[0] })} ✓
-                    </Button>
-                  )}
-                  {answer.tone === "no" && (
-                    <Button variant="primary" size="lg" onClick={rejectWinner}>
-                      {t("step3.cta.reject")} →
-                    </Button>
-                  )}
-                  {answer.tone === "maybe" && (
-                    <Button variant="primary" size="lg" onClick={reset}>
-                      {t("step3.cta.askAgain")}
-                    </Button>
-                  )}
-                  <Button
-                    variant="secondary"
-                    size="lg"
-                    onClick={reset}
-                    style={{ color: "var(--paper-100)", borderColor: "var(--paper-100)" }}
-                  >
-                    {t("step3.cta.shakeAgain")}
-                  </Button>
-                </div>
+                <Button variant="primary" size="lg" onClick={() => acceptVerdict(answer.tone)}>
+                  {t("step3.cta.acceptFate")}
+                </Button>
               </div>
             )}
           </div>
         </div>
-
-        {!revealed && (
-          <div style={{ marginTop: 48, display: "flex", justifyContent: "space-between" }}>
-            <button
-              type="button"
-              onClick={() => goStep(2)}
-              style={{
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                fontFamily: "var(--font-ui)",
-                fontSize: 14,
-                color: "var(--fg-muted)",
-                textDecoration: "underline",
-                textUnderlineOffset: 3,
-              }}
-            >
-              ← {t("step3.back")}
-            </button>
-
-            {(phase === "ready" || phase === "shaking") && (
-              <button
-                type="button"
-                onClick={doReveal}
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 11,
-                  letterSpacing: "0.14em",
-                  color: "var(--fg-subtle)",
-                  textTransform: "uppercase",
-                }}
-              >
-                {t("step3.skip")} ↗
-              </button>
-            )}
-          </div>
-        )}
       </div>
     </main>
   );

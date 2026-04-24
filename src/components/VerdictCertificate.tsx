@@ -37,7 +37,6 @@ function Flourish() {
         gap: 14,
         margin: "var(--sp-4) 0",
         color: "var(--accent)",
-        fontFamily: "var(--font-display)",
       }}
     >
       <span
@@ -50,7 +49,16 @@ function Flourish() {
           paddingBottom: 2,
         }}
       />
-      <span style={{ fontSize: 18, lineHeight: 1, transform: "translateY(-1px)" }}>❦</span>
+      <span
+        style={{
+          fontFamily: "var(--font-display)",
+          fontSize: 18,
+          lineHeight: 1,
+          transform: "translateY(-1px)",
+        }}
+      >
+        ❦
+      </span>
       <span
         style={{
           flex: 1,
@@ -65,14 +73,15 @@ function Flourish() {
   );
 }
 
-export function ConfirmedModal() {
+export function VerdictCertificate() {
   const { t, i18n } = useTranslation();
-  const confirmed = useRaffleStore((s) => s.confirmed);
+  const verdict = useRaffleStore((s) => s.verdict);
+  const winner = useRaffleStore((s) => s.winner);
   const resetAll = useRaffleStore((s) => s.resetAll);
 
-  if (!confirmed) return null;
+  if (!verdict || !winner) return null;
 
-  const [first, ...rest] = confirmed.split(" ");
+  const [first, ...rest] = winner.split(" ");
   const surname = rest.join(" ");
   const locale = (i18n.resolvedLanguage ?? "es") === "en" ? "en-US" : "es-ES";
   const today = new Date().toLocaleDateString(locale, {
@@ -80,6 +89,15 @@ export function ConfirmedModal() {
     month: "long",
     year: "numeric",
   });
+
+  const isChosen = verdict === "yes";
+  const bodyKey = isChosen ? "confirmed.bodyYes" : "confirmed.bodyNo";
+  const stampLabel = isChosen
+    ? t("confirmed.stampLabel.yes")
+    : t("confirmed.stampLabel.no");
+  const verdictEyebrow = isChosen
+    ? t("confirmed.verdictBadge.yes")
+    : t("confirmed.verdictBadge.no");
 
   return (
     <div
@@ -96,11 +114,9 @@ export function ConfirmedModal() {
         overflowY: "auto",
       }}
     >
-      {/* Outer frame — 2px ink border */}
       <div
         role="dialog"
         aria-modal="true"
-        aria-labelledby="cert-title"
         style={{
           background: "var(--surface)",
           border: "2px solid var(--ink-900)",
@@ -109,12 +125,10 @@ export function ConfirmedModal() {
           width: "100%",
           boxShadow: "var(--shadow-3)",
           position: "relative",
-          backgroundImage:
-            "radial-gradient(rgba(20,17,16,0.04) 1px, transparent 1px)",
+          backgroundImage: "radial-gradient(rgba(20,17,16,0.04) 1px, transparent 1px)",
           backgroundSize: "3px 3px",
         }}
       >
-        {/* Inner frame */}
         <div
           style={{
             border: "1px solid var(--ink-900)",
@@ -161,7 +175,6 @@ export function ConfirmedModal() {
             {t("confirmed.preamble")}
           </p>
           <p
-            id="cert-title"
             style={{
               fontFamily: "var(--font-display)",
               fontStyle: "italic",
@@ -175,6 +188,9 @@ export function ConfirmedModal() {
             {t("confirmed.thisIsToCertify")}
           </p>
 
+          <Eyebrow color={isChosen ? "var(--success-500)" : "var(--accent)"} style={{ marginBottom: 6 }}>
+            {verdictEyebrow}
+          </Eyebrow>
           <div
             style={{
               fontFamily: "var(--font-display)",
@@ -182,9 +198,12 @@ export function ConfirmedModal() {
               fontSize: 88,
               lineHeight: 0.95,
               letterSpacing: "-0.03em",
-              margin: "0",
+              margin: 0,
               textWrap: "balance",
               fontVariationSettings: "'opsz' 120",
+              textDecoration: isChosen ? "none" : "line-through",
+              textDecorationColor: "var(--accent)",
+              textDecorationThickness: "2px",
             }}
           >
             {first}
@@ -200,6 +219,8 @@ export function ConfirmedModal() {
                 letterSpacing: "-0.02em",
                 color: "var(--fg-muted)",
                 marginTop: 6,
+                textDecoration: isChosen ? "none" : "line-through",
+                textDecorationColor: "var(--accent)",
               }}
             >
               {surname}.
@@ -219,12 +240,11 @@ export function ConfirmedModal() {
               textWrap: "balance",
             }}
           >
-            {t("confirmed.bodyAward")}
+            {t(bodyKey)}
           </p>
 
           <Flourish />
 
-          {/* Footer — date / issued, signature line, stamp */}
           <div style={{ marginTop: "var(--sp-5)", textAlign: "left" }}>
             <div
               style={{
@@ -279,14 +299,14 @@ export function ConfirmedModal() {
                 </div>
               </div>
               <div style={{ flexShrink: 0 }}>
-                <Stamp number="042" label={t("confirmed.stampLabel")} size={96} rotate={8} />
+                <Stamp number="042" label={stampLabel} size={96} rotate={8} />
               </div>
             </div>
           </div>
 
           <div style={{ marginTop: "var(--sp-7)" }}>
             <Button variant="primary" size="lg" onClick={resetAll}>
-              {t("confirmed.newRaffle")} ↻
+              {t("confirmed.startOver")} ↻
             </Button>
           </div>
         </div>

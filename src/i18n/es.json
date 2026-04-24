@@ -15,13 +15,13 @@
   "step1": {
     "eyebrow": "01 · LA URNA",
     "heading": "¿Quiénes <em>entran al bombo?</em>",
-    "subtitle": "Entre 2 y 10 nombres. La ruleta elige uno, la 8 Ball lo confirma — o te manda a empezar otra vez.",
+    "subtitle": "Entre 2 y 10 nombres. La ruleta elige uno y la Bola dicta la suerte. Así está escrito.",
     "addParticipant": "AÑADIR PARTICIPANTE",
     "inputPlaceholder": "Ej. Agustín",
     "add": "Añadir",
     "enterHint": "Enter para confirmar · {{current}}/{{max}} en la urna",
     "houseRule": "REGLA DE LA CASA",
-    "houseRuleBody": "Un nombre por turno. Si la 8 Ball dice <span style=\"color: var(--accent)\">no</span>, el elegido vuelve al limbo y gira la ruleta de nuevo.",
+    "houseRuleBody": "Un nombre por turno. La rueda señala, la <span style=\"color: var(--accent)\">Bola dicta</span>: el veredicto es definitivo.",
     "inTheUrn": "EN LA URNA",
     "emptyTitle": "Aún no hay nadie.",
     "emptyHint": "Añade el primer nombre",
@@ -41,27 +41,22 @@
     "statParticipants": "PARTICIPANTES",
     "statSorteo": "SORTEO",
     "statVelocity": "VELOCIDAD",
-    "rejectedLine1": "LA 8 BALL RECHAZÓ A {{name}}.",
-    "rejectedLine2": "VUELVE A TIRAR.",
     "cta": "Consultar la 8 Ball",
     "back": "Editar participantes"
   },
   "step3": {
     "eyebrow": "03 · EL SEGUNDO FACTOR",
     "heading": "Consulta <em>a la bola.</em>",
-    "headingRevealed": "La bola <em style=\"font-weight:500;color:var(--accent)\">ha hablado.</em>",
+    "headingRevealed": "La suerte <em style=\"font-weight:500;color:var(--accent)\">ha hablado.</em>",
     "provisional": "GANADOR PROVISIONAL",
     "questionEyebrow": "LA PREGUNTA",
     "optionLabel": "OPCIÓN {{n}}",
     "shakeHint": "MANTÉN CLIC Y SACUDE EL MOUSE SOBRE LA BOLA",
     "shaking": "SACUDIENDO… MÁS FUERTE",
     "revealing": "REVELANDO…",
-    "skip": "SALTAR SACUDIDA",
-    "back": "Volver a la ruleta",
     "verdict": {
       "yes": "LA CASA APRUEBA",
-      "no": "LA CASA RECHAZA",
-      "maybe": "LA CASA DUDA"
+      "no": "LA CASA RECHAZA"
     },
     "questions": {
       "shouldBeChosen": "¿{{name}} debería ser el elegido?",
@@ -79,13 +74,6 @@
         "goodOutlook": "Buenas perspectivas.",
         "signsPoint": "Las señales apuntan a sí."
       },
-      "maybe": {
-        "hazy": "Respuesta nebulosa, prueba de nuevo.",
-        "askAgainLater": "Pregunta de nuevo más tarde.",
-        "betterNotNow": "Mejor no decírtelo ahora.",
-        "cannotPredict": "No se puede predecir ahora.",
-        "concentrate": "Concéntrate y pregunta otra vez."
-      },
       "no": {
         "dontCount": "No cuentes con ello.",
         "replyNo": "Mi respuesta es no.",
@@ -95,10 +83,7 @@
       }
     },
     "cta": {
-      "accept": "Confirmar a {{name}}",
-      "reject": "Volver a la ruleta",
-      "askAgain": "Preguntar de nuevo",
-      "shakeAgain": "Sacudir otra vez"
+      "acceptFate": "Aceptar esta suerte"
     }
   },
   "confirmed": {
@@ -106,10 +91,18 @@
     "sorteoLine": "SORTEO Nº 042 · ACTA DE LA CASA",
     "preamble": "Y habiendo girado la rueda, y habiendo hablado la bola,",
     "thisIsToCertify": "queda por siempre certificado que",
-    "bodyAward": "ha sido señalado por la suerte y confirmado por la Bola. Dos factores, una sola voluntad. Así está escrito, así se cumple.",
+    "bodyYes": "ha sido señalado por la suerte y confirmado por la Bola. Dos factores, una sola voluntad. Así está escrito, así se cumple.",
+    "bodyNo": "NO ha sido señalado por la suerte. La Bola se ha pronunciado en su contra y su nombre regresa al silencio. Así está escrito, así se cumple.",
+    "verdictBadge": {
+      "yes": "EL UNGIDO",
+      "no": "NO ELEGIDO"
+    },
+    "stampLabel": {
+      "yes": "GANADOR · UNGIDO · 2FS",
+      "no": "APARTADO · NO UNGIDO · 2FS"
+    },
     "issuedAt": "Sellado y consignado por la Casa",
     "signatory": "La Casa · Testigo",
-    "newRaffle": "Proclamar un nuevo destino",
-    "stampLabel": "GANADOR · UNGIDO · 2FS"
+    "startOver": "Volver a empezar"
   }
 }
