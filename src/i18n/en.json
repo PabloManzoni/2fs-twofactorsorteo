@@ -93,14 +93,17 @@
     "thisIsToCertify": "be it forever known that",
     "bodyYes": "The Ball has spoken in their favor.",
     "bodyNo": "The Ball has spoken against them.",
+    "bodyDefault": "The Ball cast out {{penultimate}}. No one else was left standing in the urn.",
     "coda": "Two factors, one single will. So it is written, so it is done.",
     "verdictBadge": {
       "yes": "THE ANOINTED",
-      "no": "NOT CHOSEN"
+      "no": "NOT CHOSEN",
+      "default": "THE LAST ONE STANDING"
     },
     "stampLabel": {
       "yes": "WINNER · ANOINTED · 2FS",
-      "no": "CAST OUT · NOT ANOINTED · 2FS"
+      "no": "CAST OUT · NOT ANOINTED · 2FS",
+      "default": "LAST STANDING · BY ELIMINATION · 2FS"
     },
     "startOver": "Start over",
     "keepRaffling": "Keep raffling"

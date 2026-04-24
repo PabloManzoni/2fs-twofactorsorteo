@@ -93,14 +93,17 @@
     "thisIsToCertify": "queda por siempre certificado que",
     "bodyYes": "La Bola ha hablado a su favor.",
     "bodyNo": "La Bola ha hablado en su contra.",
+    "bodyDefault": "La Bola apartó a {{penultimate}}. Nadie más quedó en pie en la urna.",
     "coda": "Dos factores, una sola voluntad. Así está escrito, así se cumple.",
     "verdictBadge": {
       "yes": "EL UNGIDO",
-      "no": "NO ELEGIDO"
+      "no": "NO ELEGIDO",
+      "default": "EL ÚLTIMO EN PIE"
     },
     "stampLabel": {
       "yes": "GANADOR · UNGIDO · 2FS",
-      "no": "APARTADO · NO UNGIDO · 2FS"
+      "no": "APARTADO · NO UNGIDO · 2FS",
+      "default": "ÚLTIMO EN PIE · POR DESCARTE · 2FS"
     },
     "startOver": "Volver a empezar",
     "keepRaffling": "Seguir sorteando"

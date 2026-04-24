@@ -84,12 +84,18 @@ export function VerdictCertificate() {
 
   if (!verdict || !winner) return null;
 
-  // After this NO, how many active names remain? If too few, we can't keep
-  // looping — there's no one else to spin for.
-  const remainingAfter = names.filter((n) => !outNames.includes(n)).length;
+  // After this NO, the still-active pool. If exactly one remains, fate
+  // has made its decision by elimination — that last soul wins by default
+  // and gets their own certificate.
+  const remaining = names.filter((n) => !outNames.includes(n));
+  const remainingAfter = remaining.length;
+  const isDefaultWinner = verdict === "no" && remainingAfter === 1;
   const canContinue = verdict === "no" && remainingAfter >= 2;
 
-  const [first, ...rest] = winner.split(" ");
+  // For the default-winner variant we swap the displayed name: the certificate
+  // celebrates the survivor, not the just-rejected penultimate.
+  const displayName = isDefaultWinner ? remaining[0] : winner;
+  const [first, ...rest] = displayName.split(" ");
   const surname = rest.join(" ");
   const locale = (i18n.resolvedLanguage ?? "es") === "en" ? "en-US" : "es-ES";
   const today = new Date().toLocaleDateString(locale, {
@@ -98,14 +104,23 @@ export function VerdictCertificate() {
     year: "numeric",
   });
 
-  const isChosen = verdict === "yes";
-  const bodyKey = isChosen ? "confirmed.bodyYes" : "confirmed.bodyNo";
-  const stampLabel = isChosen
-    ? t("confirmed.stampLabel.yes")
-    : t("confirmed.stampLabel.no");
-  const verdictEyebrow = isChosen
-    ? t("confirmed.verdictBadge.yes")
-    : t("confirmed.verdictBadge.no");
+  const isChosen = verdict === "yes" || isDefaultWinner;
+  const strikeName = verdict === "no" && !isDefaultWinner;
+  const bodyText = isDefaultWinner
+    ? t("confirmed.bodyDefault", { penultimate: winner.split(" ")[0] })
+    : verdict === "yes"
+      ? t("confirmed.bodyYes")
+      : t("confirmed.bodyNo");
+  const stampLabel = isDefaultWinner
+    ? t("confirmed.stampLabel.default")
+    : verdict === "yes"
+      ? t("confirmed.stampLabel.yes")
+      : t("confirmed.stampLabel.no");
+  const verdictEyebrow = isDefaultWinner
+    ? t("confirmed.verdictBadge.default")
+    : verdict === "yes"
+      ? t("confirmed.verdictBadge.yes")
+      : t("confirmed.verdictBadge.no");
 
   return (
     <div
@@ -166,7 +181,7 @@ export function VerdictCertificate() {
           <div
             className="cert-name"
             style={{
-              textDecoration: isChosen ? "none" : "line-through",
+              textDecoration: strikeName ? "line-through" : "none",
               textDecorationColor: "var(--accent)",
               textDecorationThickness: "2px",
             }}
@@ -184,7 +199,7 @@ export function VerdictCertificate() {
                 letterSpacing: "-0.02em",
                 color: "var(--fg-muted)",
                 marginTop: 4,
-                textDecoration: isChosen ? "none" : "line-through",
+                textDecoration: strikeName ? "line-through" : "none",
                 textDecorationColor: "var(--accent)",
                 overflowWrap: "anywhere",
               }}
@@ -206,7 +221,7 @@ export function VerdictCertificate() {
               textWrap: "balance",
             }}
           >
-            {t(bodyKey)}
+            {bodyText}
           </p>
           <p
             style={{
