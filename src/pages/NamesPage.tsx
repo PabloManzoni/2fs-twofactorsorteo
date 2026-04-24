@@ -13,6 +13,7 @@ import { TicketPerforation } from "../components/ui/TicketPerforation";
 export function NamesPage() {
   const { t } = useTranslation();
   const names = useRaffleStore((s) => s.names);
+  const outNames = useRaffleStore((s) => s.outNames);
   const addName = useRaffleStore((s) => s.addName);
   const removeName = useRaffleStore((s) => s.removeName);
   const goStep = useRaffleStore((s) => s.goStep);
@@ -21,7 +22,8 @@ export function NamesPage() {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const atMax = names.length >= MAX_PARTICIPANTS;
-  const canProceed = names.length >= MIN_PARTICIPANTS;
+  const activeCount = names.length - outNames.length;
+  const canProceed = activeCount >= MIN_PARTICIPANTS;
 
   const submit = () => {
     const result = addName(value);
@@ -184,60 +186,88 @@ export function NamesPage() {
                 </div>
               ) : (
                 <ol style={{ listStyle: "none", padding: 0, margin: 0 }}>
-                  {names.map((p, i) => (
-                    <li
-                      key={p}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 14,
-                        padding: "14px 20px",
-                        borderBottom:
-                          i < names.length - 1 ? "1px solid var(--rule)" : "none",
-                      }}
-                    >
-                      <span
-                        className="num"
+                  {names.map((p, i) => {
+                    const isOut = outNames.includes(p);
+                    return (
+                      <li
+                        key={p}
                         style={{
-                          fontFamily: "var(--font-mono)",
-                          fontSize: 12,
-                          fontWeight: 600,
-                          color: "var(--fg-muted)",
-                          width: 22,
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 14,
+                          padding: "14px 20px",
+                          borderBottom:
+                            i < names.length - 1 ? "1px solid var(--rule)" : "none",
+                          opacity: isOut ? 0.55 : 1,
                         }}
                       >
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      <Avatar name={p} size={32} />
-                      <span
-                        style={{
-                          flex: 1,
-                          fontFamily: "var(--font-ui)",
-                          fontSize: 16,
-                          fontWeight: 500,
-                        }}
-                      >
-                        {p}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => removeName(p)}
-                        title={t("step1.remove", { name: p })}
-                        aria-label={t("step1.remove", { name: p })}
-                        style={{
-                          background: "none",
-                          border: "none",
-                          cursor: "pointer",
-                          fontFamily: "var(--font-mono)",
-                          fontSize: 18,
-                          color: "var(--fg-muted)",
-                          padding: "4px 8px",
-                        }}
-                      >
-                        ×
-                      </button>
-                    </li>
-                  ))}
+                        <span
+                          className="num"
+                          style={{
+                            fontFamily: "var(--font-mono)",
+                            fontSize: 12,
+                            fontWeight: 600,
+                            color: "var(--fg-muted)",
+                            width: 22,
+                          }}
+                        >
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <Avatar name={p} size={32} />
+                        <span
+                          style={{
+                            flex: 1,
+                            fontFamily: "var(--font-ui)",
+                            fontSize: 16,
+                            fontWeight: 500,
+                            textDecoration: isOut ? "line-through" : "none",
+                            textDecorationColor: "var(--accent)",
+                            textDecorationThickness: "1.5px",
+                            color: isOut ? "var(--fg-muted)" : "var(--fg)",
+                          }}
+                        >
+                          {p}
+                        </span>
+                        {isOut ? (
+                          <span
+                            aria-label={t("step1.outBadge")}
+                            style={{
+                              fontFamily: "var(--font-mono)",
+                              fontSize: 10,
+                              fontWeight: 600,
+                              letterSpacing: "0.14em",
+                              textTransform: "uppercase",
+                              color: "var(--accent)",
+                              border: "1px solid var(--accent)",
+                              padding: "2px 8px",
+                              borderRadius: "var(--r-sm)",
+                              flexShrink: 0,
+                            }}
+                          >
+                            {t("step1.outBadge")}
+                          </span>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => removeName(p)}
+                            title={t("step1.remove", { name: p })}
+                            aria-label={t("step1.remove", { name: p })}
+                            style={{
+                              background: "none",
+                              border: "none",
+                              cursor: "pointer",
+                              fontFamily: "var(--font-mono)",
+                              fontSize: 18,
+                              color: "var(--fg-muted)",
+                              padding: "4px 8px",
+                            }}
+                          >
+                            ×
+                          </button>
+                        )}
+                      </li>
+                    );
+                  })}
                 </ol>
               )}
             </div>

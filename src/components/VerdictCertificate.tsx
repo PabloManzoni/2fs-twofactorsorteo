@@ -77,9 +77,17 @@ export function VerdictCertificate() {
   const { t, i18n } = useTranslation();
   const verdict = useRaffleStore((s) => s.verdict);
   const winner = useRaffleStore((s) => s.winner);
+  const names = useRaffleStore((s) => s.names);
+  const outNames = useRaffleStore((s) => s.outNames);
   const resetAll = useRaffleStore((s) => s.resetAll);
+  const continueRaffle = useRaffleStore((s) => s.continueRaffle);
 
   if (!verdict || !winner) return null;
+
+  // After this NO, how many active names remain? If too few, we can't keep
+  // looping — there's no one else to spin for.
+  const remainingAfter = names.filter((n) => !outNames.includes(n)).length;
+  const canContinue = verdict === "no" && remainingAfter >= 2;
 
   const [first, ...rest] = winner.split(" ");
   const surname = rest.join(" ");
@@ -242,9 +250,15 @@ export function VerdictCertificate() {
           </div>
 
           <div style={{ marginTop: "var(--sp-6)" }}>
-            <Button variant="primary" size="lg" onClick={resetAll}>
-              {t("confirmed.startOver")} ↻
-            </Button>
+            {canContinue ? (
+              <Button variant="primary" size="lg" onClick={continueRaffle}>
+                {t("confirmed.keepRaffling")} →
+              </Button>
+            ) : (
+              <Button variant="primary" size="lg" onClick={resetAll}>
+                {t("confirmed.startOver")} ↻
+              </Button>
+            )}
           </div>
         </div>
       </div>

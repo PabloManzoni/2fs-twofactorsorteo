@@ -9,25 +9,27 @@ export type Verdict = "yes" | "no";
 
 interface RaffleState {
   step: Step;
-  /** Active pool. The same as baseNames outside step 1 edits. */
+  /** Full pool the user entered. Never shrinks except via step-1 edits. */
   names: string[];
-  /**
-   * Snapshot of the names the user entered in step 1. Restored on resetAll so
-   * that "Volver a empezar" keeps the last participants.
-   */
+  /** Snapshot of names at the last step-1 edit. resetAll restores from here. */
   baseNames: string[];
+  /** Names that lost a round. Still in `names` but excluded from the wheel. */
+  outNames: string[];
   winner: string | null;
-  /**
-   * Final verdict spoken by the 8-ball once the user accepts the fate.
-   * While non-null, the certificate is shown over the app.
-   */
   verdict: Verdict | null;
 
   goStep: (step: Step) => void;
   addName: (name: string) => { ok: boolean; error?: "duplicate" | "max" | "empty" };
   removeName: (name: string) => void;
   setWinner: (name: string | null) => void;
+  /**
+   * Seal the ball's verdict. A "no" pushes the current winner onto outNames
+   * so they can't be drawn again this raffle.
+   */
   acceptVerdict: (v: Verdict) => void;
+  /** Dismiss a "no" certificate and go back to the wheel for another round. */
+  continueRaffle: () => void;
+  /** Full reset: restore base pool, clear outNames and verdict. */
   resetAll: () => void;
 }
 
@@ -37,6 +39,7 @@ export const useRaffleStore = create<RaffleState>()(
       step: 1,
       names: [],
       baseNames: [],
+      outNames: [],
       winner: null,
       verdict: null,
 
@@ -60,6 +63,8 @@ export const useRaffleStore = create<RaffleState>()(
 
       removeName: (name) =>
         set((state) => {
+          // Once someone is struck out, only the system can decide their fate.
+          if (state.outNames.includes(name)) return state;
           const nextNames = state.names.filter((n) => n !== name);
           return {
             names: nextNames,
@@ -69,16 +74,21 @@ export const useRaffleStore = create<RaffleState>()(
 
       setWinner: (winner) => set({ winner }),
 
-      acceptVerdict: (verdict) => set({ verdict }),
+      acceptVerdict: (verdict) =>
+        set((state) => {
+          if (verdict === "no" && state.winner && !state.outNames.includes(state.winner)) {
+            return { verdict, outNames: [...state.outNames, state.winner] };
+          }
+          return { verdict };
+        }),
 
-      /**
-       * Volver a empezar. Restores names from the last step-1 snapshot and
-       * clears all raffle state, sending the user back to the urn.
-       */
+      continueRaffle: () => set({ verdict: null, winner: null, step: 2 }),
+
       resetAll: () =>
         set((state) => ({
           step: 1,
           names: state.baseNames.length > 0 ? [...state.baseNames] : state.names,
+          outNames: [],
           winner: null,
           verdict: null,
         })),
@@ -88,12 +98,14 @@ export const useRaffleStore = create<RaffleState>()(
       partialize: (state) => ({
         names: state.names,
         baseNames: state.baseNames,
+        outNames: state.outNames,
       }),
       onRehydrateStorage: () => (state) => {
         if (!state) return;
         if (!state.baseNames || state.baseNames.length === 0) {
           state.baseNames = [...state.names];
         }
+        if (!state.outNames) state.outNames = [];
       },
     },
   ),

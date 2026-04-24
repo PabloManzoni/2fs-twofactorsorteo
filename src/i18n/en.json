@@ -26,6 +26,7 @@
     "emptyTitle": "No one yet.",
     "emptyHint": "Add the first name",
     "remove": "Remove {{name}}",
+    "outBadge": "Out",
     "cta": "Go to the wheel",
     "minHint": "Minimum {{min}} participants to run the raffle."
   },
@@ -100,6 +101,7 @@
       "yes": "WINNER · ANOINTED · 2FS",
       "no": "CAST OUT · NOT ANOINTED · 2FS"
     },
-    "startOver": "Start over"
+    "startOver": "Start over",
+    "keepRaffling": "Keep raffling"
   }
 }

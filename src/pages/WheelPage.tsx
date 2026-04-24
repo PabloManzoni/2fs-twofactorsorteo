@@ -8,9 +8,12 @@ import { Wheel, type WheelPhase } from "../components/Wheel/Wheel";
 export function WheelPage() {
   const { t } = useTranslation();
   const names = useRaffleStore((s) => s.names);
+  const outNames = useRaffleStore((s) => s.outNames);
   const winner = useRaffleStore((s) => s.winner);
   const setWinner = useRaffleStore((s) => s.setWinner);
   const goStep = useRaffleStore((s) => s.goStep);
+  // Struck-out names stay in the urn but not in the wheel.
+  const activeNames = names.filter((n) => !outNames.includes(n));
 
   const [phase, setPhase] = useState<WheelPhase>("idle");
   const [velocity, setVelocity] = useState(0);
@@ -70,7 +73,7 @@ export function WheelPage() {
         >
           <div style={{ display: "flex", justifyContent: "center", position: "relative" }}>
             <Wheel
-              participants={names}
+              participants={activeNames}
               onWinner={(name) => setWinner(name)}
               onVelocity={setVelocity}
               onPhase={setPhase}
@@ -122,7 +125,10 @@ export function WheelPage() {
                 {[
                   {
                     label: t("step2.statParticipants"),
-                    value: String(names.length).padStart(2, "0"),
+                    value:
+                      outNames.length > 0
+                        ? `${String(activeNames.length).padStart(2, "0")} / ${String(names.length).padStart(2, "0")}`
+                        : String(activeNames.length).padStart(2, "0"),
                   },
                   {
                     label: t("step2.statSorteo"),
