@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useRaffleStore } from "../store/raffleStore";
+import { useRaffleStore, type Verdict } from "../store/raffleStore";
 import { Button } from "../components/ui/Button";
 import { Eyebrow } from "../components/ui/Eyebrow";
 import { MagicBall, type MagicBallAnswer } from "../components/MagicBall/MagicBall";
@@ -78,8 +78,19 @@ export function MagicBallPage() {
   }
 
   const revealed = phase === "revealed";
+  // The second question is phrased as a curse ("does fortune curse X?"), so a
+  // "yes" from the ball actually means X is NOT the chosen one. Flip the ball's
+  // raw tone when the curse question is active to get the final verdict.
+  const isCurse = selectedQ === 1;
+  const finalVerdict: Verdict | null = answer
+    ? isCurse
+      ? answer.tone === "yes"
+        ? "no"
+        : "yes"
+      : answer.tone
+    : null;
   const toneColor =
-    answer?.tone === "yes" ? "var(--success-500)" : "var(--accent-500)";
+    finalVerdict === "yes" ? "var(--success-500)" : "var(--accent-500)";
   const toneLabel =
     answer?.tone === "yes" ? t("step3.verdict.yes") : t("step3.verdict.no");
 
@@ -320,7 +331,11 @@ export function MagicBallPage() {
                   {answer.text}
                 </div>
 
-                <Button variant="primary" size="lg" onClick={() => acceptVerdict(answer.tone)}>
+                <Button
+                  variant="primary"
+                  size="lg"
+                  onClick={() => finalVerdict && acceptVerdict(finalVerdict)}
+                >
                   {t("step3.cta.acceptFate")}
                 </Button>
               </div>

@@ -55,13 +55,12 @@
     "shaking": "SACUDIENDO… MÁS FUERTE",
     "revealing": "REVELANDO…",
     "verdict": {
-      "yes": "LA CASA APRUEBA",
-      "no": "LA CASA RECHAZA"
+      "yes": "LA BOLA DICE · SÍ",
+      "no": "LA BOLA DICE · NO"
     },
     "questions": {
-      "shouldBeChosen": "¿{{name}} debería ser el elegido?",
-      "destinyWants": "¿El destino realmente quiere a {{name}}?",
-      "houseApproves": "¿La casa aprueba a {{name}}?"
+      "blesses": "¿La suerte bendice a {{name}}?",
+      "curses": "¿La suerte maldice a {{name}}?"
     },
     "answers": {
       "yes": {

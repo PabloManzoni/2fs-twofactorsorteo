@@ -2,9 +2,8 @@ import type { TFunction } from "i18next";
 import type { MagicBallAnswer } from "../components/MagicBall/MagicBall";
 
 export const QUESTION_KEYS = [
-  "step3.questions.shouldBeChosen",
-  "step3.questions.destinyWants",
-  "step3.questions.houseApproves",
+  "step3.questions.blesses",
+  "step3.questions.curses",
 ] as const;
 
 export type QuestionKey = (typeof QUESTION_KEYS)[number];

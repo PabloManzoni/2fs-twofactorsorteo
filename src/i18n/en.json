@@ -55,13 +55,12 @@
     "shaking": "SHAKING… HARDER",
     "revealing": "REVEALING…",
     "verdict": {
-      "yes": "THE HOUSE APPROVES",
-      "no": "THE HOUSE REJECTS"
+      "yes": "THE BALL SAYS · YES",
+      "no": "THE BALL SAYS · NO"
     },
     "questions": {
-      "shouldBeChosen": "Should {{name}} be the chosen one?",
-      "destinyWants": "Does destiny really want {{name}}?",
-      "houseApproves": "Does the house approve of {{name}}?"
+      "blesses": "Does fortune bless {{name}}?",
+      "curses": "Does fortune curse {{name}}?"
     },
     "answers": {
       "yes": {
