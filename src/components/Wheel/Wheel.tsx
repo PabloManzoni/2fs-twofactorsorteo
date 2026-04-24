@@ -122,7 +122,7 @@ export function Wheel({ participants, onWinner, onVelocity, onPhase }: WheelProp
 
   const onPointerDown = (e: ReactPointerEvent) => {
     if (phase === "done") return;
-    e.currentTarget.setPointerCapture(e.pointerId);
+    e.preventDefault();
     setIsDragging(true);
     changePhase("idle");
     updateVelocity(0);
@@ -132,40 +132,49 @@ export function Wheel({ participants, onWinner, onVelocity, onPhase }: WheelProp
     }
     lastPointerRef.current = { a: pointerAngle(e), t: performance.now() };
     warmAudio();
-  };
 
-  const onPointerMove = (e: ReactPointerEvent) => {
-    if (!isDragging || !lastPointerRef.current) return;
-    const a = pointerAngle(e);
-    const prev = lastPointerRef.current;
-    let delta = a - prev.a;
-    if (delta > 180) delta -= 360;
-    if (delta < -180) delta += 360;
-    const now = performance.now();
-    const dt = Math.max(1, now - prev.t);
-    const next = angleRef.current + delta;
-    updateAngle(next);
-    const v = (delta / dt) * FRAME_MS;
-    updateVelocity(v);
-    lastPointerRef.current = { a, t: now };
-    const sector = Math.floor((((-next % 360) + 360) % 360) / segAngle);
-    if (sector !== lastTickSectorRef.current && Math.abs(v) > 0.3) {
-      lastTickSectorRef.current = sector;
-      playClick(600 + sector * 20);
-    }
-  };
+    // Attach window-level listeners so the drag keeps tracking the cursor even
+    // after it leaves the wheel (or the viewport). They're torn down on the
+    // matching pointerup / pointercancel.
+    const onMove = (ev: PointerEvent) => {
+      if (!lastPointerRef.current) return;
+      const a = pointerAngle(ev);
+      const prev = lastPointerRef.current;
+      let delta = a - prev.a;
+      if (delta > 180) delta -= 360;
+      if (delta < -180) delta += 360;
+      const now = performance.now();
+      const dt = Math.max(1, now - prev.t);
+      const next = angleRef.current + delta;
+      updateAngle(next);
+      const v = (delta / dt) * FRAME_MS;
+      updateVelocity(v);
+      lastPointerRef.current = { a, t: now };
+      const sector = Math.floor((((-next % 360) + 360) % 360) / segAngle);
+      if (sector !== lastTickSectorRef.current && Math.abs(v) > 0.3) {
+        lastTickSectorRef.current = sector;
+        playClick(600 + sector * 20);
+      }
+    };
 
-  const onPointerUp = (_e: ReactPointerEvent) => {
-    if (!isDragging) return;
-    setIsDragging(false);
-    lastPointerRef.current = null;
-    const v = velocityRef.current;
-    if (Math.abs(v) < 1.2) return;
-    let kick = v * 2.5;
-    if (Math.abs(kick) > 45) kick = 45 * Math.sign(kick);
-    if (Math.abs(kick) < 8) kick = 8 * Math.sign(kick);
-    changePhase("spinning");
-    startSpin(kick);
+    const onUp = () => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onUp);
+      setIsDragging(false);
+      lastPointerRef.current = null;
+      const v = velocityRef.current;
+      if (Math.abs(v) < 1.2) return;
+      let kick = v * 2.5;
+      if (Math.abs(kick) > 45) kick = 45 * Math.sign(kick);
+      if (Math.abs(kick) < 8) kick = 8 * Math.sign(kick);
+      changePhase("spinning");
+      startSpin(kick);
+    };
+
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+    window.addEventListener("pointercancel", onUp);
   };
 
   const arcPath = (i: number): string => {
@@ -263,9 +272,6 @@ export function Wheel({ participants, onWinner, onVelocity, onPhase }: WheelProp
       <div
         ref={wheelRef}
         onPointerDown={onPointerDown}
-        onPointerMove={onPointerMove}
-        onPointerUp={onPointerUp}
-        onPointerCancel={onPointerUp}
         style={wheelStyle}
         data-nograb
       >
