@@ -27,6 +27,7 @@
     "emptyHint": "Add the first name",
     "remove": "Remove {{name}}",
     "outBadge": "Out",
+    "clearUrn": "Empty the urn",
     "cta": "Go to the wheel",
     "minHint": "Minimum {{min}} participants to run the raffle."
   },

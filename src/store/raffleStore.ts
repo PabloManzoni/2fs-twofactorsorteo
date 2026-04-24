@@ -31,6 +31,8 @@ interface RaffleState {
   continueRaffle: () => void;
   /** Full reset: restore base pool, clear outNames and verdict. */
   resetAll: () => void;
+  /** Wipe the urn entirely — names, baseNames, outNames, and round state. */
+  clearUrn: () => void;
 }
 
 export const useRaffleStore = create<RaffleState>()(
@@ -92,6 +94,16 @@ export const useRaffleStore = create<RaffleState>()(
           winner: null,
           verdict: null,
         })),
+
+      clearUrn: () =>
+        set({
+          step: 1,
+          names: [],
+          baseNames: [],
+          outNames: [],
+          winner: null,
+          verdict: null,
+        }),
     }),
     {
       name: "2fs.raffle",

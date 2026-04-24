@@ -27,6 +27,7 @@
     "emptyHint": "Añade el primer nombre",
     "remove": "Quitar {{name}}",
     "outBadge": "Fuera",
+    "clearUrn": "Vaciar la urna",
     "cta": "Ir a la ruleta",
     "minHint": "Mínimo {{min}} participantes para sortear."
   },

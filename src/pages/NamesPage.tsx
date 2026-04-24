@@ -17,6 +17,7 @@ export function NamesPage() {
   const addName = useRaffleStore((s) => s.addName);
   const removeName = useRaffleStore((s) => s.removeName);
   const goStep = useRaffleStore((s) => s.goStep);
+  const clearUrn = useRaffleStore((s) => s.clearUrn);
 
   const [value, setValue] = useState("");
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -272,7 +273,37 @@ export function NamesPage() {
               )}
             </div>
 
-            <div style={{ marginTop: 32, display: "flex", justifyContent: "flex-end" }}>
+            {names.length > 0 && (
+              <div
+                style={{
+                  marginTop: 14,
+                  display: "flex",
+                  justifyContent: "flex-end",
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={clearUrn}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    fontFamily: "var(--font-mono)",
+                    fontSize: 11,
+                    letterSpacing: "0.14em",
+                    textTransform: "uppercase",
+                    color: "var(--fg-muted)",
+                    textDecoration: "underline",
+                    textUnderlineOffset: 4,
+                    padding: "4px 0",
+                  }}
+                >
+                  {t("step1.clearUrn")}
+                </button>
+              </div>
+            )}
+
+            <div style={{ marginTop: 24, display: "flex", justifyContent: "flex-end" }}>
               <Button
                 variant="primary"
                 size="lg"
