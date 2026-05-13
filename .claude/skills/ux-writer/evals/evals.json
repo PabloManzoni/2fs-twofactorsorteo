@@ -1,0 +1,26 @@
+{
+  "skill_name": "ux-writer",
+  "evals": [
+    {
+      "id": 0,
+      "name": "audit-current-voice",
+      "prompt": "El copy del proyecto 2FS está en src/i18n/{es,en}.json. Como copywriter, leelo todo y decime qué voz tiene hoy (en una voice card de 4-6 puntos) y qué strings rompen esa voz si hay alguno. No edites nada todavía — quiero el reporte primero.",
+      "expected_output": "A markdown audit report containing: (a) a voice card describing the current voice in 4-6 specific bullets (mentioning the editorial/biblical register, the lexicon: urna/bola/suerte/ungido/etc, eyebrows in ALL CAPS, periods in headlines); (b) a list of inconsistencies referencing specific keys with current text and suggested fix; (c) a 'verdict' line; (d) NO edits applied to es.json or en.json.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "name": "transform-gracioso",
+      "prompt": "El copy del proyecto 2FS está demasiado solemne. Hacelo más gracioso — no chiste fácil, gracioso fino, con un poco de absurdo. Recorré todo el copy (ES y EN). Mostrame primero una preview de 4-5 strings clave en el nuevo tono y esperá que te diga 'dale' antes de aplicar a todos los archivos.",
+      "expected_output": "Two phases: (1) A 'voice change' before→after card describing the move from solemn-editorial to wry/funny, then a preview table with 4-6 representative strings (eyebrow, headline, body, CTA, an 8-ball answer, a stamp label) in the new funnier voice. Funny but not childish — irony or absurdism preferred over puns. (2) Asks for explicit approval before applying. Does NOT touch es.json or en.json in this turn. Interpolation tokens like {{name}}, {{n}} preserved in every preview line. HTML <em> tags in the headings preserved in their preview entry.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "name": "transform-and-apply-formal-museum",
+      "prompt": "Como copywriter, pasame TODO el copy a un tono ultra formal, como cartel de museo del siglo XIX: sobrio, distante, tercera persona, sin imperativos al usuario. Confío en vos, aplicalo de una a los dos idiomas, no necesito preview. Después verificá que no se rompió ninguna interpolación ni HTML.",
+      "expected_output": "(1) A short voice change card describing the move to museum-label register. (2) Actual edits applied to both src/i18n/es.json and src/i18n/en.json — every value rewritten in the new formal register, imperatives like 'Tirá la rueda', 'Agarra el disco' replaced by passive or impersonal constructions. (3) check_parallel.py run after the edit and reports OK. (4) All interpolation tokens {{name}}, {{n}}, {{current}}, {{max}}, {{min}}, {{penultimate}} preserved. (5) HTML tags like <em>...</em> in headings preserved. (6) JSON validity preserved (both files still parse).",
+      "files": []
+    }
+  ]
+}
