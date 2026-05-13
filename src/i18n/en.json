@@ -1,8 +1,8 @@
 {
   "masthead": {
     "tagline": "GOSPEL · TWO · FACTORS",
-    "edition": "VERSE Nº {{n}}",
-    "reset": "Back to Genesis",
+    "edition": "ORACLE Nº {{n}}",
+    "reset": "Back to the flock",
     "steps": {
       "1": "The Flock",
       "2": "The Wheel",
@@ -13,99 +13,99 @@
     "language": "Language"
   },
   "step1": {
-    "eyebrow": "BOOK I · TABERNACLE",
-    "heading": "Who <em>unto the Lamb?</em>",
-    "subtitle": "Of 2 to 10 lambs. The Wheel doth point, the Ball decrees. Amen.",
-    "addParticipant": "INSCRIBE A LAMB",
+    "eyebrow": "BOOK I · THE FLOCK",
+    "heading": "Gather the <em>flock.</em>",
+    "subtitle": "Between 2 and 10 lambs. The Wheel reveals. The Ball confirms. No one chooses. It all unfolds.",
+    "addParticipant": "ADD A LAMB",
     "inputPlaceholder": "e.g. Agustín",
-    "add": "Offer",
-    "enterHint": "Enter seals the vow · {{current}}/{{max}}",
-    "houseRule": "DECREE OF THE SYNOD",
-    "houseRuleBody": "One lamb per turn. The Wheel doth point, the <span style=\"color: var(--accent)\">Ball decrees</span>. Eternal verdict.",
-    "inTheUrn": "IN THE TABERNACLE",
-    "emptyTitle": "The tabernacle awaits.",
-    "emptyHint": "Offer the first lamb",
+    "add": "Add",
+    "enterHint": "Enter writes it down · {{current}}/{{max}}",
+    "houseRule": "LAW OF THE ORACLE",
+    "houseRuleBody": "One lamb per turn. The Wheel reveals. The <span style=\"color: var(--accent)\">Ball confirms</span>. What is said, is said.",
+    "inTheUrn": "THE FLOCK",
+    "emptyTitle": "The flock is empty.",
+    "emptyHint": "Call the first lamb.",
     "remove": "Cast out {{name}}",
-    "outBadge": "Fallen",
-    "clearUrn": "Purify the altar",
+    "outBadge": "Cast out",
+    "clearUrn": "Disband the flock",
     "cta": "To the Wheel",
-    "minHint": "Minimum {{min}} lambs."
+    "minHint": "At least {{min}} lambs."
   },
   "step2": {
     "eyebrow": "BOOK II · THE WHEEL",
-    "heading": "Spin the Wheel.",
-    "headingDone": "We have <em style=\"font-weight:500;color:var(--accent)\">the anointed.</em>",
+    "heading": "Let it spin.",
+    "headingDone": "The lamb <em style=\"font-weight:500;color:var(--accent)\">was already chosen.</em>",
     "instructionEyebrow": "COMMANDMENT",
-    "instruction": "Cast it with fervent faith. Providence doth the rest.",
+    "instruction": "Push it. The ending is already written.",
     "statusEyebrow": "AUGURY",
-    "idle": "At vigil",
-    "spinning": "Prophesying…",
+    "idle": "In silence",
+    "spinning": "Revealing…",
     "statParticipants": "FLOCK",
-    "statSorteo": "VERSE",
-    "statVelocity": "FERVOR",
+    "statSorteo": "ORACLE",
+    "statVelocity": "MOMENTUM",
     "cta": "To the Oracle",
-    "back": "Reform flock"
+    "back": "Back to the flock"
   },
   "step3": {
-    "eyebrow": "BOOK III · THE JUDGMENT",
-    "heading": "Kneel <em>before the Ball.</em>",
-    "headingRevealed": "The Ball <em style=\"font-weight:500;color:var(--accent)\">spake in tongues.</em>",
-    "provisional": "PROVISIONAL ANOINTED",
-    "questionEyebrow": "THE PRAYER",
+    "eyebrow": "BOOK III · THE ORACLE",
+    "heading": "The Ball <em>already knows.</em>",
+    "headingRevealed": "It is said. <em style=\"font-weight:500;color:var(--accent)\">It is done.</em>",
+    "provisional": "PROVISIONAL LAMB",
+    "questionEyebrow": "THE QUESTION",
     "optionLabel": "PRAYER {{n}}",
-    "shakeHint": "SHAKE THE BALL WITH FERVOR",
+    "shakeHint": "SHAKE THE BALL",
     "shaking": "INVOKING…",
-    "revealing": "REVELATION…",
+    "revealing": "REVEALING…",
     "verdict": {
-      "yes": "THE BALL · YEA",
-      "no": "THE BALL · NAY"
+      "yes": "BALL · YEA",
+      "no": "BALL · NAY"
     },
     "questions": {
-      "blesses": "Doth the heavens bless {{name}}?",
-      "curses": "Doth the heavens curse {{name}}?"
+      "blesses": "Does the Oracle bless {{name}}?",
+      "curses": "Does the Oracle cast out {{name}}?"
     },
     "answers": {
       "yes": {
-        "noDoubt": "Verily.",
-        "itIsCertain": "So it is. Amen.",
-        "yesDefinitely": "Yea, for the ages.",
-        "youCanRely": "Put thy faith in it.",
-        "asISeeIt": "In my visions, yea.",
-        "mostLikely": "Thus I prophesy.",
-        "goodOutlook": "The heavens lean.",
-        "signsPoint": "The heavens bow."
+        "noDoubt": "Already written.",
+        "itIsCertain": "Said. And done.",
+        "yesDefinitely": "Yes. Since always.",
+        "youCanRely": "Your lamb. Your fate.",
+        "asISeeIt": "I saw it before you entered.",
+        "mostLikely": "The Oracle nods.",
+        "goodOutlook": "The heavens name him.",
+        "signsPoint": "All points to the lamb."
       },
       "no": {
-        "dontCount": "Put not thy faith.",
-        "replyNo": "My reply is nay. Amen.",
-        "sourcesSayNo": "The prophets say nay.",
+        "dontCount": "Not that lamb.",
+        "replyNo": "No. And always was.",
+        "sourcesSayNo": "The Oracle says no.",
         "outlookNotGood": "The heavens turn away.",
-        "veryDoubtful": "The heavens doubt."
+        "veryDoubtful": "He was never named."
       }
     },
     "cta": {
-      "acceptFate": "I accept. Amen."
+      "acceptFate": "Let it be done"
     }
   },
   "confirmed": {
-    "title": "GOSPEL OF THE RAFFLE",
-    "sorteoLine": "VERSE Nº {{n}}",
-    "thisIsToCertify": "it is written that",
-    "bodyYes": "The Ball hath anointed them.",
-    "bodyNo": "The Ball hath cast them out.",
+    "title": "THE ORACLE HAS SPOKEN",
+    "sorteoLine": "ORACLE Nº {{n}}",
+    "thisIsToCertify": "it was always written that",
+    "bodyYes": "The lamb was anointed.",
+    "bodyNo": "The lamb was cast out.",
     "bodyDefault": "The Ball cast out {{penultimate}}. The last lamb remains.",
-    "coda": "Two factors. One will. In saecula saeculorum.",
+    "coda": "Two factors. One Oracle. No turning back.",
     "verdictBadge": {
       "yes": "THE ANOINTED",
       "no": "THE CAST OUT",
       "default": "THE LAST LAMB"
     },
     "stampLabel": {
-      "yes": "ANOINTED · IN ÆTERNUM · 2FS",
-      "no": "FALLEN · IN ÆTERNUM · 2FS",
-      "default": "LAST LAMB · 2FS"
+      "yes": "OVIS ELECTA · SIC ERAT SCRIPTUM · 2FS",
+      "no": "OVIS DEPOSITA · BOLA LOCUTA · 2FS",
+      "default": "OVIS ULTIMA · 2FS"
     },
-    "startOver": "To Genesis",
-    "keepRaffling": "Continue the rite"
+    "startOver": "Back to the flock",
+    "keepRaffling": "Another Oracle"
   }
 }

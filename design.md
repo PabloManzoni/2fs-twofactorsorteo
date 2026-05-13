@@ -117,3 +117,78 @@ Fullscreen scrim `rgba(20,17,16,0.72)`. Paper card with ticket perforation top, 
 - Audio is Web Audio API, synthesized at source — click, ding, rumble, reveal. No sample files required.
 - Don't introduce new semantic colors. If you need emphasis, use `--accent` sparingly.
 - Respect `prefers-reduced-motion`: no shake animation, instant reveal, no light pulse.
+
+---
+
+# PARTE VIVA — the soul
+
+> Everything above this line is *form*. Everything below is *feeling*.
+> The rigid part keeps the product on-brand; the living part keeps the product *itself*. When in doubt about a decision the tokens don't answer ("should this microcopy apologize?", "should this transition take longer?"), use this section as the tiebreaker.
+
+## 12. What the product IS, emotionally
+
+*atmosphere · emotions · spirit · personality · guiding metaphor*
+
+**Atmosphere.** A parish newspaper office at the end of a long day. Type cases half-empty, ink drying on a stamp, a Magic 8-Ball on the editor's desk. Warm cream paper, ink-black titles, one stubborn vermilion mark on every page. Modern enough to run in a browser, analog enough that you can almost smell the ink.
+
+**Emotions.** Anticipation tinged with conspiracy. Two coworkers pulling a small ritual to settle who gets the concert ticket. Not anxious (this isn't life-or-death), not whimsical (this is sacred while it happens). Something like **quiet ceremony** — a smile underneath the solemnity.
+
+**Spirit.** Devout, but in on the joke. The product believes the ritual it performs *and* winks at it. Reverence as comedy device.
+
+**Personality.** A 19th-century newspaper editor who moonlights as a deacon for a parish bingo. Speaks in Reina-Valera, prints in moveable type, has the only Magic 8-Ball blessed in three counties.
+
+**Guiding metaphor — The Sacred Office Raffle.** A King James voice applied to "who's buying lunch." The form (edict, verse, stamp, anointing) is taken seriously; the silly content (a toy ball deciding the winner) is taken just as seriously. That mismatch is the joke and the brand at once.
+
+## 13. What the product FEELS like
+
+*physical sensations · density · light · rhythm*
+
+**Physical sensations.** Paper, not glass. You can almost hear a stamp clack on the page. The wheel has weight; the ball has mass. Every interaction lands with a *thunk* before it ends. Modern at the edges (60fps, smooth dark-reveal transition) but analog at the core (perforations, stamps, ink bleeds in the radial gradients of the 8-ball).
+
+**Density — deliberately dissonant.** This is *not* a harmonious design and that is the point. Display headlines are huge, almost grotesque (Fraunces 88px+, `opsz 120`); the labels beneath them are tiny mono whispers (11px JetBrains). The contrast is intentional — the product *yells* and *murmurs* on the same screen. Outside the wheel and the certificate, the screens are spacious: one column, generous margins, one element doing one thing.
+
+**Light.** Soft and from above, the way light falls on paper on a desk. Cream picks it up, ink absorbs it. The dark-reveal mode (8-ball verdict) is candlelit — single warm vermilion glow against ink-black, like reading a verse by lantern.
+
+**Rhythm.** Stillness → ceremony → stillness. The wheel screen rumbles (a viewport shake during the spin). The ball reveal takes ~3 seconds when it could take 0.3 — the wait *is* the ritual. Aphorisms function like a metronome — *"Así está escrito"*, *"In saecula saeculorum"*, *"Amén"* — they close each ritual moment like a wax seal.
+
+## 14. How the product RELATES to the user
+
+*posture · emotional states · tone toward outcomes*
+
+**Posture — beside, not below.** The product never grovels (*"¡Hola! ¿Cómo te podemos ayudar hoy?"*) and never struts (*"Power your workflow."*). It **officiates**. It addresses the user with the formal *tú / thou* of liturgy, treating them as the celebrant in their own ritual.
+
+**Emotional states by screen:**
+
+- *Before the draw* — patient, hospitable. The tabernacle waits. The instruction is short. The page is warm.
+- *During the spin* — theatrical, complicit. Lights pulse, viewport rumbles, mono telemetry updates (*FERVOR · 24.1°*). The product is **playing along** with the user's stakes.
+- *On a YES verdict* — triumphant but contained. One word in display type (*EL UNGIDO* / *THE ANOINTED*), a stamped seal, a single coda line. No confetti.
+- *On a NO verdict* — equally ceremonial. The product does **not** console — it casts out, with dignity. The loser's name is struck through, not hidden. Sacrifice has form.
+- *On the last lamb standing* — it pronounces inevitability without irony. *"La Bola apartó a {{penultimate}}. Queda el último cordero."*
+
+**Tone toward outcomes — there are no errors, only verdicts.** Wins are *anointings*, losses are *castings-out*, and both are issued with the same gravity and the same seal. The product never apologizes ("Oops!", "Something went wrong") and never celebrates ("Congrats!", "🎉"). It **records**.
+
+## 15. How the product COMMUNICATES
+
+*voice · silences · anchors and anti-anchors*
+
+**Voice — compressed Reina-Valera / King James.** Short imperatives (*"Gira la Rueda."*), declaratives in third-person passive (*"La Bola lo ha apartado."*), aphorisms in pairs (*"Dos factores. Una voluntad."*), a Latin tag on every official seal (*in saecula saeculorum*, *in æternum*). Comedy lives in the **mismatch**: liturgy applied to silly stakes.
+
+**Silences.** What the product *doesn't* say is half the voice:
+
+- No *"Loading…"*, no *"Please wait"* — the product never apologizes for time. Waits are ceremonies, not delays.
+- No emoji, ever. No exclamation marks. No *"Congratulations!"*
+- No CTAs like *Get started · Continue · Submit*. Only **ritual verbs**: *Offer · Cast · Kneel · Accept · Purify*.
+- No microcopy explaining what the buttons do. The form is its own instruction.
+- No "we" voice — the brand never speaks as "we". Either it speaks *as the Ball* (1sg oracular) or *as the chronicler* (3sg passive).
+
+**Anchors — words and gestures the product reaches for:**
+
+> *Cordero · Tabernáculo · Sínodo · Bola · Rueda · Oráculo · Edicto · Versículo · Ungido · Apartado · Amén · In saecula saeculorum · In æternum · Así está escrito · La providencia · Habló en lenguas · El Libro · La Casa*
+
+Plus the visual anchors: **ALL CAPS mono eyebrow · middle-dot `·` separator · italic `<em>` punchline on every headline · stamped circular seal · ticket perforation · ink-black borders 1.5px**.
+
+**Anti-anchors — words and gestures the product never reaches for:**
+
+> *Hola · Bienvenido · Continuar · Submit · Loading · Click here · Get started · Privacy · Terms · Hello! · Oops! · Welcome! · 🎉 · :) · "Tu cuenta" · "Tu perfil" · "Nuestra plataforma"*
+
+Plus the visual anti-anchors: **gradients (except the 8-ball body) · drop shadows on UI · rounded buttons · emoji icons · "fun" illustrations · stock photography · pastel palettes · multi-color brand**.

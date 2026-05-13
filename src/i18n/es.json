@@ -1,8 +1,8 @@
 {
   "masthead": {
     "tagline": "EVANGELIO · DOS · FACTORES",
-    "edition": "VERSÍCULO Nº {{n}}",
-    "reset": "Volver al Génesis",
+    "edition": "ORÁCULO Nº {{n}}",
+    "reset": "Volver al rebaño",
     "steps": {
       "1": "El Rebaño",
       "2": "La Rueda",
@@ -13,99 +13,99 @@
     "language": "Idioma"
   },
   "step1": {
-    "eyebrow": "LIBRO I · TABERNÁCULO",
-    "heading": "¿Quiénes <em>al Cordero?</em>",
-    "subtitle": "De 2 a 10 corderos. La Rueda señala, la Bola decreta. Amén.",
-    "addParticipant": "INSCRIBIR CORDERO",
+    "eyebrow": "LIBRO I · EL REBAÑO",
+    "heading": "Reuní al <em>rebaño.</em>",
+    "subtitle": "De 2 a 10 corderos. La Rueda revela. La Bola confirma. Nadie elige. Todo se cumple.",
+    "addParticipant": "SUMAR CORDERO",
     "inputPlaceholder": "Ej. Agustín",
-    "add": "Ofrendar",
-    "enterHint": "Enter sella el voto · {{current}}/{{max}}",
-    "houseRule": "DECRETO DEL SÍNODO",
-    "houseRuleBody": "Un cordero por turno. La Rueda señala, la <span style=\"color: var(--accent)\">Bola decreta</span>. Veredicto eterno.",
-    "inTheUrn": "EN EL TABERNÁCULO",
-    "emptyTitle": "El tabernáculo aguarda.",
-    "emptyHint": "Ofrenda el primer cordero",
+    "add": "Sumar",
+    "enterHint": "Enter lo deja escrito · {{current}}/{{max}}",
+    "houseRule": "LEY DEL ORÁCULO",
+    "houseRuleBody": "Un cordero por turno. La Rueda revela. La <span style=\"color: var(--accent)\">Bola confirma</span>. Lo dicho, dicho está.",
+    "inTheUrn": "EL REBAÑO",
+    "emptyTitle": "El rebaño está vacío.",
+    "emptyHint": "Llamá al primer cordero.",
     "remove": "Apartar a {{name}}",
-    "outBadge": "Caído",
-    "clearUrn": "Purificar el altar",
+    "outBadge": "Apartado",
+    "clearUrn": "Disolver el rebaño",
     "cta": "A la Rueda",
     "minHint": "Mínimo {{min}} corderos."
   },
   "step2": {
     "eyebrow": "LIBRO II · LA RUEDA",
-    "heading": "Gira la Rueda.",
-    "headingDone": "Tenemos <em style=\"font-weight:500;color:var(--accent)\">ungido.</em>",
+    "heading": "Que gire.",
+    "headingDone": "El cordero <em style=\"font-weight:500;color:var(--accent)\">ya estaba elegido.</em>",
     "instructionEyebrow": "MANDAMIENTO",
-    "instruction": "Arrójala con fe. La providencia obra.",
+    "instruction": "Empujala. El final ya está escrito.",
     "statusEyebrow": "AUGURIO",
-    "idle": "En vigilia",
-    "spinning": "Profetizando…",
+    "idle": "En silencio",
+    "spinning": "Revelando…",
     "statParticipants": "REBAÑO",
-    "statSorteo": "VERSÍCULO",
-    "statVelocity": "FERVOR",
+    "statSorteo": "ORÁCULO",
+    "statVelocity": "IMPULSO",
     "cta": "Al Oráculo",
-    "back": "Reformar rebaño"
+    "back": "Volver al rebaño"
   },
   "step3": {
-    "eyebrow": "LIBRO III · EL JUICIO",
-    "heading": "Postrate <em>ante la Bola.</em>",
-    "headingRevealed": "La Bola <em style=\"font-weight:500;color:var(--accent)\">habló en lenguas.</em>",
-    "provisional": "ELEGIDO PROVISIONAL",
-    "questionEyebrow": "LA PLEGARIA",
+    "eyebrow": "LIBRO III · EL ORÁCULO",
+    "heading": "La Bola <em>ya lo sabe.</em>",
+    "headingRevealed": "Está dicho. <em style=\"font-weight:500;color:var(--accent)\">Está cumplido.</em>",
+    "provisional": "CORDERO PROVISIONAL",
+    "questionEyebrow": "LA PREGUNTA",
     "optionLabel": "PLEGARIA {{n}}",
-    "shakeHint": "SACUDE LA BOLA CON FERVOR",
+    "shakeHint": "SACUDÍ LA BOLA",
     "shaking": "INVOCANDO…",
-    "revealing": "REVELACIÓN…",
+    "revealing": "REVELANDO…",
     "verdict": {
-      "yes": "LA BOLA · SÍ",
-      "no": "LA BOLA · NO"
+      "yes": "BOLA · SÍ",
+      "no": "BOLA · NO"
     },
     "questions": {
-      "blesses": "¿Bendice el cielo a {{name}}?",
-      "curses": "¿Maldice el cielo a {{name}}?"
+      "blesses": "¿El Oráculo bendice a {{name}}?",
+      "curses": "¿El Oráculo aparta a {{name}}?"
     },
     "answers": {
       "yes": {
-        "noDoubt": "En verdad.",
-        "itIsCertain": "Así es. Amén.",
-        "yesDefinitely": "Por los siglos, sí.",
-        "youCanRely": "Pondrás tu fe.",
-        "asISeeIt": "En mis visiones, sí.",
-        "mostLikely": "Así lo profetizo.",
-        "goodOutlook": "Los astros se inclinan.",
-        "signsPoint": "Los astros se postran."
+        "noDoubt": "Ya estaba escrito.",
+        "itIsCertain": "Está dicho. Está hecho.",
+        "yesDefinitely": "Sí. Desde siempre.",
+        "youCanRely": "Tu cordero. Tu suerte.",
+        "asISeeIt": "Lo vi antes que entraras.",
+        "mostLikely": "El Oráculo asiente.",
+        "goodOutlook": "El cielo lo nombra.",
+        "signsPoint": "Todo apunta al cordero."
       },
       "no": {
-        "dontCount": "No pondrás tu fe.",
-        "replyNo": "Mi respuesta es no. Amén.",
-        "sourcesSayNo": "Los profetas dicen no.",
-        "outlookNotGood": "Los astros se apartan.",
-        "veryDoubtful": "El cielo duda."
+        "dontCount": "No es ese cordero.",
+        "replyNo": "No. Y siempre lo fue.",
+        "sourcesSayNo": "El Oráculo dice no.",
+        "outlookNotGood": "El cielo gira la cara.",
+        "veryDoubtful": "Nunca lo nombraron."
       }
     },
     "cta": {
-      "acceptFate": "Acepto. Amén."
+      "acceptFate": "Que se cumpla"
     }
   },
   "confirmed": {
-    "title": "EVANGELIO DEL SORTEO",
-    "sorteoLine": "VERSÍCULO Nº {{n}}",
-    "thisIsToCertify": "está escrito que",
-    "bodyYes": "La Bola lo ha ungido.",
-    "bodyNo": "La Bola lo ha apartado.",
+    "title": "EL ORÁCULO HABLÓ",
+    "sorteoLine": "ORÁCULO Nº {{n}}",
+    "thisIsToCertify": "siempre estuvo escrito que",
+    "bodyYes": "El cordero fue ungido.",
+    "bodyNo": "El cordero fue apartado.",
     "bodyDefault": "La Bola apartó a {{penultimate}}. Queda el último cordero.",
-    "coda": "Dos factores. Una voluntad. In saecula saeculorum.",
+    "coda": "Dos factores. Un solo Oráculo. Sin vuelta atrás.",
     "verdictBadge": {
       "yes": "EL UNGIDO",
       "no": "EL APARTADO",
       "default": "EL ÚLTIMO CORDERO"
     },
     "stampLabel": {
-      "yes": "UNGIDO · IN ÆTERNUM · 2FS",
-      "no": "CAÍDO · IN ÆTERNUM · 2FS",
-      "default": "ÚLTIMO CORDERO · 2FS"
+      "yes": "OVIS ELECTA · SIC ERAT SCRIPTUM · 2FS",
+      "no": "OVIS DEPOSITA · BOLA LOCUTA · 2FS",
+      "default": "OVIS ULTIMA · 2FS"
     },
-    "startOver": "Al Génesis",
-    "keepRaffling": "Continuar el rito"
+    "startOver": "Volver al rebaño",
+    "keepRaffling": "Otro Oráculo"
   }
 }
