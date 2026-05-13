@@ -1,111 +1,111 @@
 {
   "masthead": {
-    "tagline": "SORTEO · DE · DOS · FACTORES",
-    "edition": "EDICIÓN Nº {{n}}",
-    "reset": "Volver al inicio",
+    "tagline": "EVANGELIO · DOS · FACTORES",
+    "edition": "VERSÍCULO Nº {{n}}",
+    "reset": "Volver al Génesis",
     "steps": {
-      "1": "Participantes",
-      "2": "Ruleta",
-      "3": "8 Ball"
+      "1": "El Rebaño",
+      "2": "La Rueda",
+      "3": "El Oráculo"
     }
   },
   "common": {
     "language": "Idioma"
   },
   "step1": {
-    "eyebrow": "01 · LA URNA",
-    "heading": "¿Quiénes <em>entran al bombo?</em>",
-    "subtitle": "Entre 2 y 10 nombres. La ruleta elige uno y la Bola dicta la suerte. Así está escrito.",
-    "addParticipant": "AÑADIR PARTICIPANTE",
+    "eyebrow": "LIBRO I · TABERNÁCULO",
+    "heading": "¿Quiénes <em>al Cordero?</em>",
+    "subtitle": "De 2 a 10 corderos. La Rueda señala, la Bola decreta. Amén.",
+    "addParticipant": "INSCRIBIR CORDERO",
     "inputPlaceholder": "Ej. Agustín",
-    "add": "Añadir",
-    "enterHint": "Enter para confirmar · {{current}}/{{max}} en la urna",
-    "houseRule": "REGLA DE LA CASA",
-    "houseRuleBody": "Un nombre por turno. La rueda señala, la <span style=\"color: var(--accent)\">Bola dicta</span>: el veredicto es definitivo.",
-    "inTheUrn": "EN LA URNA",
-    "emptyTitle": "Aún no hay nadie.",
-    "emptyHint": "Añade el primer nombre",
-    "remove": "Quitar {{name}}",
-    "outBadge": "Fuera",
-    "clearUrn": "Vaciar la urna",
-    "cta": "Ir a la ruleta",
-    "minHint": "Mínimo {{min}} participantes para sortear."
+    "add": "Ofrendar",
+    "enterHint": "Enter sella el voto · {{current}}/{{max}}",
+    "houseRule": "DECRETO DEL SÍNODO",
+    "houseRuleBody": "Un cordero por turno. La Rueda señala, la <span style=\"color: var(--accent)\">Bola decreta</span>. Veredicto eterno.",
+    "inTheUrn": "EN EL TABERNÁCULO",
+    "emptyTitle": "El tabernáculo aguarda.",
+    "emptyHint": "Ofrenda el primer cordero",
+    "remove": "Apartar a {{name}}",
+    "outBadge": "Caído",
+    "clearUrn": "Purificar el altar",
+    "cta": "A la Rueda",
+    "minHint": "Mínimo {{min}} corderos."
   },
   "step2": {
-    "eyebrow": "02 · LA RULETA",
-    "heading": "Tira de la rueda.",
-    "headingDone": "Tenemos <em style=\"font-weight:500;color:var(--accent)\">ganador.</em>",
-    "instructionEyebrow": "INSTRUCCIÓN",
-    "instruction": "Agarra el disco con el mouse y lánzalo. La inercia hace el resto.",
-    "statusEyebrow": "ESTADO",
-    "idle": "En reposo",
-    "spinning": "Girando…",
-    "statParticipants": "PARTICIPANTES",
-    "statSorteo": "SORTEO",
-    "statVelocity": "VELOCIDAD",
-    "cta": "Consultar la 8 Ball",
-    "back": "Editar participantes"
+    "eyebrow": "LIBRO II · LA RUEDA",
+    "heading": "Gira la Rueda.",
+    "headingDone": "Tenemos <em style=\"font-weight:500;color:var(--accent)\">ungido.</em>",
+    "instructionEyebrow": "MANDAMIENTO",
+    "instruction": "Arrójala con fe. La providencia obra.",
+    "statusEyebrow": "AUGURIO",
+    "idle": "En vigilia",
+    "spinning": "Profetizando…",
+    "statParticipants": "REBAÑO",
+    "statSorteo": "VERSÍCULO",
+    "statVelocity": "FERVOR",
+    "cta": "Al Oráculo",
+    "back": "Reformar rebaño"
   },
   "step3": {
-    "eyebrow": "03 · EL SEGUNDO FACTOR",
-    "heading": "Consulta <em>a la bola.</em>",
-    "headingRevealed": "La suerte <em style=\"font-weight:500;color:var(--accent)\">ha hablado.</em>",
-    "provisional": "GANADOR PROVISIONAL",
-    "questionEyebrow": "LA PREGUNTA",
-    "optionLabel": "OPCIÓN {{n}}",
-    "shakeHint": "MANTÉN CLIC Y SACUDE EL MOUSE SOBRE LA BOLA",
-    "shaking": "SACUDIENDO… MÁS FUERTE",
-    "revealing": "REVELANDO…",
+    "eyebrow": "LIBRO III · EL JUICIO",
+    "heading": "Postrate <em>ante la Bola.</em>",
+    "headingRevealed": "La Bola <em style=\"font-weight:500;color:var(--accent)\">habló en lenguas.</em>",
+    "provisional": "ELEGIDO PROVISIONAL",
+    "questionEyebrow": "LA PLEGARIA",
+    "optionLabel": "PLEGARIA {{n}}",
+    "shakeHint": "SACUDE LA BOLA CON FERVOR",
+    "shaking": "INVOCANDO…",
+    "revealing": "REVELACIÓN…",
     "verdict": {
-      "yes": "LA BOLA DICE · SÍ",
-      "no": "LA BOLA DICE · NO"
+      "yes": "LA BOLA · SÍ",
+      "no": "LA BOLA · NO"
     },
     "questions": {
-      "blesses": "¿La suerte bendice a {{name}}?",
-      "curses": "¿La suerte maldice a {{name}}?"
+      "blesses": "¿Bendice el cielo a {{name}}?",
+      "curses": "¿Maldice el cielo a {{name}}?"
     },
     "answers": {
       "yes": {
-        "noDoubt": "Sin duda.",
-        "itIsCertain": "Es cierto.",
-        "yesDefinitely": "Sí, definitivamente.",
-        "youCanRely": "Puedes confiar en ello.",
-        "asISeeIt": "Como yo lo veo, sí.",
-        "mostLikely": "Lo más probable.",
-        "goodOutlook": "Buenas perspectivas.",
-        "signsPoint": "Las señales apuntan a sí."
+        "noDoubt": "En verdad.",
+        "itIsCertain": "Así es. Amén.",
+        "yesDefinitely": "Por los siglos, sí.",
+        "youCanRely": "Pondrás tu fe.",
+        "asISeeIt": "En mis visiones, sí.",
+        "mostLikely": "Así lo profetizo.",
+        "goodOutlook": "Los astros se inclinan.",
+        "signsPoint": "Los astros se postran."
       },
       "no": {
-        "dontCount": "No cuentes con ello.",
-        "replyNo": "Mi respuesta es no.",
-        "sourcesSayNo": "Mis fuentes dicen que no.",
-        "outlookNotGood": "Las perspectivas no son buenas.",
-        "veryDoubtful": "Muy dudoso."
+        "dontCount": "No pondrás tu fe.",
+        "replyNo": "Mi respuesta es no. Amén.",
+        "sourcesSayNo": "Los profetas dicen no.",
+        "outlookNotGood": "Los astros se apartan.",
+        "veryDoubtful": "El cielo duda."
       }
     },
     "cta": {
-      "acceptFate": "Aceptar esta suerte"
+      "acceptFate": "Acepto. Amén."
     }
   },
   "confirmed": {
-    "title": "EDICTO DEL DESTINO",
-    "sorteoLine": "SORTEO Nº {{n}}",
-    "thisIsToCertify": "queda por siempre certificado que",
-    "bodyYes": "La Bola ha hablado a su favor.",
-    "bodyNo": "La Bola ha hablado en su contra.",
-    "bodyDefault": "La Bola apartó a {{penultimate}}. Nadie más quedó en pie en la urna.",
-    "coda": "Dos factores, una sola voluntad. Así está escrito, así se cumple.",
+    "title": "EVANGELIO DEL SORTEO",
+    "sorteoLine": "VERSÍCULO Nº {{n}}",
+    "thisIsToCertify": "está escrito que",
+    "bodyYes": "La Bola lo ha ungido.",
+    "bodyNo": "La Bola lo ha apartado.",
+    "bodyDefault": "La Bola apartó a {{penultimate}}. Queda el último cordero.",
+    "coda": "Dos factores. Una voluntad. In saecula saeculorum.",
     "verdictBadge": {
       "yes": "EL UNGIDO",
-      "no": "NO ELEGIDO",
-      "default": "EL ÚLTIMO EN PIE"
+      "no": "EL APARTADO",
+      "default": "EL ÚLTIMO CORDERO"
     },
     "stampLabel": {
-      "yes": "GANADOR · UNGIDO · 2FS",
-      "no": "APARTADO · NO UNGIDO · 2FS",
-      "default": "ÚLTIMO EN PIE · POR DESCARTE · 2FS"
+      "yes": "UNGIDO · IN ÆTERNUM · 2FS",
+      "no": "CAÍDO · IN ÆTERNUM · 2FS",
+      "default": "ÚLTIMO CORDERO · 2FS"
     },
-    "startOver": "Volver a empezar",
-    "keepRaffling": "Seguir sorteando"
+    "startOver": "Al Génesis",
+    "keepRaffling": "Continuar el rito"
   }
 }
