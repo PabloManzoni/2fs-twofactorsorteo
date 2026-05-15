@@ -2,7 +2,7 @@
   "masthead": {
     "tagline": "GOSPEL · TWO · FACTORS",
     "edition": "ORACLE Nº {{n}}",
-    "reset": "Back to the flock",
+    "reset": "Start over",
     "steps": {
       "1": "The Flock",
       "2": "The Wheel",
@@ -16,19 +16,19 @@
   "step1": {
     "eyebrow": "BOOK I · THE FLOCK",
     "heading": "Gather the <em>flock.</em>",
-    "subtitle": "Between 2 and 10 lambs. The Wheel reveals. The Ball confirms. No one chooses. It all unfolds.",
+    "subtitle": "Between 2 and 10 people. The Wheel points. The Ball decides.",
     "addParticipant": "ADD A LAMB",
     "inputPlaceholder": "e.g. Agustín",
     "add": "Add",
-    "enterHint": "Enter writes it down · {{current}}/{{max}}",
+    "enterHint": "Press Enter to add · {{current}}/{{max}}",
     "houseRule": "LAW OF THE ORACLE",
-    "houseRuleBody": "One lamb per turn. The Wheel reveals. The <span style=\"color: var(--accent)\">Ball confirms</span>. What is said, is said.",
+    "houseRuleBody": "One lamb per turn. The Wheel picks, the <span style=\"color: var(--accent)\">Ball confirms</span>. No going back.",
     "inTheUrn": "THE FLOCK",
     "emptyTitle": "The flock is empty.",
-    "emptyHint": "Call the first lamb.",
-    "remove": "Cast out {{name}}",
+    "emptyHint": "Add the first lamb.",
+    "remove": "Remove {{name}}",
     "outBadge": "Cast out",
-    "clearUrn": "Disband the flock",
+    "clearUrn": "Clear the list",
     "cta": "To the Wheel",
     "minHint": "At least {{min}} lambs."
   },
@@ -37,7 +37,7 @@
     "heading": "Let it spin.",
     "headingDone": "The lamb <em style=\"font-weight:500;color:var(--accent)\">was already chosen.</em>",
     "instructionEyebrow": "COMMANDMENT",
-    "instruction": "Push it. The ending is already written.",
+    "instruction": "Push it. The Wheel handles the rest.",
     "statusEyebrow": "AUGURY",
     "idle": "In silence",
     "spinning": "Revealing…",
@@ -45,8 +45,8 @@
     "statSorteo": "ORACLE",
     "statVelocity": "MOMENTUM",
     "cta": "To the Oracle",
-    "back": "Back to the flock",
-    "rpsCta": "Settle it by rock-paper-scissors duel"
+    "back": "Edit participants",
+    "rpsCta": "Settle with rock-paper-scissors"
   },
   "duel": {
     "eyebrow": "BOOK III · THE DUEL",
@@ -125,7 +125,12 @@
       "no": "OVIS DEPOSITA · BOLA LOCUTA · 2FS",
       "default": "OVIS ULTIMA · 2FS"
     },
-    "startOver": "Back to the flock",
+    "startOver": "Start over",
     "keepRaffling": "Another Oracle"
+  },
+  "hands": {
+    "rock": "Rock",
+    "paper": "Paper",
+    "scissors": "Scissors"
   }
 }

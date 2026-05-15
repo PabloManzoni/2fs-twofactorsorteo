@@ -601,6 +601,12 @@ function DuelistColumn({
         )}
       </motion.div>
 
+      {/* Tiny muted label so the human always knows which gesture is which —
+          especially helpful when the hands are strobing past too fast to
+          parse. Reserves space even when the slot is empty so the layout
+          doesn't shift between idle and rolling. */}
+      <HandLabel hand={hand} />
+
       {/* Win pips — two slots, one fills vermillón when this duelist scores. */}
       <WinPips score={score} />
 
@@ -615,6 +621,32 @@ function DuelistColumn({
       >
         {String(score).padStart(2, "0")}
       </div>
+    </div>
+  );
+}
+
+interface HandLabelProps {
+  hand: Hand | null;
+}
+
+function HandLabel({ hand }: HandLabelProps) {
+  const { t } = useTranslation();
+  const text = hand ? t(`hands.${hand}`) : "";
+  return (
+    <div
+      style={{
+        height: 14,
+        fontFamily: "var(--font-mono)",
+        fontSize: 10,
+        letterSpacing: "0.14em",
+        textTransform: "uppercase",
+        color: "var(--fg-subtle)",
+        lineHeight: 1,
+        marginTop: -2,
+      }}
+      aria-hidden="true"
+    >
+      {text}
     </div>
   );
 }

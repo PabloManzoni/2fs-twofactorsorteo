@@ -2,7 +2,7 @@
   "masthead": {
     "tagline": "EVANGELIO · DOS · FACTORES",
     "edition": "ORÁCULO Nº {{n}}",
-    "reset": "Volver al rebaño",
+    "reset": "Empezar de nuevo",
     "steps": {
       "1": "El Rebaño",
       "2": "La Rueda",
@@ -16,19 +16,19 @@
   "step1": {
     "eyebrow": "LIBRO I · EL REBAÑO",
     "heading": "Reuní al <em>rebaño.</em>",
-    "subtitle": "De 2 a 10 corderos. La Rueda revela. La Bola confirma. Nadie elige. Todo se cumple.",
+    "subtitle": "Entre 2 y 10 personas. La Rueda señala. La Bola decide.",
     "addParticipant": "SUMAR CORDERO",
     "inputPlaceholder": "Ej. Agustín",
     "add": "Sumar",
-    "enterHint": "Enter lo deja escrito · {{current}}/{{max}}",
+    "enterHint": "Enter para agregar · {{current}}/{{max}}",
     "houseRule": "LEY DEL ORÁCULO",
-    "houseRuleBody": "Un cordero por turno. La Rueda revela. La <span style=\"color: var(--accent)\">Bola confirma</span>. Lo dicho, dicho está.",
+    "houseRuleBody": "Un cordero por turno. La Rueda elige, la <span style=\"color: var(--accent)\">Bola confirma</span>. Sin marcha atrás.",
     "inTheUrn": "EL REBAÑO",
     "emptyTitle": "El rebaño está vacío.",
-    "emptyHint": "Llamá al primer cordero.",
-    "remove": "Apartar a {{name}}",
+    "emptyHint": "Sumá el primer cordero.",
+    "remove": "Quitar a {{name}}",
     "outBadge": "Apartado",
-    "clearUrn": "Disolver el rebaño",
+    "clearUrn": "Vaciar la lista",
     "cta": "A la Rueda",
     "minHint": "Mínimo {{min}} corderos."
   },
@@ -37,7 +37,7 @@
     "heading": "Que gire.",
     "headingDone": "El cordero <em style=\"font-weight:500;color:var(--accent)\">ya estaba elegido.</em>",
     "instructionEyebrow": "MANDAMIENTO",
-    "instruction": "Empujala. El final ya está escrito.",
+    "instruction": "Empujala. La Rueda hace el resto.",
     "statusEyebrow": "AUGURIO",
     "idle": "En silencio",
     "spinning": "Revelando…",
@@ -45,8 +45,8 @@
     "statSorteo": "ORÁCULO",
     "statVelocity": "IMPULSO",
     "cta": "Al Oráculo",
-    "back": "Volver al rebaño",
-    "rpsCta": "Resolver en duelo de piedra-papel-tijera"
+    "back": "Editar participantes",
+    "rpsCta": "Resolver con piedra-papel-tijera"
   },
   "duel": {
     "eyebrow": "LIBRO III · EL DUELO",
@@ -125,7 +125,12 @@
       "no": "OVIS DEPOSITA · BOLA LOCUTA · 2FS",
       "default": "OVIS ULTIMA · 2FS"
     },
-    "startOver": "Volver al rebaño",
+    "startOver": "Empezar de nuevo",
     "keepRaffling": "Otro Oráculo"
+  },
+  "hands": {
+    "rock": "Piedra",
+    "paper": "Papel",
+    "scissors": "Tijera"
   }
 }
