@@ -1,28 +1,63 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { motion, type Variants } from "framer-motion";
 import { useRaffleStore } from "../store/raffleStore";
 import { Button } from "../components/ui/Button";
 import { Eyebrow } from "../components/ui/Eyebrow";
 import { Avatar } from "../components/ui/Avatar";
 import { HandIcon, type Hand } from "../components/Duel/hands";
 import { ALL_HANDS, resolveRound } from "../components/Duel/rules";
-import { playClick, playDing, playReveal, warmAudio } from "../lib/audio";
+import { playClick, playDing, playReveal, playRumble, warmAudio } from "../lib/audio";
 
-type Phase = "idle" | "rolling" | "round-result" | "final";
+type Phase =
+  | "idle"
+  | "windup"
+  | "rolling"
+  | "settling"
+  | "round-result"
+  | "final";
 
 const WINS_TO_WIN = 2;
-const ROLL_DURATION_MS = 900;
-const ROLL_TICK_MS = 110;
-const FINAL_DELAY_MS = 600;
-const ROUND_RESULT_HOLD_MS = 1100;
+
+// Timing budget for one throw — totals ~2.6s when motion is enabled.
+// The numbers are tuned to read as a deliberate ritual rather than a roll:
+// fists bob in unison, then the hands strobe and accelerate, then freeze for
+// a beat of silence before the destiny snaps into place.
+const WINDUP_BEATS = 4;
+const WINDUP_BEAT_MS = 175; // 700ms windup
+const STROBE_DURATION_MS = 1500;
+const STROBE_START_TICK_MS = 135;
+const STROBE_END_TICK_MS = 55;
+const FREEZE_MS = 320;
+const ROUND_RESULT_HOLD_MS = 1200;
+const FINAL_DELAY_MS = 700;
 
 function randomHand(): Hand {
   return ALL_HANDS[Math.floor(Math.random() * ALL_HANDS.length)];
 }
 
+const handFrameVariants: Variants = {
+  idle: { y: 0, x: 0, scale: 1 },
+  windup: {
+    y: [0, -8, 0, -8, 0, -8, 0, -8, 0],
+    transition: { duration: 0.7, ease: "easeInOut", times: [0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1] },
+  },
+  rolling: {
+    x: [-1.5, 1.5, -1.5, 1.5, 0],
+    transition: { duration: 0.16, repeat: Infinity, ease: "linear" },
+  },
+  settling: { y: 0, x: 0, scale: 0.97 },
+  reveal: {
+    scale: [1, 1.18, 1],
+    transition: { duration: 0.38, ease: "easeOut" },
+  },
+};
+
 /**
  * Two-lamb showdown. Best of three rock-paper-scissors. Ties don't score.
- * First to two wins triggers the same certificate the oracle would.
+ * The throw is a deliberate ~2.6s ritual: fists bob, hands strobe, the
+ * destiny freezes for a beat of silence, then snaps. First to two wins
+ * triggers the same certificate the oracle would.
  */
 export function DuelPage() {
   const { t } = useTranslation();
@@ -50,6 +85,9 @@ export function DuelPage() {
   });
   const [score, setScore] = useState<{ left: number; right: number }>({ left: 0, right: 0 });
   const [lastRound, setLastRound] = useState<"left" | "right" | "tie" | null>(null);
+  // Bump on each settle so the reveal pulse variant retriggers even when the
+  // hand value is identical to the previous round.
+  const [revealKey, setRevealKey] = useState(0);
 
   const rollTimers = useRef<number[]>([]);
   const reducedMotion = useRef(false);
@@ -75,15 +113,22 @@ export function DuelPage() {
     };
   }, []);
 
+  const schedule = useCallback((delayMs: number, fn: () => void) => {
+    const id = window.setTimeout(fn, delayMs);
+    rollTimers.current.push(id);
+  }, []);
+
   const settleRound = useCallback(
     (left: Hand, right: Hand) => {
       const outcome = resolveRound(left, right);
       setHands({ left, right });
       setLastRound(outcome);
+      setRevealKey((k) => k + 1);
 
       if (outcome === "tie") {
         // Ties don't score. The throw button becomes available again right
         // away so the duel can resume without ceremony.
+        playClick(420);
         setPhase("idle");
         return;
       }
@@ -93,7 +138,6 @@ export function DuelPage() {
         right: score.right + (outcome === "right" ? 1 : 0),
       };
       setScore(nextScore);
-      playDing();
 
       const winnerName = outcome === "left" ? leftName : rightName;
       const winnerScore = outcome === "left" ? nextScore.left : nextScore.right;
@@ -103,22 +147,19 @@ export function DuelPage() {
         // later so the hand stamp has time to land on screen first.
         setPhase("final");
         playReveal("yes");
-        const id = window.setTimeout(() => {
-          finalizeDuel(winnerName);
-        }, FINAL_DELAY_MS);
-        rollTimers.current.push(id);
+        schedule(FINAL_DELAY_MS, () => finalizeDuel(winnerName));
       } else {
         // Mid-duel: hold the result briefly so the human can read it, then
         // unlock the throw button for the next round.
         setPhase("round-result");
-        const id = window.setTimeout(() => {
+        playDing();
+        schedule(ROUND_RESULT_HOLD_MS, () => {
           setPhase("idle");
           setLastRound(null);
-        }, ROUND_RESULT_HOLD_MS);
-        rollTimers.current.push(id);
+        });
       }
     },
-    [score, leftName, rightName, finalizeDuel],
+    [score, leftName, rightName, finalizeDuel, schedule],
   );
 
   const startRoll = useCallback(() => {
@@ -130,27 +171,51 @@ export function DuelPage() {
     const right = randomHand();
 
     if (reducedMotion.current) {
-      // Skip the strobe — same outcome, no animation.
+      // Skip the strobe — same outcome, no animation, no audio drama.
       settleRound(left, right);
       return;
     }
 
-    setPhase("rolling");
-
-    // Strobe through random hand combinations so the reveal feels earned.
-    const ticks = Math.max(1, Math.floor(ROLL_DURATION_MS / ROLL_TICK_MS));
-    for (let i = 0; i < ticks; i++) {
-      const id = window.setTimeout(() => {
-        setHands({ left: randomHand(), right: randomHand() });
-        playClick(560 + (i % 3) * 80);
-      }, i * ROLL_TICK_MS);
-      rollTimers.current.push(id);
+    // ── Windup ───────────────────────────────────────────────────────────
+    // Both fists. Four bobs in unison with a low rumble underneath and a
+    // soft tick on each beat — feels like the destiny is winding up.
+    setPhase("windup");
+    setHands({ left: "rock", right: "rock" });
+    playRumble();
+    for (let i = 0; i < WINDUP_BEATS; i++) {
+      schedule(i * WINDUP_BEAT_MS, () => playClick(360));
     }
-    const settleId = window.setTimeout(() => {
-      settleRound(left, right);
-    }, ticks * ROLL_TICK_MS);
-    rollTimers.current.push(settleId);
-  }, [phase, settleRound]);
+
+    const strobeStart = WINDUP_BEATS * WINDUP_BEAT_MS;
+    schedule(strobeStart, () => setPhase("rolling"));
+
+    // ── Strobe ───────────────────────────────────────────────────────────
+    // Cycling hands with a tick interval that interpolates from slow to
+    // fast — sense of acceleration, like the choice is being shaken loose.
+    let t = 0;
+    while (t < STROBE_DURATION_MS) {
+      const progress = t / STROBE_DURATION_MS;
+      const interval =
+        STROBE_START_TICK_MS - progress * (STROBE_START_TICK_MS - STROBE_END_TICK_MS);
+      // Capture per-iteration so the closure doesn't read the loop end value.
+      const p = progress;
+      schedule(strobeStart + t, () => {
+        setHands({ left: randomHand(), right: randomHand() });
+        playClick(540 + Math.floor(p * 320));
+      });
+      t += interval;
+    }
+
+    // ── Freeze ───────────────────────────────────────────────────────────
+    // A beat of silence at the end. The hands hold the last random combo,
+    // the audio drops, and then the destiny snaps. This pause is what
+    // makes the reveal feel earned.
+    const freezeStart = strobeStart + STROBE_DURATION_MS;
+    schedule(freezeStart, () => setPhase("settling"));
+
+    // ── Snap ─────────────────────────────────────────────────────────────
+    schedule(freezeStart + FREEZE_MS, () => settleRound(left, right));
+  }, [phase, settleRound, schedule]);
 
   if (!guardOk) {
     return (
@@ -169,13 +234,22 @@ export function DuelPage() {
   }
 
   const throwLabel =
-    phase === "rolling"
-      ? t("duel.rolling")
-      : phase === "final"
-        ? t("duel.finalPending")
-        : t("duel.throwCta");
+    phase === "windup"
+      ? t("duel.windup")
+      : phase === "rolling"
+        ? t("duel.rolling")
+        : phase === "settling"
+          ? t("duel.settling")
+          : phase === "final"
+            ? t("duel.finalPending")
+            : t("duel.throwCta");
 
-  const throwDisabled = phase === "rolling" || phase === "round-result" || phase === "final";
+  const throwDisabled =
+    phase === "windup" ||
+    phase === "rolling" ||
+    phase === "settling" ||
+    phase === "round-result" ||
+    phase === "final";
 
   const winnerName =
     phase === "final"
@@ -185,15 +259,21 @@ export function DuelPage() {
       : null;
 
   const message =
-    phase === "final" && winnerName
-      ? t("duel.finalPending")
-      : lastRound === "tie"
-        ? t("duel.tie")
-        : lastRound === "left"
-          ? t("duel.roundWin", { name: leftName })
-          : lastRound === "right"
-            ? t("duel.roundWin", { name: rightName })
-            : null;
+    phase === "windup"
+      ? t("duel.windup")
+      : phase === "rolling"
+        ? t("duel.rolling")
+        : phase === "settling"
+          ? t("duel.settling")
+          : phase === "final" && winnerName
+            ? t("duel.finalPending")
+            : lastRound === "tie"
+              ? t("duel.tie")
+              : lastRound === "left"
+                ? t("duel.roundWin", { name: leftName })
+                : lastRound === "right"
+                  ? t("duel.roundWin", { name: rightName })
+                  : null;
 
   return (
     <main className="page" style={{ paddingTop: 40, overflow: "hidden" }}>
@@ -231,22 +311,48 @@ export function DuelPage() {
             background: "var(--surface)",
             padding: "var(--sp-6)",
             marginBottom: "var(--sp-6)",
+            position: "relative",
           }}
         >
+          {/* Vignette during the throw — fades a soft ink wash over the
+              board so the hands feel like they're emerging from somewhere. */}
+          <motion.div
+            aria-hidden="true"
+            initial={false}
+            animate={{
+              opacity:
+                phase === "windup" || phase === "rolling" || phase === "settling"
+                  ? 0.18
+                  : 0,
+            }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            style={{
+              position: "absolute",
+              inset: 0,
+              pointerEvents: "none",
+              background:
+                "radial-gradient(circle at center, transparent 35%, var(--ink-900) 100%)",
+            }}
+          />
+
           <DuelistColumn
             name={leftName}
             score={score.left}
             hand={hands.left}
             mirrored={false}
             highlight={lastRound === "left" || (phase === "final" && winnerName === leftName)}
+            phase={phase}
+            revealKey={revealKey}
           />
-          <ScoreCenter t={(k) => t(k)} />
+          <ScoreCenter t={(k) => t(k)} phase={phase} />
           <DuelistColumn
             name={rightName}
             score={score.right}
             hand={hands.right}
             mirrored={true}
             highlight={lastRound === "right" || (phase === "final" && winnerName === rightName)}
+            phase={phase}
+            revealKey={revealKey}
           />
         </div>
 
@@ -263,7 +369,7 @@ export function DuelPage() {
           }}
           aria-live="polite"
         >
-          {message ?? " "}
+          {message ?? " "}
         </div>
 
         {/* Single CTA + back. */}
@@ -288,7 +394,12 @@ export function DuelPage() {
             variant="secondary"
             size="md"
             onClick={() => goStep(2)}
-            disabled={phase === "rolling" || phase === "final"}
+            disabled={
+              phase === "windup" ||
+              phase === "rolling" ||
+              phase === "settling" ||
+              phase === "final"
+            }
             style={{ justifyContent: "center" }}
           >
             ← {t("step2.back")}
@@ -305,9 +416,34 @@ interface DuelistColumnProps {
   hand: Hand | null;
   mirrored: boolean;
   highlight: boolean;
+  phase: Phase;
+  revealKey: number;
 }
 
-function DuelistColumn({ name, score, hand, mirrored, highlight }: DuelistColumnProps) {
+function DuelistColumn({
+  name,
+  score,
+  hand,
+  mirrored,
+  highlight,
+  phase,
+  revealKey,
+}: DuelistColumnProps) {
+  // Pick the framer-motion variant matching the current phase so the hand
+  // bobs, strobes-vibrates, holds still, or pulses depending on where we
+  // are in the ritual. The revealKey forces remount on round-result/final
+  // so the scale pulse retriggers even if the hand value didn't change.
+  const variant =
+    phase === "windup"
+      ? "windup"
+      : phase === "rolling"
+        ? "rolling"
+        : phase === "settling"
+          ? "settling"
+          : phase === "round-result" || phase === "final"
+            ? "reveal"
+            : "idle";
+
   return (
     <div
       style={{
@@ -315,6 +451,8 @@ function DuelistColumn({ name, score, hand, mirrored, highlight }: DuelistColumn
         flexDirection: "column",
         alignItems: "center",
         gap: "var(--sp-3)",
+        position: "relative",
+        zIndex: 1,
       }}
     >
       <Avatar name={name} size={56} highlight={highlight} />
@@ -330,19 +468,30 @@ function DuelistColumn({ name, score, hand, mirrored, highlight }: DuelistColumn
       >
         {name}
       </div>
-      <div
+      <motion.div
+        key={
+          variant === "reveal"
+            ? `reveal-${revealKey}`
+            : variant === "windup"
+              ? "windup"
+              : variant
+        }
+        variants={handFrameVariants}
+        animate={variant}
+        initial={false}
         style={{
-          width: 112,
-          height: 112,
+          width: 128,
+          height: 128,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           background: "var(--paper-100)",
-          border: "1px solid var(--rule)",
+          border: highlight ? "1.5px solid var(--accent)" : "1px solid var(--rule)",
+          transition: "border-color var(--dur-base) var(--ease)",
         }}
       >
         {hand ? (
-          <HandIcon hand={hand} mirrored={mirrored} size={88} />
+          <HandIcon hand={hand} mirrored={mirrored} size={92} />
         ) : (
           <span
             style={{
@@ -355,7 +504,7 @@ function DuelistColumn({ name, score, hand, mirrored, highlight }: DuelistColumn
             —
           </span>
         )}
-      </div>
+      </motion.div>
       <div
         style={{
           fontFamily: "var(--font-mono)",
@@ -372,17 +521,31 @@ function DuelistColumn({ name, score, hand, mirrored, highlight }: DuelistColumn
 
 interface ScoreCenterProps {
   t: (key: string) => string;
+  phase: Phase;
 }
 
-function ScoreCenter({ t }: ScoreCenterProps) {
+function ScoreCenter({ t, phase }: ScoreCenterProps) {
+  const breathing = phase === "windup" || phase === "rolling" || phase === "settling";
   return (
-    <div
+    <motion.div
+      animate={
+        breathing
+          ? { scale: [1, 1.06, 1], opacity: [0.7, 1, 0.7] }
+          : { scale: 1, opacity: 1 }
+      }
+      transition={
+        breathing
+          ? { duration: 1.1, repeat: Infinity, ease: "easeInOut" }
+          : { duration: 0.3 }
+      }
       style={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         gap: "var(--sp-2)",
         minWidth: 80,
+        position: "relative",
+        zIndex: 1,
       }}
     >
       <Eyebrow>{t("duel.scoreLabel")}</Eyebrow>
@@ -395,6 +558,6 @@ function ScoreCenter({ t }: ScoreCenterProps) {
       >
         —
       </div>
-    </div>
+    </motion.div>
   );
 }
