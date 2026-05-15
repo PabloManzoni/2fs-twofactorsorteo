@@ -160,32 +160,14 @@ export function WheelPage() {
 
             <div style={{ marginTop: 24, display: "flex", flexDirection: "column", gap: 10 }}>
               {phase === "done" && winner ? (
-                <>
-                  <Button
-                    variant="primary"
-                    size="lg"
-                    onClick={() => goStep(3)}
-                    style={{ justifyContent: "center" }}
-                  >
-                    {t("step2.cta")} →
-                  </Button>
-                  {/*
-                   * Two-lamb shortcut: once only two contenders remain (either
-                   * the raffle started that way or the oracle whittled them
-                   * down), offer the duel as an alternative resolver. Hidden
-                   * for any other count to keep the primary path uncluttered.
-                   */}
-                  {activeNames.length === 2 && (
-                    <Button
-                      variant="secondary"
-                      size="md"
-                      onClick={startDuel}
-                      style={{ justifyContent: "center" }}
-                    >
-                      {t("step2.rpsCta")}
-                    </Button>
-                  )}
-                </>
+                <Button
+                  variant="primary"
+                  size="lg"
+                  onClick={() => goStep(3)}
+                  style={{ justifyContent: "center" }}
+                >
+                  {t("step2.cta")} →
+                </Button>
               ) : (
                 <Button
                   variant="secondary"
@@ -194,6 +176,25 @@ export function WheelPage() {
                   style={{ justifyContent: "center" }}
                 >
                   ← {t("step2.back")}
+                </Button>
+              )}
+              {/*
+               * Two-lamb shortcut: whenever only two contenders remain (either
+               * the raffle started that way or the oracle whittled them down),
+               * offer the duel as an alternative resolver. Shown from the
+               * moment the user arrives at the wheel — no need to spin first.
+               * Disabled while the wheel is mid-spin so we don't yank the user
+               * out of a roll they just kicked off.
+               */}
+              {activeNames.length === 2 && (
+                <Button
+                  variant="secondary"
+                  size="md"
+                  onClick={startDuel}
+                  disabled={phase === "spinning"}
+                  style={{ justifyContent: "center" }}
+                >
+                  {t("step2.rpsCta")}
                 </Button>
               )}
             </div>
