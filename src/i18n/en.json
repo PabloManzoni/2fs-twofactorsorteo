@@ -59,6 +59,10 @@
     "settling": "Revelation…",
     "tie": "Tie. Again.",
     "roundWin": "Point for {{name}}.",
+    "roundPointEyebrow": "POINT",
+    "roundCounter": "Round {{played}}/{{total}}",
+    "victorEyebrow": "THE DUEL'S VICTOR",
+    "victorTagline": "The hands have spoken.",
     "finalPending": "The Duel unfolds…",
     "unavailable": "The Duel needs two lambs."
   },

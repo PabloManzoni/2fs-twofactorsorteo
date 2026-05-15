@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { motion, type Variants } from "framer-motion";
+import confetti from "canvas-confetti";
 import { useRaffleStore } from "../store/raffleStore";
 import { Button } from "../components/ui/Button";
 import { Eyebrow } from "../components/ui/Eyebrow";
@@ -18,46 +19,117 @@ type Phase =
   | "final";
 
 const WINS_TO_WIN = 2;
+const MAX_ROUNDS = 3;
 
-// Timing budget for one throw — totals ~2.6s when motion is enabled.
-// The numbers are tuned to read as a deliberate ritual rather than a roll:
-// fists bob in unison, then the hands strobe and accelerate, then freeze for
-// a beat of silence before the destiny snaps into place.
+// Timing budget. Tuned so a single throw reads as a slow ritual (~3.4s),
+// the round-result lingers long enough to celebrate (~2.6s), and the
+// final winner banner stays on screen ~3.5s before the certificate
+// covers everything — so the human gets to actually see who won.
 const WINDUP_BEATS = 4;
-const WINDUP_BEAT_MS = 175; // 700ms windup
-const STROBE_DURATION_MS = 1500;
-const STROBE_START_TICK_MS = 135;
-const STROBE_END_TICK_MS = 55;
-const FREEZE_MS = 320;
-const ROUND_RESULT_HOLD_MS = 1200;
-const FINAL_DELAY_MS = 700;
+const WINDUP_BEAT_MS = 220; // 880ms total
+const STROBE_DURATION_MS = 2500;
+const STROBE_START_TICK_MS = 220;
+const STROBE_END_TICK_MS = 95;
+const FREEZE_MS = 600;
+const ROUND_RESULT_HOLD_MS = 2600;
+const FINAL_BANNER_MS = 3600;
+
+// Token hexes lifted from tokens.css for the canvas-confetti palette.
+// Canvas doesn't read CSS variables, so we mirror the values that matter.
+const CONFETTI_COLORS_PRIMARY = ["#C8442A", "#B8884A", "#141110", "#FBF7EF"];
+const CONFETTI_COLORS_FINAL = ["#C8442A", "#B33A23", "#B8884A", "#E6D3A8", "#141110"];
 
 function randomHand(): Hand {
   return ALL_HANDS[Math.floor(Math.random() * ALL_HANDS.length)];
 }
 
+function burstFromSide(side: "left" | "right", strength: "round" | "final") {
+  const x = side === "left" ? 0.22 : 0.78;
+  const baseOptions = {
+    origin: { x, y: 0.55 },
+    colors: strength === "final" ? CONFETTI_COLORS_FINAL : CONFETTI_COLORS_PRIMARY,
+    scalar: strength === "final" ? 1.2 : 1,
+  };
+  if (strength === "round") {
+    confetti({
+      ...baseOptions,
+      particleCount: 70,
+      spread: 60,
+      startVelocity: 38,
+      ticks: 180,
+      angle: side === "left" ? 60 : 120,
+    });
+    return;
+  }
+  // Final: three staggered bursts plus a wider rainfall over the winning
+  // half of the screen.
+  const fire = (delay: number, opts: confetti.Options) => {
+    window.setTimeout(() => confetti(opts), delay);
+  };
+  fire(0, {
+    ...baseOptions,
+    particleCount: 160,
+    spread: 90,
+    startVelocity: 52,
+    ticks: 320,
+    angle: side === "left" ? 55 : 125,
+  });
+  fire(220, {
+    ...baseOptions,
+    particleCount: 120,
+    spread: 110,
+    startVelocity: 44,
+    ticks: 280,
+    angle: side === "left" ? 70 : 110,
+  });
+  fire(520, {
+    ...baseOptions,
+    particleCount: 90,
+    spread: 140,
+    startVelocity: 36,
+    ticks: 260,
+    origin: { x, y: 0.4 },
+  });
+  fire(900, {
+    ...baseOptions,
+    particleCount: 80,
+    spread: 180,
+    startVelocity: 28,
+    ticks: 240,
+    origin: { x, y: 0.35 },
+    gravity: 0.7,
+  });
+}
+
 const handFrameVariants: Variants = {
   idle: { y: 0, x: 0, scale: 1 },
   windup: {
-    y: [0, -8, 0, -8, 0, -8, 0, -8, 0],
-    transition: { duration: 0.7, ease: "easeInOut", times: [0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1] },
+    y: [0, -10, 0, -10, 0, -10, 0, -10, 0],
+    transition: { duration: 0.88, ease: "easeInOut" },
   },
   rolling: {
-    x: [-1.5, 1.5, -1.5, 1.5, 0],
-    transition: { duration: 0.16, repeat: Infinity, ease: "linear" },
+    x: [-2, 2, -2, 2, 0],
+    transition: { duration: 0.2, repeat: Infinity, ease: "linear" },
   },
-  settling: { y: 0, x: 0, scale: 0.97 },
+  settling: { y: 0, x: 0, scale: 0.96 },
   reveal: {
-    scale: [1, 1.18, 1],
-    transition: { duration: 0.38, ease: "easeOut" },
+    scale: [1, 1.28, 1.08],
+    transition: { duration: 0.55, ease: "easeOut" },
+  },
+  victor: {
+    scale: [1, 1.35, 1.18],
+    transition: { duration: 0.7, ease: "easeOut" },
   },
 };
 
 /**
  * Two-lamb showdown. Best of three rock-paper-scissors. Ties don't score.
- * The throw is a deliberate ~2.6s ritual: fists bob, hands strobe, the
- * destiny freezes for a beat of silence, then snaps. First to two wins
- * triggers the same certificate the oracle would.
+ * Each throw is a deliberate ritual: fists bob, hands strobe and slow
+ * down, destiny freezes for a beat of silence, then snaps. The round
+ * result lingers with confetti from the winner's side and a big
+ * announcement. The final winner gets a takeover banner held for
+ * several seconds before the certificate covers the screen — that way
+ * the human sees who won the duel before the cert lands.
  */
 export function DuelPage() {
   const { t } = useTranslation();
@@ -71,9 +143,6 @@ export function DuelPage() {
     [names, outNames],
   );
 
-  // The duel is only meaningful with exactly two contenders. If we ended up
-  // here with a different count (manual store edit, stale persisted state),
-  // fall back to a back button rather than rendering garbage.
   const guardOk = activeNames.length === 2;
   const leftName = activeNames[0] ?? "";
   const rightName = activeNames[1] ?? "";
@@ -85,16 +154,12 @@ export function DuelPage() {
   });
   const [score, setScore] = useState<{ left: number; right: number }>({ left: 0, right: 0 });
   const [lastRound, setLastRound] = useState<"left" | "right" | "tie" | null>(null);
-  // Bump on each settle so the reveal pulse variant retriggers even when the
-  // hand value is identical to the previous round.
   const [revealKey, setRevealKey] = useState(0);
 
   const rollTimers = useRef<number[]>([]);
   const reducedMotion = useRef(false);
 
   useEffect(() => {
-    // Match the rest of the app: respect the user's reduce-motion setting so
-    // we don't strobe hand icons at people who opted out of animations.
     if (typeof window === "undefined" || !window.matchMedia) return;
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     reducedMotion.current = mq.matches;
@@ -105,7 +170,6 @@ export function DuelPage() {
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
-  // Clean up any pending timers if the page unmounts mid-roll.
   useEffect(() => {
     return () => {
       for (const id of rollTimers.current) window.clearTimeout(id);
@@ -126,8 +190,6 @@ export function DuelPage() {
       setRevealKey((k) => k + 1);
 
       if (outcome === "tie") {
-        // Ties don't score. The throw button becomes available again right
-        // away so the duel can resume without ceremony.
         playClick(420);
         setPhase("idle");
         return;
@@ -139,18 +201,22 @@ export function DuelPage() {
       };
       setScore(nextScore);
 
-      const winnerName = outcome === "left" ? leftName : rightName;
-      const winnerScore = outcome === "left" ? nextScore.left : nextScore.right;
+      const winnerSide: "left" | "right" = outcome;
+      const winnerName = winnerSide === "left" ? leftName : rightName;
+      const winnerScore = winnerSide === "left" ? nextScore.left : nextScore.right;
+
+      // Confetti from the winner's side — small burst per round, big show
+      // for the final win.
+      burstFromSide(winnerSide, winnerScore >= WINS_TO_WIN ? "final" : "round");
 
       if (winnerScore >= WINS_TO_WIN) {
-        // Final round. Play the reveal arpeggio and seal the duel a moment
-        // later so the hand stamp has time to land on screen first.
         setPhase("final");
         playReveal("yes");
-        schedule(FINAL_DELAY_MS, () => finalizeDuel(winnerName));
+        // Hold the winner takeover for several seconds before triggering
+        // the certificate. Pablo's note: "the modal covers everything,
+        // give us time to see who won." This is that time.
+        schedule(FINAL_BANNER_MS, () => finalizeDuel(winnerName));
       } else {
-        // Mid-duel: hold the result briefly so the human can read it, then
-        // unlock the throw button for the next round.
         setPhase("round-result");
         playDing();
         schedule(ROUND_RESULT_HOLD_MS, () => {
@@ -171,49 +237,39 @@ export function DuelPage() {
     const right = randomHand();
 
     if (reducedMotion.current) {
-      // Skip the strobe — same outcome, no animation, no audio drama.
       settleRound(left, right);
       return;
     }
 
-    // ── Windup ───────────────────────────────────────────────────────────
-    // Both fists. Four bobs in unison with a low rumble underneath and a
-    // soft tick on each beat — feels like the destiny is winding up.
     setPhase("windup");
     setHands({ left: "rock", right: "rock" });
     playRumble();
     for (let i = 0; i < WINDUP_BEATS; i++) {
-      schedule(i * WINDUP_BEAT_MS, () => playClick(360));
+      schedule(i * WINDUP_BEAT_MS, () => playClick(340));
     }
 
     const strobeStart = WINDUP_BEATS * WINDUP_BEAT_MS;
     schedule(strobeStart, () => setPhase("rolling"));
 
-    // ── Strobe ───────────────────────────────────────────────────────────
-    // Cycling hands with a tick interval that interpolates from slow to
-    // fast — sense of acceleration, like the choice is being shaken loose.
+    // Strobe with a tick interval that accelerates from slow to fast then
+    // slows down again at the end — gives a bell curve of intensity.
     let t = 0;
     while (t < STROBE_DURATION_MS) {
       const progress = t / STROBE_DURATION_MS;
+      // Bell-curve: fastest around the middle, slower at the ends.
+      const bell = 1 - Math.abs(progress - 0.5) * 2; // 0 at edges, 1 at middle
       const interval =
-        STROBE_START_TICK_MS - progress * (STROBE_START_TICK_MS - STROBE_END_TICK_MS);
-      // Capture per-iteration so the closure doesn't read the loop end value.
+        STROBE_START_TICK_MS - bell * (STROBE_START_TICK_MS - STROBE_END_TICK_MS);
       const p = progress;
       schedule(strobeStart + t, () => {
         setHands({ left: randomHand(), right: randomHand() });
-        playClick(540 + Math.floor(p * 320));
+        playClick(520 + Math.floor(p * 280));
       });
       t += interval;
     }
 
-    // ── Freeze ───────────────────────────────────────────────────────────
-    // A beat of silence at the end. The hands hold the last random combo,
-    // the audio drops, and then the destiny snaps. This pause is what
-    // makes the reveal feel earned.
     const freezeStart = strobeStart + STROBE_DURATION_MS;
     schedule(freezeStart, () => setPhase("settling"));
-
-    // ── Snap ─────────────────────────────────────────────────────────────
     schedule(freezeStart + FREEZE_MS, () => settleRound(left, right));
   }, [phase, settleRound, schedule]);
 
@@ -251,29 +307,25 @@ export function DuelPage() {
     phase === "round-result" ||
     phase === "final";
 
-  const winnerName =
+  const winnerSide: "left" | "right" | null =
     phase === "final"
       ? score.left >= WINS_TO_WIN
-        ? leftName
-        : rightName
+        ? "left"
+        : "right"
       : null;
+  const winnerName =
+    winnerSide === "left" ? leftName : winnerSide === "right" ? rightName : null;
+  const winnerHand =
+    winnerSide === "left" ? hands.left : winnerSide === "right" ? hands.right : null;
 
-  const message =
-    phase === "windup"
-      ? t("duel.windup")
-      : phase === "rolling"
-        ? t("duel.rolling")
-        : phase === "settling"
-          ? t("duel.settling")
-          : phase === "final" && winnerName
-            ? t("duel.finalPending")
-            : lastRound === "tie"
-              ? t("duel.tie")
-              : lastRound === "left"
-                ? t("duel.roundWin", { name: leftName })
-                : lastRound === "right"
-                  ? t("duel.roundWin", { name: rightName })
-                  : null;
+  const roundsPlayed = Math.min(score.left + score.right, MAX_ROUNDS);
+
+  // The slot under the scoreboard turns into one of three modes depending
+  // on phase — quiet narration during the throw, a big "PUNTO PARA X"
+  // banner when a round resolves, a full victor takeover on final.
+  const showVictorBanner = phase === "final" && winnerName;
+  const showRoundBanner =
+    phase === "round-result" && (lastRound === "left" || lastRound === "right");
 
   return (
     <main className="page" style={{ paddingTop: 40, overflow: "hidden" }}>
@@ -300,7 +352,8 @@ export function DuelPage() {
           {t("duel.subtitle")}
         </p>
 
-        {/* Scoreboard row — two avatars facing each other with score between. */}
+        {/* Scoreboard. Two duelists facing each other, score center with the
+            round counter. */}
         <div
           style={{
             display: "grid",
@@ -314,15 +367,13 @@ export function DuelPage() {
             position: "relative",
           }}
         >
-          {/* Vignette during the throw — fades a soft ink wash over the
-              board so the hands feel like they're emerging from somewhere. */}
           <motion.div
             aria-hidden="true"
             initial={false}
             animate={{
               opacity:
                 phase === "windup" || phase === "rolling" || phase === "settling"
-                  ? 0.18
+                  ? 0.2
                   : 0,
             }}
             transition={{ duration: 0.4, ease: "easeOut" }}
@@ -331,7 +382,7 @@ export function DuelPage() {
               inset: 0,
               pointerEvents: "none",
               background:
-                "radial-gradient(circle at center, transparent 35%, var(--ink-900) 100%)",
+                "radial-gradient(circle at center, transparent 30%, var(--ink-900) 100%)",
             }}
           />
 
@@ -340,82 +391,114 @@ export function DuelPage() {
             score={score.left}
             hand={hands.left}
             mirrored={false}
-            highlight={lastRound === "left" || (phase === "final" && winnerName === leftName)}
+            isWinnerSide={winnerSide === "left"}
+            roundWinHere={lastRound === "left" && phase === "round-result"}
             phase={phase}
             revealKey={revealKey}
           />
-          <ScoreCenter t={(k) => t(k)} phase={phase} />
+          <ScoreCenter
+            roundsPlayed={roundsPlayed}
+            phase={phase}
+            scoreLabel={t("duel.scoreLabel")}
+            roundLabel={t("duel.roundCounter", { played: roundsPlayed, total: MAX_ROUNDS })}
+          />
           <DuelistColumn
             name={rightName}
             score={score.right}
             hand={hands.right}
             mirrored={true}
-            highlight={lastRound === "right" || (phase === "final" && winnerName === rightName)}
+            isWinnerSide={winnerSide === "right"}
+            roundWinHere={lastRound === "right" && phase === "round-result"}
             phase={phase}
             revealKey={revealKey}
           />
         </div>
 
-        {/* Round message — reserves space so the layout doesn't jump. */}
+        {/* Status slot — height reserved so layout doesn't jump. */}
         <div
-          style={{
-            minHeight: 28,
-            fontFamily: "var(--font-display)",
-            fontStyle: "italic",
-            fontSize: 18,
-            color: "var(--fg-muted)",
-            textAlign: "center",
-            marginBottom: "var(--sp-5)",
-          }}
+          style={{ minHeight: 120, marginBottom: "var(--sp-5)", textAlign: "center" }}
           aria-live="polite"
         >
-          {message ?? " "}
+          {showVictorBanner ? (
+            <VictorBanner
+              name={winnerName ?? ""}
+              hand={winnerHand}
+              mirrored={winnerSide === "right"}
+              eyebrow={t("duel.victorEyebrow")}
+              tagline={t("duel.victorTagline")}
+            />
+          ) : showRoundBanner ? (
+            <RoundBanner
+              eyebrow={t("duel.roundPointEyebrow")}
+              text={t("duel.roundWin", {
+                name: lastRound === "left" ? leftName : rightName,
+              })}
+            />
+          ) : (
+            <QuietMessage
+              text={
+                phase === "windup"
+                  ? t("duel.windup")
+                  : phase === "rolling"
+                    ? t("duel.rolling")
+                    : phase === "settling"
+                      ? t("duel.settling")
+                      : lastRound === "tie"
+                        ? t("duel.tie")
+                        : ""
+              }
+            />
+          )}
         </div>
 
-        {/* Single CTA + back. */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: "var(--sp-3)",
-            flexWrap: "wrap",
-          }}
-        >
-          <Button
-            variant="primary"
-            size="lg"
-            onClick={startRoll}
-            disabled={throwDisabled}
-            style={{ justifyContent: "center", minWidth: 220 }}
+        {/* CTAs — hidden when the victor banner is taking over the screen. */}
+        {!showVictorBanner && (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              gap: "var(--sp-3)",
+              flexWrap: "wrap",
+            }}
           >
-            {throwLabel} →
-          </Button>
-          <Button
-            variant="secondary"
-            size="md"
-            onClick={() => goStep(2)}
-            disabled={
-              phase === "windup" ||
-              phase === "rolling" ||
-              phase === "settling" ||
-              phase === "final"
-            }
-            style={{ justifyContent: "center" }}
-          >
-            ← {t("step2.back")}
-          </Button>
-        </div>
+            <Button
+              variant="primary"
+              size="lg"
+              onClick={startRoll}
+              disabled={throwDisabled}
+              style={{ justifyContent: "center", minWidth: 220 }}
+            >
+              {throwLabel} →
+            </Button>
+            <Button
+              variant="secondary"
+              size="md"
+              onClick={() => goStep(2)}
+              disabled={
+                phase === "windup" ||
+                phase === "rolling" ||
+                phase === "settling"
+              }
+              style={{ justifyContent: "center" }}
+            >
+              ← {t("step2.back")}
+            </Button>
+          </div>
+        )}
       </div>
     </main>
   );
 }
+
+// ─── Subcomponents ─────────────────────────────────────────────────────────
 
 interface DuelistColumnProps {
   name: string;
   score: number;
   hand: Hand | null;
   mirrored: boolean;
-  highlight: boolean;
+  isWinnerSide: boolean;
+  roundWinHere: boolean;
   phase: Phase;
   revealKey: number;
 }
@@ -425,14 +508,13 @@ function DuelistColumn({
   score,
   hand,
   mirrored,
-  highlight,
+  isWinnerSide,
+  roundWinHere,
   phase,
   revealKey,
 }: DuelistColumnProps) {
-  // Pick the framer-motion variant matching the current phase so the hand
-  // bobs, strobes-vibrates, holds still, or pulses depending on where we
-  // are in the ritual. The revealKey forces remount on round-result/final
-  // so the scale pulse retriggers even if the hand value didn't change.
+  // Pick the variant matching the current phase. The reveal pulse goes
+  // bigger when this side won the round / duel, smaller otherwise.
   const variant =
     phase === "windup"
       ? "windup"
@@ -440,9 +522,16 @@ function DuelistColumn({
         ? "rolling"
         : phase === "settling"
           ? "settling"
-          : phase === "round-result" || phase === "final"
-            ? "reveal"
-            : "idle";
+          : phase === "final" && isWinnerSide
+            ? "victor"
+            : (phase === "round-result" && roundWinHere) ||
+                (phase === "final" && isWinnerSide)
+              ? "reveal"
+              : phase === "round-result" || phase === "final"
+                ? "idle"
+                : "idle";
+
+  const highlight = roundWinHere || isWinnerSide;
 
   return (
     <div
@@ -456,22 +545,23 @@ function DuelistColumn({
       }}
     >
       <Avatar name={name} size={56} highlight={highlight} />
-      <div
+      <motion.div
+        animate={{ scale: highlight ? 1.04 : 1, color: highlight ? "var(--accent)" : "var(--fg)" }}
+        transition={{ duration: 0.35 }}
         style={{
           fontFamily: "var(--font-display)",
           fontWeight: 600,
-          fontSize: 24,
+          fontSize: 26,
           letterSpacing: "-0.02em",
           textAlign: "center",
-          color: "var(--fg)",
         }}
       >
         {name}
-      </div>
+      </motion.div>
       <motion.div
         key={
-          variant === "reveal"
-            ? `reveal-${revealKey}`
+          variant === "reveal" || variant === "victor"
+            ? `${variant}-${revealKey}`
             : variant === "windup"
               ? "windup"
               : variant
@@ -480,18 +570,23 @@ function DuelistColumn({
         animate={variant}
         initial={false}
         style={{
-          width: 128,
-          height: 128,
+          width: 144,
+          height: 144,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "var(--paper-100)",
-          border: highlight ? "1.5px solid var(--accent)" : "1px solid var(--rule)",
-          transition: "border-color var(--dur-base) var(--ease)",
+          background: highlight ? "var(--accent-wash)" : "var(--paper-100)",
+          border: highlight ? "2px solid var(--accent)" : "1px solid var(--rule)",
+          transition: "border-color var(--dur-base) var(--ease), background var(--dur-base) var(--ease)",
         }}
       >
         {hand ? (
-          <HandIcon hand={hand} mirrored={mirrored} size={92} />
+          <HandIcon
+            hand={hand}
+            mirrored={mirrored}
+            size={108}
+            color={highlight ? "var(--accent-600)" : "var(--ink-900)"}
+          />
         ) : (
           <span
             style={{
@@ -505,12 +600,17 @@ function DuelistColumn({
           </span>
         )}
       </motion.div>
+
+      {/* Win pips — two slots, one fills vermillón when this duelist scores. */}
+      <WinPips score={score} />
+
       <div
         style={{
           fontFamily: "var(--font-mono)",
-          fontSize: 28,
+          fontSize: 32,
           fontWeight: 600,
           color: highlight ? "var(--accent)" : "var(--fg)",
+          lineHeight: 1,
         }}
       >
         {String(score).padStart(2, "0")}
@@ -519,18 +619,61 @@ function DuelistColumn({
   );
 }
 
-interface ScoreCenterProps {
-  t: (key: string) => string;
-  phase: Phase;
+interface WinPipsProps {
+  score: number;
 }
 
-function ScoreCenter({ t, phase }: ScoreCenterProps) {
+function WinPips({ score }: WinPipsProps) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        gap: "var(--sp-2)",
+        alignItems: "center",
+        height: 18,
+      }}
+      aria-hidden="true"
+    >
+      {Array.from({ length: WINS_TO_WIN }).map((_, i) => {
+        const filled = i < score;
+        return (
+          <motion.span
+            key={i}
+            initial={false}
+            animate={{
+              scale: filled ? 1 : 0.6,
+              backgroundColor: filled ? "#C8442A" : "transparent",
+              borderColor: filled ? "#C8442A" : "#A09890",
+            }}
+            transition={{ type: "spring", stiffness: 360, damping: 18 }}
+            style={{
+              width: 14,
+              height: 14,
+              borderRadius: "50%",
+              border: "1.5px solid var(--ink-300)",
+              display: "inline-block",
+            }}
+          />
+        );
+      })}
+    </div>
+  );
+}
+
+interface ScoreCenterProps {
+  roundsPlayed: number;
+  phase: Phase;
+  scoreLabel: string;
+  roundLabel: string;
+}
+
+function ScoreCenter({ roundsPlayed, phase, scoreLabel, roundLabel }: ScoreCenterProps) {
   const breathing = phase === "windup" || phase === "rolling" || phase === "settling";
   return (
     <motion.div
       animate={
         breathing
-          ? { scale: [1, 1.06, 1], opacity: [0.7, 1, 0.7] }
+          ? { scale: [1, 1.06, 1], opacity: [0.75, 1, 0.75] }
           : { scale: 1, opacity: 1 }
       }
       transition={
@@ -543,21 +686,145 @@ function ScoreCenter({ t, phase }: ScoreCenterProps) {
         flexDirection: "column",
         alignItems: "center",
         gap: "var(--sp-2)",
-        minWidth: 80,
+        minWidth: 96,
         position: "relative",
         zIndex: 1,
       }}
     >
-      <Eyebrow>{t("duel.scoreLabel")}</Eyebrow>
+      <Eyebrow>{scoreLabel}</Eyebrow>
       <div
         style={{
           fontFamily: "var(--font-display)",
-          fontSize: 28,
+          fontSize: 40,
+          fontWeight: 600,
+          letterSpacing: "-0.02em",
+          color: "var(--fg)",
+          lineHeight: 1,
+        }}
+      >
+        {roundsPlayed}
+        <span style={{ color: "var(--fg-subtle)" }}> / {MAX_ROUNDS}</span>
+      </div>
+      <div
+        style={{
+          fontFamily: "var(--font-mono)",
+          fontSize: 10,
+          letterSpacing: "0.14em",
+          textTransform: "uppercase",
           color: "var(--fg-muted)",
         }}
       >
-        —
+        {roundLabel}
       </div>
+    </motion.div>
+  );
+}
+
+interface QuietMessageProps {
+  text: string;
+}
+
+function QuietMessage({ text }: QuietMessageProps) {
+  return (
+    <div
+      style={{
+        fontFamily: "var(--font-display)",
+        fontStyle: "italic",
+        fontSize: 20,
+        color: "var(--fg-muted)",
+        paddingTop: 24,
+      }}
+    >
+      {text || " "}
+    </div>
+  );
+}
+
+interface RoundBannerProps {
+  eyebrow: string;
+  text: string;
+}
+
+function RoundBanner({ eyebrow, text }: RoundBannerProps) {
+  return (
+    <motion.div
+      initial={{ y: 8, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.35, ease: "easeOut" }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 8,
+      }}
+    >
+      <Eyebrow color="var(--accent)">{eyebrow}</Eyebrow>
+      <div
+        style={{
+          fontFamily: "var(--font-display)",
+          fontSize: 48,
+          fontWeight: 600,
+          letterSpacing: "-0.02em",
+          color: "var(--fg)",
+          lineHeight: 1.05,
+        }}
+      >
+        {text}
+      </div>
+    </motion.div>
+  );
+}
+
+interface VictorBannerProps {
+  name: string;
+  hand: Hand | null;
+  mirrored: boolean;
+  eyebrow: string;
+  tagline: string;
+}
+
+function VictorBanner({ name, hand, mirrored, eyebrow, tagline }: VictorBannerProps) {
+  return (
+    <motion.div
+      initial={{ y: 14, opacity: 0, scale: 0.96 }}
+      animate={{ y: 0, opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 10,
+        paddingTop: 4,
+      }}
+    >
+      <Eyebrow color="var(--accent)">{eyebrow}</Eyebrow>
+      <div
+        style={{
+          fontFamily: "var(--font-display)",
+          fontSize: 76,
+          fontWeight: 600,
+          letterSpacing: "-0.02em",
+          color: "var(--fg)",
+          lineHeight: 1,
+        }}
+      >
+        {name}
+      </div>
+      <div
+        style={{
+          fontFamily: "var(--font-display)",
+          fontStyle: "italic",
+          fontSize: 22,
+          color: "var(--fg-muted)",
+        }}
+      >
+        {tagline}
+      </div>
+      {hand && (
+        <div style={{ marginTop: 8 }}>
+          <HandIcon hand={hand} mirrored={mirrored} size={56} color="var(--accent-600)" />
+        </div>
+      )}
     </motion.div>
   );
 }

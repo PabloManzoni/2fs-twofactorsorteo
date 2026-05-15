@@ -59,6 +59,10 @@
     "settling": "Revelación…",
     "tie": "Empate. De nuevo.",
     "roundWin": "Punto para {{name}}.",
+    "roundPointEyebrow": "PUNTO",
+    "roundCounter": "Ronda {{played}}/{{total}}",
+    "victorEyebrow": "EL VENCEDOR DEL DUELO",
+    "victorTagline": "Las manos lo señalaron.",
     "finalPending": "El Duelo se cumple…",
     "unavailable": "El Duelo necesita dos corderos."
   },
