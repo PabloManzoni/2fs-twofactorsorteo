@@ -328,14 +328,14 @@ export function DuelPage() {
     phase === "round-result" && (lastRound === "left" || lastRound === "right");
 
   return (
-    <main className="page" style={{ paddingTop: 40, overflow: "hidden" }}>
+    <main className="page" style={{ paddingTop: 24, overflow: "hidden" }}>
       <div className="paper-texture" />
       <div className="page__inner">
-        <Eyebrow style={{ marginBottom: 12 }}>{t("duel.eyebrow")}</Eyebrow>
+        <Eyebrow style={{ marginBottom: 8 }}>{t("duel.eyebrow")}</Eyebrow>
 
         <h1
           className="display-lg"
-          style={{ fontSize: 56, marginBottom: 12 }}
+          style={{ fontSize: 48, marginBottom: 8 }}
           dangerouslySetInnerHTML={{ __html: t("duel.heading") }}
         />
 
@@ -343,10 +343,10 @@ export function DuelPage() {
           style={{
             fontFamily: "var(--font-display)",
             fontStyle: "italic",
-            fontSize: 22,
+            fontSize: 20,
             color: "var(--fg-muted)",
             maxWidth: 560,
-            marginBottom: 40,
+            marginBottom: 20,
           }}
         >
           {t("duel.subtitle")}
@@ -359,11 +359,11 @@ export function DuelPage() {
             display: "grid",
             gridTemplateColumns: "1fr auto 1fr",
             alignItems: "center",
-            gap: "var(--sp-5)",
+            gap: "var(--sp-4)",
             border: "1px solid var(--ink-900)",
             background: "var(--surface)",
-            padding: "var(--sp-6)",
-            marginBottom: "var(--sp-6)",
+            padding: "var(--sp-5) var(--sp-5)",
+            marginBottom: "var(--sp-4)",
             position: "relative",
           }}
         >
@@ -414,9 +414,11 @@ export function DuelPage() {
           />
         </div>
 
-        {/* Status slot — height reserved so layout doesn't jump. */}
+        {/* Status slot — height reserved so layout doesn't jump. Sized to
+            comfortably hold the round-result banner (eyebrow + 40px text)
+            without leaving acres of empty space when idle. */}
         <div
-          style={{ minHeight: 120, marginBottom: "var(--sp-5)", textAlign: "center" }}
+          style={{ minHeight: 80, marginBottom: "var(--sp-4)", textAlign: "center" }}
           aria-live="polite"
         >
           {showVictorBanner ? (
@@ -539,21 +541,22 @@ function DuelistColumn({
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        gap: "var(--sp-3)",
+        gap: "var(--sp-2)",
         position: "relative",
         zIndex: 1,
       }}
     >
-      <Avatar name={name} size={56} highlight={highlight} />
+      <Avatar name={name} size={44} highlight={highlight} />
       <motion.div
         animate={{ scale: highlight ? 1.04 : 1, color: highlight ? "var(--accent)" : "var(--fg)" }}
         transition={{ duration: 0.35 }}
         style={{
           fontFamily: "var(--font-display)",
           fontWeight: 600,
-          fontSize: 26,
+          fontSize: 22,
           letterSpacing: "-0.02em",
           textAlign: "center",
+          lineHeight: 1.1,
         }}
       >
         {name}
@@ -570,8 +573,8 @@ function DuelistColumn({
         animate={variant}
         initial={false}
         style={{
-          width: 144,
-          height: 144,
+          width: 116,
+          height: 116,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -584,7 +587,7 @@ function DuelistColumn({
           <HandIcon
             hand={hand}
             mirrored={mirrored}
-            size={108}
+            size={88}
             color={highlight ? "var(--accent-600)" : "var(--ink-900)"}
           />
         ) : (
@@ -613,7 +616,7 @@ function DuelistColumn({
       <div
         style={{
           fontFamily: "var(--font-mono)",
-          fontSize: 32,
+          fontSize: 26,
           fontWeight: 600,
           color: highlight ? "var(--accent)" : "var(--fg)",
           lineHeight: 1,
@@ -727,7 +730,7 @@ function ScoreCenter({ roundsPlayed, phase, scoreLabel, roundLabel }: ScoreCente
       <div
         style={{
           fontFamily: "var(--font-display)",
-          fontSize: 40,
+          fontSize: 34,
           fontWeight: 600,
           letterSpacing: "-0.02em",
           color: "var(--fg)",
@@ -762,9 +765,9 @@ function QuietMessage({ text }: QuietMessageProps) {
       style={{
         fontFamily: "var(--font-display)",
         fontStyle: "italic",
-        fontSize: 20,
+        fontSize: 18,
         color: "var(--fg-muted)",
-        paddingTop: 24,
+        paddingTop: 16,
       }}
     >
       {text || " "}
@@ -794,7 +797,7 @@ function RoundBanner({ eyebrow, text }: RoundBannerProps) {
       <div
         style={{
           fontFamily: "var(--font-display)",
-          fontSize: 48,
+          fontSize: 40,
           fontWeight: 600,
           letterSpacing: "-0.02em",
           color: "var(--fg)",
