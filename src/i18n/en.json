@@ -6,7 +6,8 @@
     "steps": {
       "1": "The Flock",
       "2": "The Wheel",
-      "3": "The Oracle"
+      "3": "The Oracle",
+      "3duel": "The Duel"
     }
   },
   "common": {
@@ -44,7 +45,20 @@
     "statSorteo": "ORACLE",
     "statVelocity": "MOMENTUM",
     "cta": "To the Oracle",
-    "back": "Back to the flock"
+    "back": "Back to the flock",
+    "rpsCta": "Settle it by rock-paper-scissors duel"
+  },
+  "duel": {
+    "eyebrow": "BOOK III · THE DUEL",
+    "heading": "Let hands <em>speak.</em>",
+    "subtitle": "Two lambs. Three rounds. No prophecy.",
+    "scoreLabel": "BEST OF 3",
+    "throwCta": "Throw",
+    "rolling": "Hands turning…",
+    "tie": "Tie. Again.",
+    "roundWin": "Point for {{name}}.",
+    "finalPending": "The Duel unfolds…",
+    "unavailable": "The Duel needs two lambs."
   },
   "step3": {
     "eyebrow": "BOOK III · THE ORACLE",

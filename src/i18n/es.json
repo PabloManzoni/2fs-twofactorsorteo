@@ -6,7 +6,8 @@
     "steps": {
       "1": "El Rebaño",
       "2": "La Rueda",
-      "3": "El Oráculo"
+      "3": "El Oráculo",
+      "3duel": "El Duelo"
     }
   },
   "common": {
@@ -44,7 +45,20 @@
     "statSorteo": "ORÁCULO",
     "statVelocity": "IMPULSO",
     "cta": "Al Oráculo",
-    "back": "Volver al rebaño"
+    "back": "Volver al rebaño",
+    "rpsCta": "Resolver en duelo de piedra-papel-tijera"
+  },
+  "duel": {
+    "eyebrow": "LIBRO III · EL DUELO",
+    "heading": "Que las manos <em>hablen.</em>",
+    "subtitle": "Dos corderos. Tres rondas. Sin profecías.",
+    "scoreLabel": "MEJOR DE 3",
+    "throwCta": "Lanzar",
+    "rolling": "Las manos giran…",
+    "tie": "Empate. De nuevo.",
+    "roundWin": "Punto para {{name}}.",
+    "finalPending": "El Duelo se cumple…",
+    "unavailable": "El Duelo necesita dos corderos."
   },
   "step3": {
     "eyebrow": "LIBRO III · EL ORÁCULO",

@@ -11,6 +11,7 @@ export function Masthead() {
   const step = useRaffleStore((s) => s.step);
   const certNumber = useRaffleStore((s) => s.certNumber);
   const resetAll = useRaffleStore((s) => s.resetAll);
+  const mode = useRaffleStore((s) => s.mode);
 
   const locale = (i18n.resolvedLanguage ?? i18n.language ?? "es") === "en" ? "en-US" : "es-ES";
   const today = new Date().toLocaleDateString(locale, {
@@ -80,7 +81,9 @@ export function Masthead() {
                       color: "var(--fg)",
                     }}
                   >
-                    {t(`masthead.steps.${n}`)}
+                    {n === 3 && mode === "duel"
+                      ? t("masthead.steps.3duel")
+                      : t(`masthead.steps.${n}`)}
                   </span>
                 </div>
                 {i < STEPS.length - 1 && (

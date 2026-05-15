@@ -12,6 +12,7 @@ export function WheelPage() {
   const winner = useRaffleStore((s) => s.winner);
   const setWinner = useRaffleStore((s) => s.setWinner);
   const goStep = useRaffleStore((s) => s.goStep);
+  const startDuel = useRaffleStore((s) => s.startDuel);
   const certNumber = useRaffleStore((s) => s.certNumber);
   // Struck-out names stay in the urn but not in the wheel.
   const activeNames = names.filter((n) => !outNames.includes(n));
@@ -159,14 +160,32 @@ export function WheelPage() {
 
             <div style={{ marginTop: 24, display: "flex", flexDirection: "column", gap: 10 }}>
               {phase === "done" && winner ? (
-                <Button
-                  variant="primary"
-                  size="lg"
-                  onClick={() => goStep(3)}
-                  style={{ justifyContent: "center" }}
-                >
-                  {t("step2.cta")} →
-                </Button>
+                <>
+                  <Button
+                    variant="primary"
+                    size="lg"
+                    onClick={() => goStep(3)}
+                    style={{ justifyContent: "center" }}
+                  >
+                    {t("step2.cta")} →
+                  </Button>
+                  {/*
+                   * Two-lamb shortcut: once only two contenders remain (either
+                   * the raffle started that way or the oracle whittled them
+                   * down), offer the duel as an alternative resolver. Hidden
+                   * for any other count to keep the primary path uncluttered.
+                   */}
+                  {activeNames.length === 2 && (
+                    <Button
+                      variant="secondary"
+                      size="md"
+                      onClick={startDuel}
+                      style={{ justifyContent: "center" }}
+                    >
+                      {t("step2.rpsCta")}
+                    </Button>
+                  )}
+                </>
               ) : (
                 <Button
                   variant="secondary"
