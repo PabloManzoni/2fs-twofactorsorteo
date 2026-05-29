@@ -1,7 +1,6 @@
 # Drift entre `design.md` y el código real
 
-Estado: **2026-05-29**. **Cambios recientes documentados a propósito:**
-- Migración de paleta: paper-ramp pasó de **crema** (`#FBF7EF` → `#C7BEA9`) a **verde parsonage** (`#F2F7EF` → `#9FB592`). Ya reflejado en `design.md` y `tokens.css`.
+Estado: **2026-05-29**. **Cambio reciente documentado a propósito:**
 - `LanguageSwitcher` reescrito: ya no es un `<select>` nativo — ahora son **dos botones-bandera siempre visibles** (ES / EN) con SVG inline. Documentado en `design.md` y agregado a `components/LanguageSwitcher.tsx`. Estas son las divergencias detectadas entre lo que dice `design.md` y lo que el código realmente renderiza. Claude Design tiene que saber cuál fuente confiar antes de generar.
 
 > **Regla general:** el código está más adelantado que `design.md`. La voz maduró hacia algo más litúrgico ("Libro I · El Rebaño" en vez de "01 · LA URNA"). `design.md` quedó en un estado anterior. Cuando hay conflicto, **confiá en los screenshots y en los archivos `.tsx`/`.css`** de este bundle, no en la prosa de `design.md`.
