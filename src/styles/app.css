@@ -230,3 +230,54 @@
     padding: var(--sp-6) var(--sp-5) var(--sp-5);
   }
 }
+
+/* Language switcher — two flags always visible, active one inked. */
+.language-switcher {
+  display: inline-flex;
+  gap: 0;
+  border: var(--bw-2) solid var(--ink-900);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.language-switcher__flag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-1) var(--sp-3);
+  background: transparent;
+  border: 0;
+  border-inline-end: var(--bw-1) solid var(--rule);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  font-weight: 500;
+  letter-spacing: var(--tr-wide);
+  color: var(--fg-muted);
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+
+.language-switcher__flag:last-child {
+  border-inline-end: 0;
+}
+
+.language-switcher__flag:hover {
+  background: var(--surface-hover);
+  color: var(--fg);
+}
+
+.language-switcher__flag.is-active {
+  background: var(--ink-900);
+  color: var(--paper-50);
+}
+
+.language-switcher__flag svg {
+  display: block;
+  outline: 1px solid var(--rule-strong);
+  outline-offset: -1px;
+}
+
+.language-switcher__code {
+  line-height: 1;
+}

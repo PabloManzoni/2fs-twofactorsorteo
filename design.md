@@ -1,6 +1,6 @@
 # 2FS — Design System
 
-> Editorial newspaper aesthetic. **Paper cream + ink + single vermilion accent.** No gradients, no emoji.
+> Editorial newspaper aesthetic. **Parsonage-green paper + ink + single vermilion accent.** No gradients, no emoji (flags in the language switcher are functional locale indicators, not decoration).
 >
 > Primary display face: **Fraunces** (italic emphasis). UI face: **Inter**. Labels / numbers: **JetBrains Mono**.
 
@@ -12,13 +12,15 @@ Treat every screen like the inside of a printed program. Eyebrow in small-caps m
 
 ### Color — paper mode (default, also used dark-revealed)
 
+The paper ramp shifted from cream to **parsonage green** — the off-white of a country parish hymnal, not a saturated green. Cool, dusty, light enough to read black ink on. Vermilion accent untouched on purpose: the ink-on-green-on-vermilion triad is the brand.
+
 | Token | Value | Usage |
 | --- | --- | --- |
-| `--paper-50`  | `#FBF7EF` | Surface (cards, panels) |
-| `--paper-100` | `#F4EFE6` | Page background |
-| `--paper-200` | `#EDE6D8` | Hover surface |
-| `--paper-300` | `#E0D7C4` | Subtle fills (off-lights) |
-| `--paper-400` | `#C7BEA9` | Disabled tints |
+| `--paper-50`  | `#F2F7EF` | Surface (cards, panels) |
+| `--paper-100` | `#E8F1E2` | Page background |
+| `--paper-200` | `#DDE9D4` | Hover surface |
+| `--paper-300` | `#C5D7B9` | Subtle fills (off-lights) |
+| `--paper-400` | `#9FB592` | Disabled tints |
 | `--ink-900`   | `#141110` | Primary text, borders of emphasis |
 | `--ink-700`   | `#3A3330` | Strong text |
 | `--ink-500`   | `#6B6560` | Muted text |
@@ -78,6 +80,8 @@ Motion: `--ease: cubic-bezier(0.2, 0, 0, 1)`, durations `--dur-fast 120`, `--dur
 **Wordmark.** `2fs` in Fraunces italic 700, with superscript `º` in accent.
 
 **DoubleRule.** Two 1px rules separated by 3px gap. Used to close sections.
+
+**LanguageSwitcher.** Inline-flex group with `1.5px ink-900` border, `--r-md` radius, `--surface` background. **Both supported flags are always visible side-by-side** — never collapsed into a dropdown. Each flag is an inline 20×14 SVG (ES: red-yellow-red horizontal stripes; EN: simplified Union Jack on `#012169`) followed by the locale code in mono uppercase (`ES` / `EN`). Active flag inverts to `--ink-900` background with `--paper-50` text; inactive flags sit on `--surface` with `--fg-muted` text and hover to `--surface-hover`. A 1px `--rule` divider sits between flags. SVGs carry a 1px `--rule-strong` inset outline so the lighter flags don't disappear on green paper.
 
 **Ticket perforation edge.** 28–32 small 4×4 dots spaced across the top of a panel; colored `var(--bg)` to appear as bite-outs of the paper card.
 
