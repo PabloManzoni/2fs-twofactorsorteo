@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Handoff bundles (regenerate on demand)
+2fs-design-bundle.zip
