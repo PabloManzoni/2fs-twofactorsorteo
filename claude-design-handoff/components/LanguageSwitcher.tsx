@@ -1,3 +1,4 @@
+import type { ReactElement } from "react";
 import { useTranslation } from "react-i18next";
 import { SUPPORTED_LANGUAGES, type SupportedLanguage } from "../i18n";
 
@@ -28,7 +29,7 @@ function FlagEN() {
   );
 }
 
-const FLAGS: Record<SupportedLanguage, () => JSX.Element> = {
+const FLAGS: Record<SupportedLanguage, () => ReactElement> = {
   es: FlagES,
   en: FlagEN,
 };
