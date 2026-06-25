@@ -21,6 +21,7 @@ export function MagicBallPage() {
   const [selectedQ, setSelectedQ] = useState(0);
   const [answer, setAnswer] = useState<MagicBallAnswer | null>(null);
   const [triangleOpacity, setTriangleOpacity] = useState(0);
+  const [autoShakeTick, setAutoShakeTick] = useState(0);
   const revealTimeoutRef = useRef<number | null>(null);
 
   const questions = useMemo(() => buildQuestions(t, winner ?? ""), [t, winner]);
@@ -164,6 +165,7 @@ export function MagicBallPage() {
               interactive={!revealed && phase !== "revealing"}
               onShakeStart={onShakeStart}
               onShakeEnd={onShakeEnd}
+              autoShakeTick={autoShakeTick}
             />
           </div>
 
@@ -257,18 +259,28 @@ export function MagicBallPage() {
             )}
 
             {phase === "ready" && (
-              <div
-                style={{
-                  border: "1px dashed var(--rule-strong)",
-                  padding: "14px 18px",
-                  fontFamily: "var(--font-mono)",
-                  fontSize: 11,
-                  letterSpacing: "0.14em",
-                  textTransform: "uppercase",
-                  color: "var(--fg-muted)",
-                }}
-              >
-                ↖ {t("step3.shakeHint")}
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                <div
+                  style={{
+                    border: "1px dashed var(--rule-strong)",
+                    padding: "14px 18px",
+                    fontFamily: "var(--font-mono)",
+                    fontSize: 11,
+                    letterSpacing: "0.14em",
+                    textTransform: "uppercase",
+                    color: "var(--fg-muted)",
+                  }}
+                >
+                  ↖ {t("step3.shakeHint")}
+                </div>
+                <Button
+                  variant="primary"
+                  size="lg"
+                  onClick={() => setAutoShakeTick((n) => n + 1)}
+                  style={{ justifyContent: "center" }}
+                >
+                  {t("step3.autoShakeCta")}
+                </Button>
               </div>
             )}
 

@@ -6,6 +6,8 @@ interface WheelProps {
   onWinner: (name: string, index: number) => void;
   onVelocity?: (v: number) => void;
   onPhase?: (phase: WheelPhase) => void;
+  /** Increment to request an auto-spin (for users who don't realize they can drag). */
+  autoSpinTick?: number;
 }
 
 export type WheelPhase = "idle" | "spinning" | "done";
@@ -28,7 +30,7 @@ function segmentColor(i: number, total: number): string {
   return i % 2 === 0 ? "var(--accent-500)" : "var(--ink-900)";
 }
 
-export function Wheel({ participants, onWinner, onVelocity, onPhase }: WheelProps) {
+export function Wheel({ participants, onWinner, onVelocity, onPhase, autoSpinTick }: WheelProps) {
   const [angle, setAngle] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [phase, setPhase] = useState<WheelPhase>("idle");
@@ -119,6 +121,23 @@ export function Wheel({ participants, onWinner, onVelocity, onPhase }: WheelProp
       if (animRef.current !== null) cancelAnimationFrame(animRef.current);
     };
   }, []);
+
+  // Auto-spin requested by the page (button for users who don't drag). Starts
+  // a fresh spin with a randomized kick and direction so it feels less rigid
+  // than a fixed-energy launch. Ignored while already spinning or after done.
+  useEffect(() => {
+    if (!autoSpinTick) return;
+    if (phase !== "idle") return;
+    if (participants.length === 0) return;
+    warmAudio();
+    const direction = Math.random() < 0.5 ? -1 : 1;
+    const kick = (20 + Math.random() * 16) * direction;
+    changePhase("spinning");
+    startSpin(kick);
+    // startSpin only depends on stable refs, but listing it would re-fire this
+    // every time participants change. Keying on the tick + phase is enough.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoSpinTick]);
 
   const onPointerDown = (e: ReactPointerEvent) => {
     if (phase === "done") return;

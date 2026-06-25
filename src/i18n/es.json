@@ -46,7 +46,8 @@
     "statVelocity": "IMPULSO",
     "cta": "Al Oráculo",
     "back": "Editar participantes",
-    "rpsCta": "Resolver con piedra-papel-tijera"
+    "rpsCta": "Resolver con piedra-papel-tijera",
+    "autoSpinCta": "Echala a girar"
   },
   "duel": {
     "eyebrow": "LIBRO III · EL DUELO",
@@ -74,6 +75,7 @@
     "questionEyebrow": "LA PREGUNTA",
     "optionLabel": "PLEGARIA {{n}}",
     "shakeHint": "SACUDÍ LA BOLA",
+    "autoShakeCta": "Sacudila por mí",
     "shaking": "INVOCANDO…",
     "revealing": "REVELANDO…",
     "verdict": {

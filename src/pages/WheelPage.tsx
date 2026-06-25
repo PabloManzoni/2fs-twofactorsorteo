@@ -19,6 +19,7 @@ export function WheelPage() {
 
   const [phase, setPhase] = useState<WheelPhase>("idle");
   const [velocity, setVelocity] = useState(0);
+  const [autoSpinTick, setAutoSpinTick] = useState(0);
 
   // Dramatic shake: tag the body while the wheel spins so CSS can rattle the
   // whole viewport. Removed on unmount so it never leaks into other screens.
@@ -79,6 +80,7 @@ export function WheelPage() {
               onWinner={(name) => setWinner(name)}
               onVelocity={setVelocity}
               onPhase={setPhase}
+              autoSpinTick={autoSpinTick}
             />
           </div>
 
@@ -169,14 +171,26 @@ export function WheelPage() {
                   {t("step2.cta")} →
                 </Button>
               ) : (
-                <Button
-                  variant="secondary"
-                  size="md"
-                  onClick={() => goStep(1)}
-                  style={{ justifyContent: "center" }}
-                >
-                  ← {t("step2.back")}
-                </Button>
+                <>
+                  {phase === "idle" && activeNames.length >= 2 && (
+                    <Button
+                      variant="primary"
+                      size="lg"
+                      onClick={() => setAutoSpinTick((n) => n + 1)}
+                      style={{ justifyContent: "center" }}
+                    >
+                      {t("step2.autoSpinCta")}
+                    </Button>
+                  )}
+                  <Button
+                    variant="secondary"
+                    size="md"
+                    onClick={() => goStep(1)}
+                    style={{ justifyContent: "center" }}
+                  >
+                    ← {t("step2.back")}
+                  </Button>
+                </>
               )}
               {/*
                * Two-lamb shortcut: whenever only two contenders remain (either

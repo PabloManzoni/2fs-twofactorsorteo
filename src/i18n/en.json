@@ -46,7 +46,8 @@
     "statVelocity": "MOMENTUM",
     "cta": "To the Oracle",
     "back": "Edit participants",
-    "rpsCta": "Settle with rock-paper-scissors"
+    "rpsCta": "Settle with rock-paper-scissors",
+    "autoSpinCta": "Set it spinning"
   },
   "duel": {
     "eyebrow": "BOOK III · THE DUEL",
@@ -74,6 +75,7 @@
     "questionEyebrow": "THE QUESTION",
     "optionLabel": "PRAYER {{n}}",
     "shakeHint": "SHAKE THE BALL",
+    "autoShakeCta": "Shake it for me",
     "shaking": "INVOKING…",
     "revealing": "REVEALING…",
     "verdict": {

@@ -13,6 +13,8 @@ interface MagicBallProps {
   interactive: boolean;
   onShakeStart: () => void;
   onShakeEnd: (energy: number) => void;
+  /** Increment to request a programmatic shake (for users who don't drag). */
+  autoShakeTick?: number;
 }
 
 export function MagicBall({
@@ -22,6 +24,7 @@ export function MagicBall({
   interactive,
   onShakeStart,
   onShakeEnd,
+  autoShakeTick,
 }: MagicBallProps) {
   const ballRef = useRef<HTMLDivElement | null>(null);
   const [shakeOffset, setShakeOffset] = useState({ x: 0, y: 0 });
@@ -58,6 +61,50 @@ export function MagicBall({
     energyRef.current = 0;
     phaseRef.current = "ready";
   };
+
+  // Programmatic shake — animate offset oscillation for ~1.2s then resolve
+  // with enough energy to trigger the reveal. Respects reduced-motion by
+  // skipping the visual shake and revealing immediately.
+  useEffect(() => {
+    if (!autoShakeTick || !interactive) return;
+    warmAudio();
+    onShakeStart();
+    const reduced =
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) {
+      setShakeOffset({ x: 0, y: 0 });
+      onShakeEnd(999);
+      return;
+    }
+    const duration = 1200;
+    const start = performance.now();
+    let raf = 0;
+    let lastRumble = 0;
+    const step = (now: number) => {
+      const t = (now - start) / duration;
+      if (t >= 1) {
+        setShakeOffset({ x: 0, y: 0 });
+        onShakeEnd(999);
+        return;
+      }
+      const amp = (1 - t) * 14;
+      setShakeOffset({
+        x: Math.sin(now * 0.04) * amp + (Math.random() - 0.5) * 4,
+        y: Math.cos(now * 0.037) * amp + (Math.random() - 0.5) * 4,
+      });
+      if (now - lastRumble > 120) {
+        playRumble();
+        lastRumble = now;
+      }
+      raf = requestAnimationFrame(step);
+    };
+    raf = requestAnimationFrame(step);
+    return () => cancelAnimationFrame(raf);
+    // Keying on the tick alone: callbacks are stable refs from the parent and
+    // re-firing on every render would interrupt the shake mid-animation.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoShakeTick]);
 
   const onPointerMove = (e: ReactPointerEvent) => {
     if (!isDown || !interactive) return;
