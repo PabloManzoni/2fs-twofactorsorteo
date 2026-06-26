@@ -71,7 +71,7 @@
     "eyebrow": "LIBRO III · EL ORÁCULO",
     "heading": "La Bola <em>ya lo sabe.</em>",
     "headingRevealed": "Está dicho. <em style=\"font-weight:500;color:var(--accent)\">Está cumplido.</em>",
-    "provisional": "CORDERO PROVISIONAL",
+    "provisional": "ELEGIDO POR LA RUEDA",
     "questionEyebrow": "LA PREGUNTA",
     "optionLabel": "PLEGARIA {{n}}",
     "shakeHint": "SACUDÍ LA BOLA",
@@ -128,7 +128,11 @@
       "default": "OVIS ULTIMA · 2FS"
     },
     "startOver": "Empezar de nuevo",
-    "keepRaffling": "Otro Oráculo"
+    "keepRaffling": "Otro Oráculo",
+    "download": "Llevarse el veredicto",
+    "participantsLabel": "EL REBAÑO",
+    "shareTitle": "Oráculo Nº {{n}} — 2fs",
+    "shareText": "El Oráculo eligió a {{name}}."
   },
   "hands": {
     "rock": "Piedra",

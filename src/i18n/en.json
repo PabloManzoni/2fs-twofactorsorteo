@@ -71,7 +71,7 @@
     "eyebrow": "BOOK III · THE ORACLE",
     "heading": "The Ball <em>already knows.</em>",
     "headingRevealed": "It is said. <em style=\"font-weight:500;color:var(--accent)\">It is done.</em>",
-    "provisional": "PROVISIONAL LAMB",
+    "provisional": "CHOSEN BY THE WHEEL",
     "questionEyebrow": "THE QUESTION",
     "optionLabel": "PRAYER {{n}}",
     "shakeHint": "SHAKE THE BALL",
@@ -128,7 +128,11 @@
       "default": "OVIS ULTIMA · 2FS"
     },
     "startOver": "Start over",
-    "keepRaffling": "Another Oracle"
+    "keepRaffling": "Another Oracle",
+    "download": "Take the verdict",
+    "participantsLabel": "THE FLOCK",
+    "shareTitle": "Oracle Nº {{n}} — 2fs",
+    "shareText": "The Oracle chose {{name}}."
   },
   "hands": {
     "rock": "Rock",

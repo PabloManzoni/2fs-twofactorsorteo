@@ -6,6 +6,8 @@ interface WheelProps {
   onWinner: (name: string, index: number) => void;
   onVelocity?: (v: number) => void;
   onPhase?: (phase: WheelPhase) => void;
+  /** Final rotation angle (deg) once the wheel comes to rest. */
+  onLandedAngle?: (deg: number) => void;
   /** Increment to request an auto-spin (for users who don't realize they can drag). */
   autoSpinTick?: number;
 }
@@ -30,7 +32,7 @@ function segmentColor(i: number, total: number): string {
   return i % 2 === 0 ? "var(--accent-500)" : "var(--ink-900)";
 }
 
-export function Wheel({ participants, onWinner, onVelocity, onPhase, autoSpinTick }: WheelProps) {
+export function Wheel({ participants, onWinner, onVelocity, onPhase, onLandedAngle, autoSpinTick }: WheelProps) {
   const [angle, setAngle] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [phase, setPhase] = useState<WheelPhase>("idle");
@@ -105,6 +107,9 @@ export function Wheel({ participants, onWinner, onVelocity, onPhase, autoSpinTic
           const idx = landAngleToIndex(next);
           changePhase("done");
           playDing();
+          // Report the resting rotation so the status panel can stop lying
+          // about IMPULSO and show where the wheel actually ended up.
+          onLandedAngle?.(((next % 360) + 360) % 360);
           window.setTimeout(() => onWinner(participants[idx], idx), 450);
           return;
         }

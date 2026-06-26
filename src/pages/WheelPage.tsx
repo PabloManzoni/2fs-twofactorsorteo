@@ -19,6 +19,7 @@ export function WheelPage() {
 
   const [phase, setPhase] = useState<WheelPhase>("idle");
   const [velocity, setVelocity] = useState(0);
+  const [landedAngle, setLandedAngle] = useState<number | null>(null);
   const [autoSpinTick, setAutoSpinTick] = useState(0);
 
   // Dramatic shake: tag the body while the wheel spins so CSS can rattle the
@@ -79,7 +80,11 @@ export function WheelPage() {
               participants={activeNames}
               onWinner={(name) => setWinner(name)}
               onVelocity={setVelocity}
-              onPhase={setPhase}
+              onPhase={(p) => {
+                setPhase(p);
+                if (p === "idle" || p === "spinning") setLandedAngle(null);
+              }}
+              onLandedAngle={setLandedAngle}
               autoSpinTick={autoSpinTick}
             />
           </div>
@@ -140,7 +145,14 @@ export function WheelPage() {
                   },
                   {
                     label: t("step2.statVelocity"),
-                    value: `${Math.abs(velocity).toFixed(1).padStart(5, "0")}°`,
+                    // Once the wheel comes to rest, the velocity has already
+                    // collapsed to ~0; showing it would read as "the wheel
+                    // never moved". Swap in the resting angle so the stat
+                    // reflects where it actually stopped.
+                    value:
+                      phase === "done" && landedAngle !== null
+                        ? `${landedAngle.toFixed(1).padStart(5, "0")}°`
+                        : `${Math.abs(velocity).toFixed(1).padStart(5, "0")}°`,
                   },
                 ].map((row) => (
                   <div

@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { formatCertNumber, useRaffleStore } from "../store/raffleStore";
+import { shareCertificate, type CertificateData } from "../lib/exportCertificate";
 import { Button } from "./ui/Button";
 import { Eyebrow } from "./ui/Eyebrow";
 import { Stamp } from "./ui/Stamp";
@@ -265,7 +266,7 @@ export function VerdictCertificate() {
             <Stamp number={formatCertNumber(certNumber)} label={stampLabel} size={80} rotate={8} />
           </div>
 
-          <div style={{ marginTop: "var(--sp-6)" }}>
+          <div style={{ marginTop: "var(--sp-6)", display: "flex", flexDirection: "column", gap: 10, alignItems: "center" }}>
             {canContinue ? (
               <Button variant="primary" size="lg" onClick={continueRaffle}>
                 {t("confirmed.keepRaffling")} →
@@ -275,6 +276,36 @@ export function VerdictCertificate() {
                 {t("confirmed.startOver")} ↻
               </Button>
             )}
+            <Button
+              variant="secondary"
+              size="md"
+              onClick={() => {
+                const data: CertificateData = {
+                  winner: displayName,
+                  certNumber: formatCertNumber(certNumber),
+                  participants: names,
+                  outNames,
+                  date: today,
+                  verdictBadge: verdictEyebrow,
+                  stampLabel,
+                  bodyText,
+                  coda: t("confirmed.coda"),
+                  thisIsToCertify: t("confirmed.thisIsToCertify"),
+                  sorteoLine: t("confirmed.sorteoLine", { n: formatCertNumber(certNumber) }),
+                  title: t("confirmed.title"),
+                  participantsLabel: t("confirmed.participantsLabel"),
+                  isStruck: strikeName,
+                  isChosen,
+                };
+                void shareCertificate(
+                  data,
+                  t("confirmed.shareTitle", { n: formatCertNumber(certNumber) }),
+                  t("confirmed.shareText", { name: displayName }),
+                );
+              }}
+            >
+              {t("confirmed.download")} ↓
+            </Button>
           </div>
         </div>
       </div>
