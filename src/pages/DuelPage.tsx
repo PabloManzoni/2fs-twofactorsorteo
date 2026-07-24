@@ -278,7 +278,7 @@ export function DuelPage() {
       <main className="page" style={{ paddingTop: 40 }}>
         <div className="page__inner">
           <Eyebrow style={{ marginBottom: 12 }}>{t("duel.eyebrow")}</Eyebrow>
-          <h1 className="display-lg" style={{ fontSize: 48, marginBottom: 16 }}>
+          <h1 className="display-lg" style={{ fontSize: 42, marginBottom: 16 }}>
             {t("duel.unavailable")}
           </h1>
           <Button variant="secondary" size="md" onClick={() => goStep(2)}>
@@ -335,7 +335,7 @@ export function DuelPage() {
 
         <h1
           className="display-lg"
-          style={{ fontSize: 48, marginBottom: 8 }}
+          style={{ fontSize: 42, marginBottom: 8 }}
           dangerouslySetInnerHTML={{ __html: t("duel.heading") }}
         />
 

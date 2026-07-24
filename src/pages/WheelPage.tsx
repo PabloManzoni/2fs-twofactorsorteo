@@ -40,7 +40,7 @@ export function WheelPage() {
         <Eyebrow style={{ marginBottom: 12 }}>{t("step2.eyebrow")}</Eyebrow>
 
         <div className="page-header-row">
-          <h1 className="display-lg" style={{ fontSize: 56 }}>
+          <h1 className="display-lg">
             {phase === "done" ? (
               <span
                 dangerouslySetInnerHTML={{ __html: t("step2.headingDone") }}

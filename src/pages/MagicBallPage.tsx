@@ -118,7 +118,6 @@ export function MagicBallPage() {
           <h1
             className="display-lg"
             style={{
-              fontSize: 56,
               color: revealed ? "var(--paper-50)" : "var(--fg)",
             }}
           >
