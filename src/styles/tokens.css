@@ -4,11 +4,11 @@
 
 :root {
   /* --- paper ramp --- */
-  --paper-50: #FBF7EF;
-  --paper-100: #F4EFE6;
-  --paper-200: #EDE6D8;
-  --paper-300: #E0D7C4;
-  --paper-400: #C7BEA9;
+  --paper-50: #F4F1EC;
+  --paper-100: #EDE9E2;
+  --paper-200: #E4DFD5;
+  --paper-300: #D6CFC0;
+  --paper-400: #BDB6A5;
 
   /* --- ink ramp --- */
   --ink-900: #141110;
@@ -117,10 +117,10 @@
 }
 
 [data-theme="ink"] {
-  --bg: #141110;
-  --surface: #1E1A18;
-  --surface-hover: #272320;
-  --surface-sunk: #0E0C0B;
+  --bg: #101113;
+  --surface: #191A1D;
+  --surface-hover: #212226;
+  --surface-sunk: #0A0B0D;
   --fg: var(--paper-100);
   --fg-strong: var(--paper-50);
   --fg-muted: var(--ink-300);

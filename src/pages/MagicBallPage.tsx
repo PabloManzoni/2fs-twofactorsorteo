@@ -100,7 +100,7 @@ export function MagicBallPage() {
       className="page"
       style={{
         paddingTop: 40,
-        background: revealed ? "#141110" : "var(--bg)",
+        background: "var(--bg)",
         color: revealed ? "var(--paper-100)" : "var(--fg)",
         transition: "background 600ms var(--ease), color 600ms var(--ease)",
         overflow: "hidden",

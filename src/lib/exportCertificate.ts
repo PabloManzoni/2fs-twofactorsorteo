@@ -26,8 +26,8 @@ const W = 800;
 const H = 1100;
 
 const COLORS = {
-  paper: "#FBF7EF",
-  paperRule: "#E0D7C4",
+  paper: "#F4F1EC",
+  paperRule: "#D6CFC0",
   ink: "#141110",
   inkMuted: "#6B6560",
   accent: "#C8442A",

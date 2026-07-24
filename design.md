@@ -14,11 +14,11 @@ Treat every screen like the inside of a printed program. Eyebrow in small-caps m
 
 | Token | Value | Usage |
 | --- | --- | --- |
-| `--paper-50`  | `#FBF7EF` | Surface (cards, panels) |
-| `--paper-100` | `#F4EFE6` | Page background |
-| `--paper-200` | `#EDE6D8` | Hover surface |
-| `--paper-300` | `#E0D7C4` | Subtle fills (off-lights) |
-| `--paper-400` | `#C7BEA9` | Disabled tints |
+| `--paper-50`  | `#F4F1EC` | Surface (cards, panels) |
+| `--paper-100` | `#EDE9E2` | Page background |
+| `--paper-200` | `#E4DFD5` | Hover surface |
+| `--paper-300` | `#D6CFC0` | Subtle fills (off-lights) |
+| `--paper-400` | `#BDB6A5` | Disabled tints |
 | `--ink-900`   | `#141110` | Primary text, borders of emphasis |
 | `--ink-700`   | `#3A3330` | Strong text |
 | `--ink-500`   | `#6B6560` | Muted text |
@@ -33,7 +33,7 @@ Treat every screen like the inside of a printed program. Eyebrow in small-caps m
 
 Semantic aliases: `--bg`, `--surface`, `--surface-hover`, `--fg`, `--fg-strong`, `--fg-muted`, `--fg-subtle`, `--fg-on-accent`, `--rule`, `--rule-strong`, `--accent`, `--accent-hover`, `--accent-wash`.
 
-Dark-reveal mode (used only on the 8-ball reveal screen): switch `[data-theme="ink"]` — `--bg: #141110`, `--fg: var(--paper-100)`, etc.
+Dark-reveal mode (used only on the 8-ball reveal screen): switch `[data-theme="ink"]` — `--bg: #101113`, `--fg: var(--paper-100)`, etc.
 
 ### Type
 
@@ -99,7 +99,7 @@ Right side panel: `ESTADO` card with huge Fraunces of phase text (`En reposo` / 
 
 ### 03 · 8 Ball (El Segundo Factor)
 
-380px ball: radial dark body, white "8" disc at top, dark blue window at bottom revealing an answer triangle. Mouse drag accumulates shake energy; over 30 triggers reveal. On reveal, the page `background` transitions to `#141110` and text flips to paper.
+380px ball: radial dark body, white "8" disc at top, dark blue window at bottom revealing an answer triangle. Mouse drag accumulates shake energy; over 30 triggers reveal. On reveal, the page `background` transitions to `#101113` and text flips to paper.
 
 Outcomes:
 - **yes** → tone color `--success-500`, header `LA CASA APRUEBA`, CTA `Confirmar a {Nombre} ✓` → opens ConfirmedModal.
