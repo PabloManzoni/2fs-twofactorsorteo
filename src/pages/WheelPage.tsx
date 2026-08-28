@@ -4,6 +4,7 @@ import { formatCertNumber, useRaffleStore } from "../store/raffleStore";
 import { Button } from "../components/ui/Button";
 import { Eyebrow } from "../components/ui/Eyebrow";
 import { Wheel, type WheelPhase } from "../components/Wheel/Wheel";
+import { AUTO_WHEEL_HOLD_MS, AUTO_WHEEL_START_MS } from "../lib/fullAuto";
 
 export function WheelPage() {
   const { t } = useTranslation();
@@ -14,6 +15,7 @@ export function WheelPage() {
   const goStep = useRaffleStore((s) => s.goStep);
   const startDuel = useRaffleStore((s) => s.startDuel);
   const certNumber = useRaffleStore((s) => s.certNumber);
+  const fullAuto = useRaffleStore((s) => s.fullAuto);
   // Struck-out names stay in the urn but not in the wheel.
   const activeNames = names.filter((n) => !outNames.includes(n));
 
@@ -29,6 +31,24 @@ export function WheelPage() {
     else document.body.removeAttribute("data-spinning");
     return () => document.body.removeAttribute("data-spinning");
   }, [phase]);
+
+  // Hands-off run: with two left there is nothing to draw, so hand it to the
+  // tiebreaker; otherwise spin on arrival and move to the ball once it lands.
+  useEffect(() => {
+    if (!fullAuto) return;
+    if (activeNames.length === 2) {
+      startDuel();
+      return;
+    }
+    if (phase === "idle") {
+      const id = window.setTimeout(() => setAutoSpinTick((n) => n + 1), AUTO_WHEEL_START_MS);
+      return () => window.clearTimeout(id);
+    }
+    if (phase === "done" && winner) {
+      const id = window.setTimeout(() => goStep(3), AUTO_WHEEL_HOLD_MS);
+      return () => window.clearTimeout(id);
+    }
+  }, [fullAuto, phase, winner, activeNames.length, startDuel, goStep]);
 
   const statusFirstName = winner?.split(" ")[0] ?? "";
   const statusRest = winner?.split(" ").slice(1).join(" ") ?? "";
@@ -172,7 +192,14 @@ export function WheelPage() {
               </div>
             </div>
 
-            <div style={{ marginTop: 24, display: "flex", flexDirection: "column", gap: 10 }}>
+            <div
+              style={{
+                marginTop: 24,
+                display: fullAuto ? "none" : "flex",
+                flexDirection: "column",
+                gap: 10,
+              }}
+            >
               {phase === "done" && winner ? (
                 <Button
                   variant="primary"

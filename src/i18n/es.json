@@ -1,138 +1,147 @@
 {
   "masthead": {
-    "tagline": "EVANGELIO · DOS · FACTORES",
-    "edition": "ORÁCULO Nº {{n}}",
+    "tagline": "SORTEO · EN · DOS · PASOS",
+    "edition": "SORTEO Nº {{n}}",
     "reset": "Empezar de nuevo",
     "steps": {
-      "1": "El Rebaño",
-      "2": "La Rueda",
-      "3": "El Oráculo",
-      "3duel": "El Duelo"
+      "1": "La gente",
+      "2": "La rueda",
+      "3": "La bola",
+      "3duel": "Desempate"
     }
   },
   "common": {
     "language": "Idioma"
   },
   "step1": {
-    "eyebrow": "LIBRO I · EL REBAÑO",
-    "heading": "Reuní al <em>rebaño.</em>",
-    "subtitle": "Entre 2 y 10 personas. La Rueda señala. La Bola decide.",
-    "addParticipant": "SUMAR CORDERO",
+    "eyebrow": "PASO 1 · LA GENTE",
+    "heading": "¿Quiénes <em>entran?</em>",
+    "subtitle": "De 2 a 10 personas. La rueda saca un nombre. La bola dice si vale.",
+    "addParticipant": "AGREGAR PERSONA",
     "inputPlaceholder": "Ej. Agustín",
-    "add": "Sumar",
+    "add": "Agregar",
     "enterHint": "Enter para agregar · {{current}}/{{max}}",
-    "houseRule": "LEY DEL ORÁCULO",
-    "houseRuleBody": "Un cordero por turno. La Rueda elige, la <span style=\"color: var(--accent)\">Bola confirma</span>. Sin marcha atrás.",
-    "inTheUrn": "EL REBAÑO",
-    "emptyTitle": "El rebaño está vacío.",
-    "emptyHint": "Sumá el primer cordero.",
-    "remove": "Quitar a {{name}}",
-    "outBadge": "Apartado",
+    "houseRule": "CÓMO FUNCIONA",
+    "houseRuleBody": "La rueda saca un nombre. La <span style=\"color: var(--accent)\">bola dice sí o no</span>. Si dice que no, esa persona queda afuera y se gira otra vez.",
+    "inTheUrn": "EN EL SORTEO",
+    "emptyTitle": "Todavía no hay nadie.",
+    "emptyHint": "Agregá el primer nombre.",
+    "remove": "Sacar a {{name}}",
+    "outBadge": "Afuera",
     "clearUrn": "Vaciar la lista",
-    "cta": "A la Rueda",
-    "minHint": "Mínimo {{min}} corderos."
+    "cta": "Girar la rueda",
+    "autoCta": "Modo automático",
+    "autoHint": "Hace todo solo hasta que queda uno.",
+    "minHint": "Necesitás al menos {{min}}."
   },
   "step2": {
-    "eyebrow": "LIBRO II · LA RUEDA",
+    "eyebrow": "PASO 2 · LA RUEDA",
     "heading": "Que gire.",
-    "headingDone": "El cordero <em style=\"font-weight:500;color:var(--accent)\">ya estaba elegido.</em>",
-    "instructionEyebrow": "MANDAMIENTO",
-    "instruction": "Empujala. La Rueda hace el resto.",
-    "statusEyebrow": "AUGURIO",
-    "idle": "En silencio",
-    "spinning": "Revelando…",
-    "statParticipants": "REBAÑO",
-    "statSorteo": "ORÁCULO",
-    "statVelocity": "IMPULSO",
-    "cta": "Al Oráculo",
-    "back": "Editar participantes",
-    "rpsCta": "Resolver con piedra-papel-tijera",
-    "autoSpinCta": "Echala a girar"
+    "headingDone": "Salió <em style=\"font-weight:500;color:var(--accent)\">este nombre.</em>",
+    "instructionEyebrow": "CÓMO",
+    "instruction": "Arrastrala, o tocá el botón.",
+    "statusEyebrow": "ESTADO",
+    "idle": "Quieta",
+    "spinning": "Girando…",
+    "statParticipants": "EN JUEGO",
+    "statSorteo": "SORTEO",
+    "statVelocity": "GIRO",
+    "cta": "Preguntarle a la bola",
+    "back": "Cambiar la lista",
+    "rpsCta": "Piedra, papel o tijera",
+    "autoSpinCta": "Girar la rueda"
   },
   "duel": {
-    "eyebrow": "LIBRO III · EL DUELO",
-    "heading": "Que las manos <em>hablen.</em>",
-    "subtitle": "Dos corderos. Tres rondas. Sin profecías.",
+    "eyebrow": "DESEMPATE",
+    "heading": "Que decidan <em>las manos.</em>",
+    "subtitle": "Dos personas. Mejor de tres. Sin bola.",
     "scoreLabel": "MEJOR DE 3",
-    "throwCta": "Lanzar",
-    "windup": "Las manos se tensan…",
-    "rolling": "El destino se decide…",
-    "settling": "Revelación…",
-    "tie": "Empate. De nuevo.",
+    "throwCta": "Tirar",
+    "windup": "Preparados…",
+    "rolling": "Ahí van…",
+    "settling": "A ver…",
+    "tie": "Empate. Otra vez.",
     "roundWin": "Punto para {{name}}.",
     "roundPointEyebrow": "PUNTO",
     "roundCounter": "Ronda {{played}}/{{total}}",
-    "victorEyebrow": "EL VENCEDOR DEL DUELO",
-    "victorTagline": "Las manos lo señalaron.",
-    "finalPending": "El Duelo se cumple…",
-    "unavailable": "El Duelo necesita dos corderos."
+    "victorEyebrow": "GANÓ EL DESEMPATE",
+    "victorTagline": "Ganó a mano limpia.",
+    "finalPending": "Cerrando…",
+    "unavailable": "El desempate necesita dos personas."
   },
   "step3": {
-    "eyebrow": "LIBRO III · EL ORÁCULO",
-    "heading": "La Bola <em>ya lo sabe.</em>",
-    "headingRevealed": "Está dicho. <em style=\"font-weight:500;color:var(--accent)\">Está cumplido.</em>",
-    "provisional": "ELEGIDO POR LA RUEDA",
+    "eyebrow": "PASO 3 · LA BOLA",
+    "heading": "La bola <em>ya lo sabe.</em>",
+    "headingRevealed": "La bola <em style=\"font-weight:500;color:var(--accent)\">habló.</em>",
+    "provisional": "SALIÓ EN LA RUEDA",
     "questionEyebrow": "LA PREGUNTA",
-    "optionLabel": "PLEGARIA {{n}}",
+    "question": "¿{{name}} es el elegido?",
     "shakeHint": "SACUDÍ LA BOLA",
     "autoShakeCta": "Sacudila por mí",
-    "shaking": "INVOCANDO…",
-    "revealing": "REVELANDO…",
+    "shaking": "SACUDIENDO…",
+    "revealing": "ESPERÁ…",
     "verdict": {
       "yes": "BOLA · SÍ",
       "no": "BOLA · NO"
     },
-    "questions": {
-      "blesses": "¿El Oráculo bendice a {{name}}?",
-      "curses": "¿El Oráculo aparta a {{name}}?"
-    },
     "answers": {
       "yes": {
-        "noDoubt": "Ya estaba escrito.",
-        "itIsCertain": "Está dicho. Está hecho.",
+        "noDoubt": "Sí. Ya estaba.",
+        "itIsCertain": "Sí. Listo.",
         "yesDefinitely": "Sí. Desde siempre.",
-        "youCanRely": "Tu cordero. Tu suerte.",
-        "asISeeIt": "Lo vi antes que entraras.",
-        "mostLikely": "El Oráculo asiente.",
-        "goodOutlook": "El cielo lo nombra.",
-        "signsPoint": "Todo apunta al cordero."
+        "youCanRely": "Le tocó.",
+        "asISeeIt": "Lo sabía desde antes.",
+        "mostLikely": "La bola dice que sí.",
+        "goodOutlook": "Es esa persona.",
+        "signsPoint": "Todo indica que sí."
       },
       "no": {
-        "dontCount": "No es ese cordero.",
-        "replyNo": "No. Y siempre lo fue.",
-        "sourcesSayNo": "El Oráculo dice no.",
-        "outlookNotGood": "El cielo gira la cara.",
-        "veryDoubtful": "Nunca lo nombraron."
+        "dontCount": "No es esa persona.",
+        "replyNo": "No. Nunca fue.",
+        "sourcesSayNo": "La bola dice que no.",
+        "outlookNotGood": "No. Probá de nuevo.",
+        "veryDoubtful": "No. Ni cerca."
       }
     },
     "cta": {
-      "acceptFate": "Que se cumpla"
+      "acceptYes": "Listo, ganó",
+      "acceptNo": "Sacarlo y girar de nuevo"
     }
   },
   "confirmed": {
-    "title": "EL ORÁCULO HABLÓ",
-    "sorteoLine": "ORÁCULO Nº {{n}}",
-    "thisIsToCertify": "siempre estuvo escrito que",
-    "bodyYes": "El cordero fue ungido.",
-    "bodyNo": "El cordero fue apartado.",
-    "bodyDefault": "La Bola apartó a {{penultimate}}. Queda el último cordero.",
-    "coda": "Dos factores. Una sola voluntad. Estaba escrito.",
+    "title": "RESULTADO DEL SORTEO",
+    "sorteoLine": "SORTEO Nº {{n}}",
+    "thisIsToCertify": "el sorteo eligió a",
+    "bodyYes": "La bola dijo que sí.",
+    "bodyDuel": "Ganó el desempate a mano.",
+    "bodyNo": "La bola dijo que no. Queda afuera.",
+    "bodyDefault": "La bola sacó a {{penultimate}}. Queda una sola persona.",
+    "coda": "Dos pasos. Un solo nombre.",
     "verdictBadge": {
-      "yes": "EL UNGIDO",
-      "no": "EL APARTADO",
-      "default": "EL ÚLTIMO CORDERO"
+      "yes": "EL ELEGIDO",
+      "no": "QUEDA AFUERA",
+      "default": "EL ÚLTIMO QUE QUEDA"
     },
     "stampLabel": {
-      "yes": "OVIS ELECTA · SIC ERAT SCRIPTUM · 2FS",
-      "no": "OVIS DEPOSITA · BOLA LOCUTA · 2FS",
-      "default": "OVIS ULTIMA · 2FS"
+      "yes": "SORTEO OFICIAL · 2FS · SORTEO OFICIAL",
+      "no": "SIGUE EL SORTEO · 2FS · SIGUE EL SORTEO",
+      "default": "ÚLTIMO EN PIE · 2FS · ÚLTIMO EN PIE"
     },
     "startOver": "Empezar de nuevo",
-    "keepRaffling": "Otro Oráculo",
-    "download": "Llevarse el veredicto",
-    "participantsLabel": "EL REBAÑO",
-    "shareTitle": "Oráculo Nº {{n}} — 2fs",
-    "shareText": "El Oráculo eligió a {{name}}."
+    "keepRaffling": "Seguir girando",
+    "download": "Guardar el resultado",
+    "participantsLabel": "PARTICIPANTES",
+    "shareTitle": "Sorteo Nº {{n}} — 2fs",
+    "shareText": "El sorteo eligió a {{name}}."
+  },
+  "fullAuto": {
+    "label": "MODO AUTOMÁTICO",
+    "stop": "Parar",
+    "spinning": "Girando la rueda…",
+    "asking": "Preguntándole a la bola por {{name}}…",
+    "rejected": "{{name}} queda afuera. Va de nuevo.",
+    "duel": "Quedan dos. Se define a mano.",
+    "done": "Listo."
   },
   "hands": {
     "rock": "Piedra",

@@ -96,6 +96,10 @@ export function Wheel({ participants, onWinner, onVelocity, onPhase, onLandedAng
         const next = angleRef.current + v;
         v *= FRICTION;
         updateAngle(next);
+        // Report the decaying speed too: a spin started from a button never
+        // goes through the drag handler, so without this the status panel
+        // would sit at 000.0° for the whole spin and read as "nothing moved".
+        updateVelocity(v);
         setLightPulse((p) => p + 1);
         const sector = Math.floor((((-next % 360) + 360) % 360) / segAngle);
         if (sector !== lastTickSectorRef.current) {
@@ -105,6 +109,7 @@ export function Wheel({ participants, onWinner, onVelocity, onPhase, onLandedAng
         }
         if (Math.abs(v) <= MIN_V) {
           const idx = landAngleToIndex(next);
+          updateVelocity(0);
           changePhase("done");
           playDing();
           // Report the resting rotation so the status panel can stop lying
@@ -118,7 +123,7 @@ export function Wheel({ participants, onWinner, onVelocity, onPhase, onLandedAng
       animRef.current = requestAnimationFrame(tick);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [participants, segAngle, changePhase, onWinner, updateAngle],
+    [participants, segAngle, changePhase, onWinner, updateAngle, updateVelocity],
   );
 
   useEffect(() => {

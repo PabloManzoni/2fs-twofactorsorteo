@@ -1,138 +1,147 @@
 {
   "masthead": {
-    "tagline": "GOSPEL · TWO · FACTORS",
-    "edition": "ORACLE Nº {{n}}",
+    "tagline": "A · DRAW · IN · TWO · STEPS",
+    "edition": "DRAW Nº {{n}}",
     "reset": "Start over",
     "steps": {
-      "1": "The Flock",
-      "2": "The Wheel",
-      "3": "The Oracle",
-      "3duel": "The Duel"
+      "1": "People",
+      "2": "The wheel",
+      "3": "The ball",
+      "3duel": "Tiebreaker"
     }
   },
   "common": {
     "language": "Language"
   },
   "step1": {
-    "eyebrow": "BOOK I · THE FLOCK",
-    "heading": "Gather the <em>flock.</em>",
-    "subtitle": "Between 2 and 10 people. The Wheel points. The Ball decides.",
-    "addParticipant": "ADD A LAMB",
+    "eyebrow": "STEP 1 · THE PEOPLE",
+    "heading": "Who's <em>in?</em>",
+    "subtitle": "2 to 10 people. The wheel pulls a name. The ball says if it counts.",
+    "addParticipant": "ADD A PERSON",
     "inputPlaceholder": "e.g. Agustín",
     "add": "Add",
     "enterHint": "Press Enter to add · {{current}}/{{max}}",
-    "houseRule": "LAW OF THE ORACLE",
-    "houseRuleBody": "One lamb per turn. The Wheel picks, the <span style=\"color: var(--accent)\">Ball confirms</span>. No going back.",
-    "inTheUrn": "THE FLOCK",
-    "emptyTitle": "The flock is empty.",
-    "emptyHint": "Add the first lamb.",
+    "houseRule": "HOW IT WORKS",
+    "houseRuleBody": "The wheel pulls a name. The <span style=\"color: var(--accent)\">ball says yes or no</span>. On a no, that person is out and the wheel spins again.",
+    "inTheUrn": "IN THE DRAW",
+    "emptyTitle": "Nobody yet.",
+    "emptyHint": "Add the first name.",
     "remove": "Remove {{name}}",
-    "outBadge": "Cast out",
+    "outBadge": "Out",
     "clearUrn": "Clear the list",
-    "cta": "To the Wheel",
-    "minHint": "At least {{min}} lambs."
+    "cta": "Spin the wheel",
+    "autoCta": "Auto mode",
+    "autoHint": "Runs itself until one person is left.",
+    "minHint": "You need at least {{min}}."
   },
   "step2": {
-    "eyebrow": "BOOK II · THE WHEEL",
+    "eyebrow": "STEP 2 · THE WHEEL",
     "heading": "Let it spin.",
-    "headingDone": "The lamb <em style=\"font-weight:500;color:var(--accent)\">was already chosen.</em>",
-    "instructionEyebrow": "COMMANDMENT",
-    "instruction": "Push it. The Wheel handles the rest.",
-    "statusEyebrow": "AUGURY",
-    "idle": "In silence",
-    "spinning": "Revealing…",
-    "statParticipants": "FLOCK",
-    "statSorteo": "ORACLE",
-    "statVelocity": "MOMENTUM",
-    "cta": "To the Oracle",
-    "back": "Edit participants",
-    "rpsCta": "Settle with rock-paper-scissors",
-    "autoSpinCta": "Set it spinning"
+    "headingDone": "It landed on <em style=\"font-weight:500;color:var(--accent)\">this name.</em>",
+    "instructionEyebrow": "HOW",
+    "instruction": "Drag it, or tap the button.",
+    "statusEyebrow": "STATUS",
+    "idle": "Still",
+    "spinning": "Spinning…",
+    "statParticipants": "IN PLAY",
+    "statSorteo": "DRAW",
+    "statVelocity": "SPIN",
+    "cta": "Ask the ball",
+    "back": "Change the list",
+    "rpsCta": "Rock, paper, scissors",
+    "autoSpinCta": "Spin the wheel"
   },
   "duel": {
-    "eyebrow": "BOOK III · THE DUEL",
-    "heading": "Let hands <em>speak.</em>",
-    "subtitle": "Two lambs. Three rounds. No prophecy.",
+    "eyebrow": "TIEBREAKER",
+    "heading": "Let <em>hands</em> decide.",
+    "subtitle": "Two people. Best of three. No ball.",
     "scoreLabel": "BEST OF 3",
     "throwCta": "Throw",
-    "windup": "Hands tighten…",
-    "rolling": "Destiny decides…",
-    "settling": "Revelation…",
+    "windup": "Ready…",
+    "rolling": "Here they go…",
+    "settling": "Let's see…",
     "tie": "Tie. Again.",
     "roundWin": "Point for {{name}}.",
     "roundPointEyebrow": "POINT",
     "roundCounter": "Round {{played}}/{{total}}",
-    "victorEyebrow": "THE DUEL'S VICTOR",
-    "victorTagline": "The hands have spoken.",
-    "finalPending": "The Duel unfolds…",
-    "unavailable": "The Duel needs two lambs."
+    "victorEyebrow": "WON THE TIEBREAKER",
+    "victorTagline": "Won it fair and square.",
+    "finalPending": "Wrapping up…",
+    "unavailable": "The tiebreaker needs two people."
   },
   "step3": {
-    "eyebrow": "BOOK III · THE ORACLE",
-    "heading": "The Ball <em>already knows.</em>",
-    "headingRevealed": "It is said. <em style=\"font-weight:500;color:var(--accent)\">It is done.</em>",
-    "provisional": "CHOSEN BY THE WHEEL",
+    "eyebrow": "STEP 3 · THE BALL",
+    "heading": "The ball <em>already knows.</em>",
+    "headingRevealed": "The ball <em style=\"font-weight:500;color:var(--accent)\">has spoken.</em>",
+    "provisional": "THE WHEEL PICKED",
     "questionEyebrow": "THE QUESTION",
-    "optionLabel": "PRAYER {{n}}",
+    "question": "Is {{name}} the one?",
     "shakeHint": "SHAKE THE BALL",
     "autoShakeCta": "Shake it for me",
-    "shaking": "INVOKING…",
-    "revealing": "REVEALING…",
+    "shaking": "SHAKING…",
+    "revealing": "HOLD ON…",
     "verdict": {
-      "yes": "BALL · YEA",
-      "no": "BALL · NAY"
-    },
-    "questions": {
-      "blesses": "Does the Oracle bless {{name}}?",
-      "curses": "Does the Oracle cast out {{name}}?"
+      "yes": "BALL · YES",
+      "no": "BALL · NO"
     },
     "answers": {
       "yes": {
-        "noDoubt": "Already written.",
-        "itIsCertain": "Said. And done.",
-        "yesDefinitely": "Yes. Since always.",
-        "youCanRely": "Your lamb. Your fate.",
-        "asISeeIt": "I saw it before you entered.",
-        "mostLikely": "The Oracle nods.",
-        "goodOutlook": "The heavens name him.",
-        "signsPoint": "All points to the lamb."
+        "noDoubt": "Yes. Always was.",
+        "itIsCertain": "Yes. Done.",
+        "yesDefinitely": "Yes. No doubt.",
+        "youCanRely": "It's them.",
+        "asISeeIt": "Knew it already.",
+        "mostLikely": "The ball says yes.",
+        "goodOutlook": "That's the one.",
+        "signsPoint": "Everything says yes."
       },
       "no": {
-        "dontCount": "Not that lamb.",
-        "replyNo": "No. And always was.",
-        "sourcesSayNo": "The Oracle says no.",
-        "outlookNotGood": "The heavens turn away.",
-        "veryDoubtful": "He was never named."
+        "dontCount": "Not that one.",
+        "replyNo": "No. Never was.",
+        "sourcesSayNo": "The ball says no.",
+        "outlookNotGood": "No. Try again.",
+        "veryDoubtful": "No. Not close."
       }
     },
     "cta": {
-      "acceptFate": "Let it be done"
+      "acceptYes": "Done, they won",
+      "acceptNo": "Drop them and spin again"
     }
   },
   "confirmed": {
-    "title": "THE ORACLE HAS SPOKEN",
-    "sorteoLine": "ORACLE Nº {{n}}",
-    "thisIsToCertify": "it was always written that",
-    "bodyYes": "The lamb was anointed.",
-    "bodyNo": "The lamb was cast out.",
-    "bodyDefault": "The Ball cast out {{penultimate}}. The last lamb remains.",
-    "coda": "Two factors. A single will. It was written.",
+    "title": "DRAW RESULT",
+    "sorteoLine": "DRAW Nº {{n}}",
+    "thisIsToCertify": "the draw picked",
+    "bodyYes": "The ball said yes.",
+    "bodyDuel": "Won the tiebreaker by hand.",
+    "bodyNo": "The ball said no. They're out.",
+    "bodyDefault": "The ball dropped {{penultimate}}. One person left.",
+    "coda": "Two steps. One name.",
     "verdictBadge": {
-      "yes": "THE ANOINTED",
-      "no": "THE CAST OUT",
-      "default": "THE LAST LAMB"
+      "yes": "THE ONE",
+      "no": "OUT",
+      "default": "LAST ONE LEFT"
     },
     "stampLabel": {
-      "yes": "OVIS ELECTA · SIC ERAT SCRIPTUM · 2FS",
-      "no": "OVIS DEPOSITA · BOLA LOCUTA · 2FS",
-      "default": "OVIS ULTIMA · 2FS"
+      "yes": "OFFICIAL DRAW · 2FS · OFFICIAL DRAW",
+      "no": "THE DRAW GOES ON · 2FS · THE DRAW GOES ON",
+      "default": "LAST ONE LEFT · 2FS · LAST ONE LEFT"
     },
     "startOver": "Start over",
-    "keepRaffling": "Another Oracle",
-    "download": "Take the verdict",
-    "participantsLabel": "THE FLOCK",
-    "shareTitle": "Oracle Nº {{n}} — 2fs",
-    "shareText": "The Oracle chose {{name}}."
+    "keepRaffling": "Keep spinning",
+    "download": "Save the result",
+    "participantsLabel": "PARTICIPANTS",
+    "shareTitle": "Draw Nº {{n}} — 2fs",
+    "shareText": "The draw picked {{name}}."
+  },
+  "fullAuto": {
+    "label": "AUTO MODE",
+    "stop": "Stop",
+    "spinning": "Spinning the wheel…",
+    "asking": "Asking the ball about {{name}}…",
+    "rejected": "{{name}} is out. Going again.",
+    "duel": "Two left. Settled by hand.",
+    "done": "Done."
   },
   "hands": {
     "rock": "Rock",

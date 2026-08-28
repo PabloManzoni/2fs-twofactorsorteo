@@ -35,6 +35,9 @@ interface RaffleState {
   /** Monotonic id shown on each certificate and in the masthead. Bumps
    *  whenever a certificate is dismissed, so no two certs share a number. */
   certNumber: number;
+  /** True while the hands-off run is driving the whole raffle on its own.
+   *  Each page reads this and self-advances instead of waiting for a click. */
+  fullAuto: boolean;
 
   goStep: (step: Step) => void;
   addName: (name: string) => { ok: boolean; error?: "duplicate" | "max" | "empty" };
@@ -57,6 +60,11 @@ interface RaffleState {
   /** Seal the duel result. Behaves like a "yes" verdict — the certificate
    *  shows the winner as the chosen one, identical to the oracle path. */
   finalizeDuel: (winnerName: string) => void;
+  /** Hand the whole raffle over to the machine: wheel, ball, and every
+   *  rejection round run themselves until someone wins. */
+  startFullAuto: () => void;
+  /** Drop back to manual. The current screen stays where it is. */
+  stopFullAuto: () => void;
 }
 
 export const useRaffleStore = create<RaffleState>()(
@@ -70,6 +78,7 @@ export const useRaffleStore = create<RaffleState>()(
       verdict: null,
       mode: "oracle",
       certNumber: 1,
+      fullAuto: false,
 
       goStep: (step) => set({ step }),
 
@@ -128,6 +137,7 @@ export const useRaffleStore = create<RaffleState>()(
           verdict: null,
           mode: "oracle",
           certNumber: state.certNumber + 1,
+          fullAuto: false,
         })),
 
       clearUrn: () =>
@@ -140,6 +150,7 @@ export const useRaffleStore = create<RaffleState>()(
           verdict: null,
           mode: "oracle",
           certNumber: state.certNumber + 1,
+          fullAuto: false,
         })),
 
       // The duel takes the two remaining lambs and resolves with hand combat
@@ -150,6 +161,13 @@ export const useRaffleStore = create<RaffleState>()(
       // Settle the duel: treat the winner the same as an oracle "yes" so the
       // existing VerdictCertificate machinery shows the same anointed stamp.
       finalizeDuel: (winnerName) => set({ winner: winnerName, verdict: "yes" }),
+
+      // Start clean at the wheel: any half-finished round from a manual run
+      // would otherwise make the first auto step look like it skipped ahead.
+      startFullAuto: () =>
+        set({ fullAuto: true, step: 2, winner: null, verdict: null, mode: "oracle" }),
+
+      stopFullAuto: () => set({ fullAuto: false }),
     }),
     {
       name: "2fs.raffle",

@@ -18,6 +18,7 @@ export function NamesPage() {
   const removeName = useRaffleStore((s) => s.removeName);
   const goStep = useRaffleStore((s) => s.goStep);
   const clearUrn = useRaffleStore((s) => s.clearUrn);
+  const startFullAuto = useRaffleStore((s) => s.startFullAuto);
 
   const [value, setValue] = useState("");
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -303,7 +304,25 @@ export function NamesPage() {
               </div>
             )}
 
-            <div style={{ marginTop: 24, display: "flex", justifyContent: "flex-end" }}>
+            <div
+              style={{
+                marginTop: 24,
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+                gap: "var(--sp-3)",
+                flexWrap: "wrap",
+              }}
+            >
+              <Button
+                variant="secondary"
+                size="lg"
+                onClick={startFullAuto}
+                disabled={!canProceed}
+                style={{ fontSize: 17, padding: "16px 24px" }}
+              >
+                {t("step1.autoCta")}
+              </Button>
               <Button
                 variant="primary"
                 size="lg"
@@ -314,6 +333,20 @@ export function NamesPage() {
                 {t("step1.cta")} <span style={{ fontSize: 20, marginLeft: 2 }}>→</span>
               </Button>
             </div>
+            {canProceed && (
+              <div
+                style={{
+                  marginTop: 10,
+                  textAlign: "right",
+                  fontFamily: "var(--font-mono)",
+                  fontSize: 12,
+                  letterSpacing: "0.04em",
+                  color: "var(--fg-subtle)",
+                }}
+              >
+                {t("step1.autoHint")}
+              </div>
+            )}
             {!canProceed && (
               <div
                 style={{

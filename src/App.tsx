@@ -5,6 +5,7 @@ import { WheelPage } from "./pages/WheelPage";
 import { MagicBallPage } from "./pages/MagicBallPage";
 import { DuelPage } from "./pages/DuelPage";
 import { VerdictCertificate } from "./components/VerdictCertificate";
+import { FullAutoOverlay } from "./components/FullAutoOverlay";
 
 export default function App() {
   const step = useRaffleStore((s) => s.step);
@@ -26,6 +27,7 @@ export default function App() {
       {showOracle && <MagicBallPage />}
       {showDuel && <DuelPage />}
       {verdict && <VerdictCertificate />}
+      <FullAutoOverlay />
     </div>
   );
 }

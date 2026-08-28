@@ -1,6 +1,8 @@
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { formatCertNumber, useRaffleStore } from "../store/raffleStore";
 import { shareCertificate, type CertificateData } from "../lib/exportCertificate";
+import { AUTO_REJECT_HOLD_MS } from "../lib/fullAuto";
 import { Button } from "./ui/Button";
 import { Eyebrow } from "./ui/Eyebrow";
 import { Stamp } from "./ui/Stamp";
@@ -83,16 +85,29 @@ export function VerdictCertificate() {
   const certNumber = useRaffleStore((s) => s.certNumber);
   const resetAll = useRaffleStore((s) => s.resetAll);
   const continueRaffle = useRaffleStore((s) => s.continueRaffle);
-
-  if (!verdict || !winner) return null;
+  const fullAuto = useRaffleStore((s) => s.fullAuto);
+  const stopFullAuto = useRaffleStore((s) => s.stopFullAuto);
+  const mode = useRaffleStore((s) => s.mode);
 
   // After this NO, the still-active pool. If exactly one remains, fate
   // has made its decision by elimination — that last soul wins by default
   // and gets their own certificate.
   const remaining = names.filter((n) => !outNames.includes(n));
-  const remainingAfter = remaining.length;
-  const isDefaultWinner = verdict === "no" && remainingAfter === 1;
-  const canContinue = verdict === "no" && remainingAfter >= 2;
+  const isDefaultWinner = verdict === "no" && remaining.length === 1;
+  const canContinue = verdict === "no" && remaining.length >= 2;
+
+  // Hands-off run: a rejection rolls straight into the next spin. Anything
+  // final ends the run so the buttons become the user's again.
+  useEffect(() => {
+    if (!fullAuto || !verdict) return;
+    if (canContinue) {
+      const id = window.setTimeout(continueRaffle, AUTO_REJECT_HOLD_MS);
+      return () => window.clearTimeout(id);
+    }
+    stopFullAuto();
+  }, [fullAuto, verdict, canContinue, continueRaffle, stopFullAuto]);
+
+  if (!verdict || !winner) return null;
 
   // For the default-winner variant we swap the displayed name: the certificate
   // celebrates the survivor, not the just-rejected penultimate.
@@ -108,10 +123,14 @@ export function VerdictCertificate() {
 
   const isChosen = verdict === "yes" || isDefaultWinner;
   const strikeName = verdict === "no" && !isDefaultWinner;
+  // The duel seals itself as a "yes" so it can reuse this certificate, but no
+  // ball was ever shaken — saying so would be a plain lie on the page.
   const bodyText = isDefaultWinner
     ? t("confirmed.bodyDefault", { penultimate: winner.split(" ")[0] })
     : verdict === "yes"
-      ? t("confirmed.bodyYes")
+      ? mode === "duel"
+        ? t("confirmed.bodyDuel")
+        : t("confirmed.bodyYes")
       : t("confirmed.bodyNo");
   const stampLabel = isDefaultWinner
     ? t("confirmed.stampLabel.default")

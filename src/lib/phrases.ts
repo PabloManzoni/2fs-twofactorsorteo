@@ -1,13 +1,6 @@
 import type { TFunction } from "i18next";
 import type { MagicBallAnswer } from "../components/MagicBall/MagicBall";
 
-export const QUESTION_KEYS = [
-  "step3.questions.blesses",
-  "step3.questions.curses",
-] as const;
-
-export type QuestionKey = (typeof QUESTION_KEYS)[number];
-
 /**
  * Deterministic binary oracle: fate says yes or no. No "maybe" — the ball
  * does not equivocate.
@@ -28,9 +21,14 @@ const ANSWER_KEYS: { key: string; tone: "yes" | "no" }[] = [
   { key: "step3.answers.no.veryDoubtful", tone: "no" },
 ];
 
-export function buildQuestions(t: TFunction, name: string): { key: QuestionKey; text: string }[] {
+/**
+ * The one thing you ask the ball. There used to be a second, inverted
+ * phrasing ("does it cast X out?") but offering a choice implied the user
+ * steered the outcome — so there is exactly one question now.
+ */
+export function buildQuestion(t: TFunction, name: string): string {
   const first = name.split(" ")[0] ?? name;
-  return QUESTION_KEYS.map((key) => ({ key, text: t(key, { name: first }) }));
+  return t("step3.question", { name: first });
 }
 
 export function pickAnswer(t: TFunction): MagicBallAnswer {

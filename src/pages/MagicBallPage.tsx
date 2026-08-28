@@ -4,8 +4,9 @@ import { useRaffleStore, type Verdict } from "../store/raffleStore";
 import { Button } from "../components/ui/Button";
 import { Eyebrow } from "../components/ui/Eyebrow";
 import { MagicBall, type MagicBallAnswer } from "../components/MagicBall/MagicBall";
-import { buildQuestions, pickAnswer } from "../lib/phrases";
+import { buildQuestion, pickAnswer } from "../lib/phrases";
 import { playReveal } from "../lib/audio";
+import { AUTO_BALL_HOLD_MS, AUTO_BALL_START_MS } from "../lib/fullAuto";
 
 type Phase = "ready" | "shaking" | "revealing" | "revealed";
 
@@ -16,15 +17,20 @@ export function MagicBallPage() {
   const winner = useRaffleStore((s) => s.winner);
   const goStep = useRaffleStore((s) => s.goStep);
   const acceptVerdict = useRaffleStore((s) => s.acceptVerdict);
+  const fullAuto = useRaffleStore((s) => s.fullAuto);
 
   const [phase, setPhase] = useState<Phase>("ready");
-  const [selectedQ, setSelectedQ] = useState(0);
   const [answer, setAnswer] = useState<MagicBallAnswer | null>(null);
   const [triangleOpacity, setTriangleOpacity] = useState(0);
   const [autoShakeTick, setAutoShakeTick] = useState(0);
   const revealTimeoutRef = useRef<number | null>(null);
+  const autoTimersRef = useRef<number[]>([]);
 
-  const questions = useMemo(() => buildQuestions(t, winner ?? ""), [t, winner]);
+  const question = useMemo(() => buildQuestion(t, winner ?? ""), [t, winner]);
+
+  // Only one question now, so the ball's raw tone IS the verdict — no
+  // inversion to reason about.
+  const finalVerdict: Verdict | null = answer ? answer.tone : null;
 
   useEffect(() => {
     const body = document.body;
@@ -36,9 +42,27 @@ export function MagicBallPage() {
   useEffect(() => {
     return () => {
       if (revealTimeoutRef.current) window.clearTimeout(revealTimeoutRef.current);
+      for (const id of autoTimersRef.current) window.clearTimeout(id);
+      autoTimersRef.current = [];
       document.body.removeAttribute("data-theme");
     };
   }, []);
+
+  // Hands-off run: shake on arrival, then seal the verdict once the answer
+  // has had a moment on screen.
+  useEffect(() => {
+    if (!fullAuto) return;
+    if (phase === "ready") {
+      const id = window.setTimeout(() => setAutoShakeTick((n) => n + 1), AUTO_BALL_START_MS);
+      autoTimersRef.current.push(id);
+      return () => window.clearTimeout(id);
+    }
+    if (phase === "revealed" && finalVerdict) {
+      const id = window.setTimeout(() => acceptVerdict(finalVerdict), AUTO_BALL_HOLD_MS);
+      autoTimersRef.current.push(id);
+      return () => window.clearTimeout(id);
+    }
+  }, [fullAuto, phase, finalVerdict, acceptVerdict]);
 
   const doReveal = useCallback(() => {
     setPhase("revealing");
@@ -79,21 +103,8 @@ export function MagicBallPage() {
   }
 
   const revealed = phase === "revealed";
-  // The second question is phrased as a curse ("does fortune curse X?"), so a
-  // "yes" from the ball actually means X is NOT the chosen one. Flip the ball's
-  // raw tone when the curse question is active to get the final verdict.
-  const isCurse = selectedQ === 1;
-  const finalVerdict: Verdict | null = answer
-    ? isCurse
-      ? answer.tone === "yes"
-        ? "no"
-        : "yes"
-      : answer.tone
-    : null;
-  const toneColor =
-    finalVerdict === "yes" ? "var(--success-500)" : "var(--accent-500)";
-  const toneLabel =
-    answer?.tone === "yes" ? t("step3.verdict.yes") : t("step3.verdict.no");
+  const toneColor = finalVerdict === "yes" ? "var(--success-500)" : "var(--accent-500)";
+  const toneLabel = finalVerdict === "yes" ? t("step3.verdict.yes") : t("step3.verdict.no");
 
   return (
     <main
@@ -101,36 +112,24 @@ export function MagicBallPage() {
       style={{
         paddingTop: 40,
         background: "var(--bg)",
-        color: revealed ? "var(--paper-100)" : "var(--fg)",
+        color: "var(--fg)",
         transition: "background 600ms var(--ease), color 600ms var(--ease)",
         overflow: "hidden",
       }}
     >
       <div className="page__inner">
-        <Eyebrow
-          color={revealed ? "var(--accent-300)" : undefined}
-          style={{ marginBottom: 12 }}
-        >
-          {t("step3.eyebrow")}
-        </Eyebrow>
+        <Eyebrow style={{ marginBottom: 12 }}>{t("step3.eyebrow")}</Eyebrow>
 
         <div className="page-header-row">
-          <h1
-            className="display-lg"
-            style={{
-              color: revealed ? "var(--paper-50)" : "var(--fg)",
-            }}
-          >
-            {revealed ? (
-              <span dangerouslySetInnerHTML={{ __html: t("step3.headingRevealed") }} />
-            ) : (
-              <span dangerouslySetInnerHTML={{ __html: t("step3.heading") }} />
-            )}
+          <h1 className="display-lg">
+            <span
+              dangerouslySetInnerHTML={{
+                __html: revealed ? t("step3.headingRevealed") : t("step3.heading"),
+              }}
+            />
           </h1>
           <div style={{ textAlign: "right" }}>
-            <Eyebrow color={revealed ? "var(--accent-300)" : undefined}>
-              {t("step3.provisional")}
-            </Eyebrow>
+            <Eyebrow>{t("step3.provisional")}</Eyebrow>
             <div
               style={{
                 fontFamily: "var(--font-display)",
@@ -139,7 +138,6 @@ export function MagicBallPage() {
                 lineHeight: 1,
                 marginTop: 4,
                 letterSpacing: "-0.02em",
-                color: revealed ? "var(--paper-50)" : "var(--fg)",
               }}
             >
               {winner}
@@ -147,117 +145,49 @@ export function MagicBallPage() {
           </div>
         </div>
 
+        {/* One column, everything stacked under the question. The ball is the
+            subject of the screen, so it sits in the middle rather than beside
+            a panel of options. */}
         <div
-          className="grid-wheel"
           style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: 64,
+            maxWidth: 620,
+            margin: "0 auto",
+            display: "flex",
+            flexDirection: "column",
             alignItems: "center",
+            textAlign: "center",
           }}
         >
-          {/* Ball */}
-          <div style={{ display: "flex", justifyContent: "center", position: "relative" }}>
-            <MagicBall
-              answer={answer}
-              triangleOpacity={triangleOpacity}
-              interactive={!revealed && phase !== "revealing"}
-              onShakeStart={onShakeStart}
-              onShakeEnd={onShakeEnd}
-              autoShakeTick={autoShakeTick}
-            />
-          </div>
+          <Eyebrow style={{ marginBottom: 10 }}>{t("step3.questionEyebrow")}</Eyebrow>
+          <p
+            style={{
+              fontFamily: "var(--font-display)",
+              fontStyle: "italic",
+              fontWeight: 500,
+              fontSize: "clamp(1.5rem, 4vw, 2.25rem)",
+              lineHeight: 1.2,
+              letterSpacing: "-0.02em",
+              margin: "0 0 var(--sp-5)",
+              textWrap: "balance",
+            }}
+          >
+            {question}
+          </p>
 
-          {/* Right — question + controls */}
-          <div>
-            <Eyebrow
-              color={revealed ? "var(--accent-300)" : undefined}
-              style={{ marginBottom: 12 }}
-            >
-              {t("step3.questionEyebrow")}
-            </Eyebrow>
+          <MagicBall
+            size={340}
+            answer={answer}
+            triangleOpacity={triangleOpacity}
+            interactive={!revealed && phase !== "revealing"}
+            onShakeStart={onShakeStart}
+            onShakeEnd={onShakeEnd}
+            autoShakeTick={autoShakeTick}
+          />
 
-            {!revealed ? (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 10,
-                  marginBottom: 32,
-                }}
-              >
-                {questions.map((q, i) => (
-                  <label
-                    key={q.key}
-                    style={{
-                      display: "flex",
-                      alignItems: "flex-start",
-                      gap: 14,
-                      padding: "16px 18px",
-                      border:
-                        selectedQ === i
-                          ? "1.5px solid var(--accent)"
-                          : "1px solid var(--rule)",
-                      background:
-                        selectedQ === i ? "var(--accent-wash)" : "var(--surface)",
-                      cursor: "pointer",
-                      transition: "all var(--dur-base) var(--ease)",
-                    }}
-                  >
-                    <input
-                      type="radio"
-                      name="q"
-                      checked={selectedQ === i}
-                      onChange={() => setSelectedQ(i)}
-                      style={{ marginTop: 4, accentColor: "var(--accent)" }}
-                    />
-                    <div>
-                      <div
-                        style={{
-                          fontFamily: "var(--font-mono)",
-                          fontSize: 10,
-                          fontWeight: 600,
-                          letterSpacing: "0.14em",
-                          color: "var(--fg-muted)",
-                          marginBottom: 4,
-                        }}
-                      >
-                        {t("step3.optionLabel", { n: `0${i + 1}` })}
-                      </div>
-                      <div
-                        style={{
-                          fontFamily: "var(--font-display)",
-                          fontStyle: "italic",
-                          fontSize: 20,
-                          lineHeight: 1.3,
-                          color: "var(--fg)",
-                        }}
-                      >
-                        {q.text}
-                      </div>
-                    </div>
-                  </label>
-                ))}
-              </div>
-            ) : (
-              <blockquote
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontStyle: "italic",
-                  fontWeight: 400,
-                  fontSize: 26,
-                  lineHeight: 1.3,
-                  color: "var(--paper-100)",
-                  borderLeft: "3px solid var(--accent)",
-                  padding: "4px 20px",
-                  margin: "0 0 32px",
-                }}
-              >
-                "{questions[selectedQ]?.text}"
-              </blockquote>
-            )}
-
-            {phase === "ready" && (
+          <div style={{ marginTop: "var(--sp-6)", width: "100%", maxWidth: 380 }}>
+            {/* During a hands-off run the overlay narrates and drives, so the
+                manual controls would just be dead buttons. */}
+            {phase === "ready" && !fullAuto && (
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <div
                   style={{
@@ -270,7 +200,7 @@ export function MagicBallPage() {
                     color: "var(--fg-muted)",
                   }}
                 >
-                  ↖ {t("step3.shakeHint")}
+                  {t("step3.shakeHint")}
                 </div>
                 <Button
                   variant="primary"
@@ -325,30 +255,35 @@ export function MagicBallPage() {
                     marginBottom: 10,
                   }}
                 >
-                  {toneLabel} ·
+                  {toneLabel}
                 </div>
                 <div
                   style={{
                     fontFamily: "var(--font-display)",
                     fontWeight: 600,
-                    fontSize: 64,
-                    lineHeight: 1,
+                    fontSize: "clamp(2rem, 6vw, 3.25rem)",
+                    lineHeight: 1.05,
                     letterSpacing: "-0.03em",
-                    color: "var(--paper-50)",
-                    marginBottom: 36,
+                    color: "var(--fg-strong)",
+                    marginBottom: 28,
                     textWrap: "balance",
                   }}
                 >
                   {answer.text}
                 </div>
 
-                <Button
-                  variant="primary"
-                  size="lg"
-                  onClick={() => finalVerdict && acceptVerdict(finalVerdict)}
-                >
-                  {t("step3.cta.acceptFate")}
-                </Button>
+                {!fullAuto && (
+                  <Button
+                    variant="primary"
+                    size="lg"
+                    onClick={() => finalVerdict && acceptVerdict(finalVerdict)}
+                    style={{ justifyContent: "center" }}
+                  >
+                    {finalVerdict === "yes"
+                      ? t("step3.cta.acceptYes")
+                      : t("step3.cta.acceptNo")}
+                  </Button>
+                )}
               </div>
             )}
           </div>

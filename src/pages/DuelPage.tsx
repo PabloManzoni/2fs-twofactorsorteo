@@ -9,6 +9,7 @@ import { Avatar } from "../components/ui/Avatar";
 import { HandIcon, type Hand } from "../components/Duel/hands";
 import { ALL_HANDS, resolveRound } from "../components/Duel/rules";
 import { playClick, playDing, playReveal, playRumble, warmAudio } from "../lib/audio";
+import { AUTO_DUEL_THROW_MS } from "../lib/fullAuto";
 
 type Phase =
   | "idle"
@@ -137,6 +138,7 @@ export function DuelPage() {
   const outNames = useRaffleStore((s) => s.outNames);
   const goStep = useRaffleStore((s) => s.goStep);
   const finalizeDuel = useRaffleStore((s) => s.finalizeDuel);
+  const fullAuto = useRaffleStore((s) => s.fullAuto);
 
   const activeNames = useMemo(
     () => names.filter((n) => !outNames.includes(n)),
@@ -272,6 +274,14 @@ export function DuelPage() {
     schedule(freezeStart, () => setPhase("settling"));
     schedule(freezeStart + FREEZE_MS, () => settleRound(left, right));
   }, [phase, settleRound, schedule]);
+
+  // Hands-off run: keep throwing on its own between rounds. Ties land back on
+  // "idle" too, so this covers them without extra bookkeeping.
+  useEffect(() => {
+    if (!fullAuto || !guardOk || phase !== "idle") return;
+    const id = window.setTimeout(startRoll, AUTO_DUEL_THROW_MS);
+    return () => window.clearTimeout(id);
+  }, [fullAuto, guardOk, phase, startRoll]);
 
   if (!guardOk) {
     return (
@@ -453,8 +463,9 @@ export function DuelPage() {
           )}
         </div>
 
-        {/* CTAs — hidden when the victor banner is taking over the screen. */}
-        {!showVictorBanner && (
+        {/* CTAs — hidden when the victor banner is taking over the screen, and
+            during a hands-off run, where the machine is doing the throwing. */}
+        {!showVictorBanner && !fullAuto && (
           <div
             style={{
               display: "flex",
