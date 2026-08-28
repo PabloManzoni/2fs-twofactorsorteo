@@ -61,10 +61,18 @@ export function WheelPage() {
 
         <div className="page-header-row">
           <h1 className="display-lg">
-            {phase === "done" ? (
-              <span
-                dangerouslySetInnerHTML={{ __html: t("step2.headingDone") }}
-              />
+            {/* The name is a React child, not interpolated into the heading's
+                HTML: interpolation is unescaped app-wide, and this string
+                would otherwise carry whatever the user typed as a name.
+                Waits for `winner` too — it lands ~450ms after the phase
+                flips, and until then there is no name to announce. */}
+            {phase === "done" && winner ? (
+              <>
+                {t("step2.headingDonePrefix")}{" "}
+                <em style={{ fontWeight: 500, color: "var(--accent)" }}>
+                  {statusFirstName}.
+                </em>
+              </>
             ) : (
               t("step2.heading")
             )}

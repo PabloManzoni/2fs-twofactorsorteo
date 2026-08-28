@@ -37,7 +37,7 @@
   "step2": {
     "eyebrow": "STEP 2 · THE WHEEL",
     "heading": "Let it spin.",
-    "headingDone": "It landed on <em style=\"font-weight:500;color:var(--accent)\">this name.</em>",
+    "headingDonePrefix": "It landed on",
     "instructionEyebrow": "HOW",
     "instruction": "Drag it, or tap the button.",
     "statusEyebrow": "STATUS",

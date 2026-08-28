@@ -37,7 +37,7 @@
   "step2": {
     "eyebrow": "PASO 2 · LA RUEDA",
     "heading": "Que gire.",
-    "headingDone": "Salió <em style=\"font-weight:500;color:var(--accent)\">este nombre.</em>",
+    "headingDonePrefix": "Salió",
     "instructionEyebrow": "CÓMO",
     "instruction": "Arrastrala, o tocá el botón.",
     "statusEyebrow": "ESTADO",
