@@ -25,3 +25,6 @@ dist-ssr
 
 # Handoff bundles (regenerate on demand)
 2fs-design-bundle.zip
+
+# Playwright MCP scratch output
+.playwright-mcp/

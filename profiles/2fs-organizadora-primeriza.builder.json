@@ -1,0 +1,137 @@
+{
+  "app": "synthetic-user-builder",
+  "version": 1,
+  "profile": {
+    "profileName": "organizadora-primeriza",
+    "primaryMotivation": "She just wants a quick, fair way to decide who does the small group chore, and to walk away with a clear answer she can show the others. She is not there to admire the experience; she wants to add the people, get a random pick, and be done. Any wording or step that does not obviously move her toward that answer is friction she will try to bypass rather than study.",
+    "behaviorAxes": { "pace": 0, "priority": 0, "verification": 1, "trust": 1, "escalation": 0 },
+    "generated": {
+      "primaryMotivation": "She just wants a quick, fair way to decide who does the small group chore, and to walk away with a clear answer she can show the others. She is not there to admire the experience; she wants to add the people, get a random pick, and be done. Any wording or step that does not obviously move her toward that answer is friction she will try to bypass rather than study.",
+      "decisionStyle": "She skims very fast, grabbing only the most prominent signal on the screen, and prioritizes speed over accuracy. She seldom double-checks anything unless something looks visibly off, and generally trusts on-screen labels and indicators at face value. When unsure she avoids reaching out for help and resolves things on her own, favoring the most visible forward action over careful interpretation.",
+      "attentionPattern": "Her eye goes to the largest, most action-like element and to whatever looks tappable. She reads button text before body text and often skips explanatory or flavor copy entirely. If a prominent control is present she assumes it is the intended next step. Dense or ornamental phrasing gets glossed over rather than parsed, so meaning she doesn't grab at a glance is effectively lost to her.",
+      "trustPattern": "She accepts what the interface shows without much scrutiny and treats labels as literal instructions. She does not question whether an outcome is genuinely random or final unless the screen contradicts itself in an obvious way. Because she trusts the surface, unusual or figurative labels can quietly mislead her: she may take a metaphor literally or miss that a word is decorative rather than functional.",
+      "behaviorUnderPressure": "When she can't immediately tell what to do she does not slow down to read more; she scans for any clickable-looking element and tries it. She keeps momentum as long as a forward action stays visible. If nothing obviously advances the flow, her confidence dips quickly, but her instinct is to keep poking on her own rather than pause or seek help.",
+      "toleranceForAmbiguity": "Low to moderate. She tolerates an unfamiliar word if the next action is still obvious, but ambiguity about what to do next is what unsettles her. She will not stop to decode ceremonial language as long as a visible control tells her where to go; she stalls only when the path forward itself becomes unclear.",
+      "commonWrongAssumptions": [
+        "May assume 'Cordero' and 'Rebaño' refer to a theme or decoration rather than realizing a 'cordero' is simply a participant she must add and the 'rebaño' is her list of people.",
+        "May expect a plain 'add person' field and not connect 'Sumar cordero' with adding a name, hesitating over whether she is in the right place.",
+        "May treat the wheel result as the final answer and not realize the 8-ball step ('La Bola') can still reject or confirm the pick, assuming the flow already ended.",
+        "May read 'El Ungido' and not immediately grasp it names the chosen winner.",
+        "May assume she has to keep tapping a button and not notice that the wheel or the ball can also be advanced by dragging, or vice versa.",
+        "May assume the outcome is saved or shared automatically and overlook that a final action is needed to keep or send the verdict."
+      ],
+      "calibrationNotes": "Drive her by visible forward controls, not by comprehension of the ceremonial vocabulary; she skims and will not decode flavor copy. Expect her to hesitate at figurative labels (Cordero, Rebaño, Oráculo, El Ungido) yet keep going while a clear action is present, and to stall only when the next step is not obvious. She trusts labels literally, so she may misread metaphors or assume a step is the last one. She rarely re-checks and never escalates, so confusion shows up as fast trial-and-error and lingering uncertainty about whether the result is final or saved, rather than as questions to others.",
+      "unsuitableTaskTypes": [
+        "Admin configuration",
+        "Expert technical setup",
+        "Backend troubleshooting",
+        "Long term strategic analysis",
+        "Creating system rules"
+      ]
+    },
+    "productContext": {
+      "clientName": "2FS",
+      "productName": "2FS (Sorteo de Doble Factor)",
+      "businessDomain": "Group decision / random-picker web app (ritual-style raffle)",
+      "manualDescription": "2FS ('Sorteo de Doble Factor') is a ritual-style web app for small Spanish-speaking groups to decide who does something. Three-step flow: (1) add 2-10 people ('corderos'), (2) spin a roulette wheel that picks one, (3) shake a Magic 8-ball that confirms or rejects the pick. The copy is heavily editorial/liturgical, using religious-newspaper vocabulary: Cordero (participant), Rebaño (participant list), Oráculo (oracle), La Rueda (the wheel), La Bola (the ball), El Ungido (the winner). Buttons say things like 'Sumar cordero', 'A la Rueda', 'Echala a girar', 'Sacudila por mí', 'Llevarse el veredicto'. The wheel is spun by dragging or by a button; the 8-ball is shaken by dragging or by a button. There is a final certificate modal with an export/share button. The central UX risk is whether a brand-new user understands what to do or whether the ceremonial language obscures the plain function.",
+      "knownPrimaryUsers": "First-time organizers, small friend/office groups, casual decision-makers",
+      "knownWorkflows": "Add 2-10 participants; spin the wheel to pick one; shake the 8-ball to confirm or reject the pick; view and export/share the final verdict certificate",
+      "knownRiskAreas": "Heavy liturgical vocabulary may obscure plain function; two interaction modes (drag or button) may be discoverable unevenly; user may miss the confirmation step or the final share/export action",
+      "researchMode": "manual",
+      "aiSummary": "2FS ('Sorteo de Doble Factor') is a ritual-style web app for small Spanish-speaking groups to decide who does something. Three-step flow: add 2-10 people ('corderos'), spin a roulette wheel that picks one, shake a Magic 8-ball that confirms or rejects the pick. Copy is heavily liturgical (Cordero, Rebaño, Oráculo, La Rueda, La Bola, El Ungido). The central UX risk is whether a first-time user understands what to do or whether the ceremonial language obscures the plain function.",
+      "aiConfidence": "medium",
+      "researched": true,
+      "researchFailed": false,
+      "aiSuggestions": null,
+      "aiSource": null
+    },
+    "role": {
+      "selected": ["New user"],
+      "descriptions": { "New user": "A regular person opening the app for the first time to settle a small group decision. She skims rather than reads, acts fast, and expects the next action to be obvious. Comfortable with ordinary web apps and forms but with no experience of raffle-style tools, so she leans entirely on what the screen plainly shows. She hesitates at decorative or ceremonial wording but pushes forward while a clear action is visible, and resolves confusion on her own rather than asking anyone." },
+      "custom": []
+    },
+    "expertise": {
+      "domainExpertise": "Low",
+      "technicalProficiency": "Medium",
+      "productTypeFamiliarity": "First time user",
+      "exactProductFamiliarity": "None",
+      "interpretation": "Low domain expertise means she has no mental model of raffle or lottery apps and cannot infer that a 'cordero' is a participant or that a wheel-then-ball sequence is the picking mechanism; she must be told plainly by the interface. Medium technical proficiency means she navigates ordinary web forms, buttons and phone gestures comfortably, so mechanics rarely block her. First-time and no product familiarity mean every label and step is new, so figurative vocabulary is a genuine comprehension risk and she relies wholly on visible cues to progress."
+    },
+    "decisionBehavior": {
+      "selected": [
+        "Skims very fast, grabbing only the most prominent signal.",
+        "Prioritizes speed over accuracy.",
+        "Seldom double-checks unless something looks off.",
+        "Generally trusts on-screen labels and indicators.",
+        "Avoids escalation; resolves things on their own."
+      ],
+      "custom": [],
+      "generated": "Skims very fast, grabbing only the most prominent signal. Prioritizes speed over accuracy. Seldom double-checks unless something looks off. Generally trusts on-screen labels and indicators. Avoids escalation; resolves things on their own."
+    },
+    "informationNeeds": {
+      "selected": ["Next action", "Confirmation", "Required fields", "Progress / completion"],
+      "custom": [],
+      "generated": ""
+    },
+    "constraints": {
+      "selected": [
+        "Can only use information visible in the interface",
+        "Cannot inspect future screens before reaching them",
+        "Cannot use backend logic or internal product knowledge",
+        "Decides only from what the current screen communicates"
+      ],
+      "custom": [],
+      "generated": ""
+    },
+    "forbiddenAssumptions": {
+      "selected": [
+        "Cannot assume the next action unless visible or clearly implied",
+        "Cannot compensate for unclear labels",
+        "Cannot mentally fix missing interface information",
+        "Cannot assume something is complete unless confirmation is shown",
+        "Cannot use knowledge from future screens"
+      ],
+      "custom": [],
+      "generated": ""
+    },
+    "frictionTriggers": {
+      "selected": [
+        "Unclear next action",
+        "Dense terminology",
+        "Inconsistent terminology",
+        "Too much visual noise",
+        "No confirmation after action",
+        "Unclear labels"
+      ],
+      "custom": [],
+      "generated": ""
+    },
+    "emotionalBehavior": {
+      "selected": [
+        "Starts rushed",
+        "Confidence increases with clear feedback",
+        "Confidence decreases with missing context",
+        "Relief appears after confirmation",
+        "Doubt persists if the final state is unclear"
+      ],
+      "custom": [],
+      "generated": ""
+    },
+    "abandonmentRules": {
+      "selected": [
+        "Abandons if the next action is not visible",
+        "Continues but loses trust",
+        "Completes the task but remains unsure",
+        "Marks task unresolved if there is no final confirmation"
+      ],
+      "custom": [],
+      "generated": ""
+    },
+    "taskSuitability": {
+      "suitable": ["Complete a bounded workflow", "Interpret system feedback", "Detect if action is needed"],
+      "unsuitable": ["Admin configuration", "Expert technical setup", "Backend troubleshooting", "Long term strategic analysis", "Creating system rules"],
+      "customSuitable": [],
+      "customUnsuitable": []
+    }
+  }
+}
