@@ -3,7 +3,14 @@
 FROM node:22-alpine AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci
+# `npm install`, no `npm ci`, a propósito. Vite arrastra binarios nativos cuyas
+# dependencias opcionales dependen de la plataforma, y npm en macOS poda del
+# lockfile las que solo hace falta en Linux (@emnapi/*). `npm ci` es estricto y
+# rechaza ese lock: falla antes de instalar nada. `npm install` respeta el
+# lockfile para todo lo que sí está y resuelve las opcionales que faltan para
+# la arquitectura del build. Si algún día el lock se genera en Linux, se puede
+# volver a `npm ci`.
+RUN npm install --no-audit --no-fund
 COPY . .
 # Vite hornea la base en los assets durante el build, así que esto NO se puede
 # configurar como env var en Dokploy: tiene que estar acá. En GitHub Pages la
