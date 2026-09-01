@@ -1,0 +1,22 @@
+node_modules
+.next
+.output
+dist
+build
+out
+.git
+.env*
+!.env.example
+*.log
+.DS_Store
+coverage
+__pycache__
+bin
+obj
+
+# Artefactos de trabajo que no hacen falta en la imagen
+claude-design-handoff
+profiles
+results
+.playwright-mcp
+.github

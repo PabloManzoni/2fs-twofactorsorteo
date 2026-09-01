@@ -28,3 +28,8 @@ dist-ssr
 
 # Playwright MCP scratch output
 .playwright-mcp/
+
+# Env
+.env
+.env.*
+!.env.example

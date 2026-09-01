@@ -61,6 +61,19 @@ public/
   assets/                  logo-mark.svg, stamp-sorteo.svg
 ```
 
+## Deploy
+
+Two targets, same code, different base path.
+
+**GitHub Pages** (`pablomanzoni.github.io/2fs-twofactorsorteo`) — pushes to
+`main` build with the default `base: "/2fs-twofactorsorteo/"`.
+
+**Dokploy** (Kaizen) — Build Type `Dockerfile`, Container Port **80**, no env
+vars to load (see `.env.example`), no database and no volume. The Dockerfile
+sets `BASE_PATH=/` before the build because Vite bakes the base into the asset
+URLs and the app is served at the domain root there — it cannot be configured
+from Dokploy's environment.
+
 ## Credits
 
 Visual design handed off from Claude Design. Implementation lives here.
